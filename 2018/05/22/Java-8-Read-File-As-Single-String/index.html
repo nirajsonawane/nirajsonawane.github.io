@@ -7,18 +7,18 @@
   
   <title>Java 8 Read File As Single String | Niraj Sonawane</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Java 8 has addded Files.lines() method ,which can be used to read file as Stream. Joining Collector Can be use to convert Stream to Single String. Read file as a stream12345678910111213141516import ja">
+  <meta name="description" content="Java 8 has added Files.lines() method, which can be used to read the file as Stream. Joining Collector Can be used to convert Stream to Single String. Read file as a stream12345678910111213141516impor">
 <meta name="keywords" content="Java,Java-8">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 8 Read File As Single String">
 <meta property="og:url" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="Java 8 has addded Files.lines() method ,which can be used to read file as Stream. Joining Collector Can be use to convert Stream to Single String. Read file as a stream12345678910111213141516import ja">
+<meta property="og:description" content="Java 8 has added Files.lines() method, which can be used to read the file as Stream. Joining Collector Can be used to convert Stream to Single String. Read file as a stream12345678910111213141516impor">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-23T02:12:59.360Z">
+<meta property="og:updated_time" content="2018-05-23T16:32:30.845Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 8 Read File As Single String">
-<meta name="twitter:description" content="Java 8 has addded Files.lines() method ,which can be used to read file as Stream. Joining Collector Can be use to convert Stream to Single String. Read file as a stream12345678910111213141516import ja">
+<meta name="twitter:description" content="Java 8 has added Files.lines() method, which can be used to read the file as Stream. Joining Collector Can be used to convert Stream to Single String. Read file as a stream12345678910111213141516impor">
   
     <link rel="alternate" href="/atom.xml" title="Niraj Sonawane" type="application/atom+xml">
   
@@ -91,14 +91,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Java 8 has addded <code>Files.lines()</code> method ,which can be used to read file as Stream. Joining Collector Can be use to convert Stream to Single String.</p>
+        <p>Java 8 has added <code>Files.lines()</code> method, which can be used to read the file as Stream. Joining Collector Can be used to convert Stream to Single String.</p>
 <h3 id="Read-file-as-a-stream"><a href="#Read-file-as-a-stream" class="headerlink" title="Read file as a stream"></a>Read file as a stream</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Stream;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8ReadFileAsString</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">			String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">			 Stream&lt;String&gt; lines = Files.lines(Paths.get((filePath)));</span><br><span class="line">			String fileAsString = lines.collect(Collectors.joining());</span><br><span class="line">			System.out.println(fileAsString);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>    
 <figure class="highlight plain"><figcaption><span>Sample.txt file for testing.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Files extends Object</span><br><span class="line">This class consists exclusively of static methods that operate on files, directories, or other types of files.</span><br><span class="line">In most cases, the methods defined here will delegate to the associated file system provider to perform the file operations.</span><br><span class="line"></span><br><span class="line">Since:</span><br><span class="line">1.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/" data-id="cjhij7ko900015g9ihqm0s247" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/" data-id="cjhjgxgdu0001i09irquohuvg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -109,19 +109,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/05/22/Java-8-Read-File-As-A-Stream/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Java 8 Read File As A Stream
+          Java 8 Read File Using Buffered Reader
         
       </div>
     </a>
   
   
-    <a href="/2018/05/22/Java-8-Read-File-Line-By-Line/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/05/21/Java-8-Read-File-As-A-Stream/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Java 8 Read File Line By Line</div>
+      <div class="article-nav-title">Java 8 Read File As A Stream</div>
     </a>
   
 </nav>
@@ -137,7 +137,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a></li></ul></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a></li></ul></li></ul></li></ul>
     </div>
   </div>
 
@@ -179,7 +179,15 @@
       <ul>
         
           <li>
-            <a href="/2018/05/22/Java-8-Read-File-As-A-Stream/">Java 8 Read File As A Stream</a>
+            <a href="/2018/05/24/Java-8-Read-File-With-try-with-resources/">Java 8 Read File With try-with-resources</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/23/java-8-List-All-Files-in-Directory/">Java 8 List All Files in Directory</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/">Java 8 Read File Using Buffered Reader</a>
           </li>
         
           <li>
@@ -187,15 +195,7 @@
           </li>
         
           <li>
-            <a href="/2018/05/22/Java-8-Read-File-Line-By-Line/">Java 8 Read File Line By Line</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/22/Java-8-Read-File-Using-Buffered-Reader/">Java 8 Read File Using Buffered Reader</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/22/Java-8-Read-File-With-try-with-resources/">Java 8 Read File With try-with-resources</a>
+            <a href="/2018/05/21/Java-8-Read-File-As-A-Stream/">Java 8 Read File As A Stream</a>
           </li>
         
       </ul>
