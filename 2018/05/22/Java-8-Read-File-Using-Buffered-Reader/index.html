@@ -5,22 +5,20 @@
   
 
   
-  <title>Java 8 Read File Line By Line | Niraj Sonawane</title>
+  <title>Java 8 Read File Using Buffered Reader | Niraj Sonawane</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
+  <meta name="description" content="Finally Java 8 has made Reading &amp;amp; Writing a text file a simple task.  If we need more fine-grained control on reading we can use new Files.newBufferedReader()  Read File Using Buffered Reader12345">
 <meta name="keywords" content="Java,Java-8">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 8 Read File Line By Line">
-<meta property="og:url" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Line-By-Line/index.html">
+<meta property="og:title" content="Java 8 Read File Using Buffered Reader">
+<meta property="og:url" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Using-Buffered-Reader/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
+<meta property="og:description" content="Finally Java 8 has made Reading &amp;amp; Writing a text file a simple task.  If we need more fine-grained control on reading we can use new Files.newBufferedReader()  Read File Using Buffered Reader12345">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Line-By-Line/output.png">
-<meta property="og:updated_time" content="2018-05-23T02:16:52.728Z">
+<meta property="og:updated_time" content="2018-05-23T02:54:46.935Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 8 Read File Line By Line">
-<meta name="twitter:description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
-<meta name="twitter:image" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Line-By-Line/output.png">
+<meta name="twitter:title" content="Java 8 Read File Using Buffered Reader">
+<meta name="twitter:description" content="Finally Java 8 has made Reading &amp;amp; Writing a text file a simple task.  If we need more fine-grained control on reading we can use new Files.newBufferedReader()  Read File Using Buffered Reader12345">
   
     <link rel="alternate" href="/atom.xml" title="Niraj Sonawane" type="application/atom+xml">
   
@@ -67,14 +65,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Java-8-Read-File-Line-By-Line" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Java-8-Read-File-Using-Buffered-Reader" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/22/Java-8-Read-File-Line-By-Line/" class="article-date">
+    <a href="/2018/05/22/Java-8-Read-File-Using-Buffered-Reader/" class="article-date">
   <time datetime="2018-05-22T01:58:08.000Z" itemprop="datePublished">2018-05-22</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Java-8/">Java-8</a>►<a class="article-category-link" href="/categories/Java-8/File/">File</a>►<a class="article-category-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a>
+    <a class="article-category-link" href="/categories/Java-8/">Java-8</a>►<a class="article-category-link" href="/categories/Java-8/File/">File</a>►<a class="article-category-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a>
   </div>
 
   </div>
@@ -85,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Java 8 Read File Line By Line
+      Java 8 Read File Using Buffered Reader
     </h1>
   
 
@@ -93,16 +91,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Java 8 has addded  <code>Files.readAllLines()</code> method ,which can be used to read file as List of Strings.</p>
-<h3 id="Read-file-as-a-List-of-Strings"><a href="#Read-file-as-a-List-of-Strings" class="headerlink" title="Read file as a List of Strings"></a>Read file as a List of Strings</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8ReadFileAsListOfStrings</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">		List&lt;String&gt; readAllLines = Files.readAllLines(Paths.get((filePath)));</span><br><span class="line">		readAllLines.forEach(System.out::println);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
-<p>Text file sample.txt for testing.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Files extends Object</span><br><span class="line">This class consists exclusively of static methods that operate on files, directories, or other types of files.</span><br><span class="line">In most cases, the methods defined here will delegate to the associated file system provider to perform the file operations.</span><br><span class="line"></span><br><span class="line">Since:</span><br><span class="line">1.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
-<p>Output:</p>
-<img src="/2018/05/22/Java-8-Read-File-Line-By-Line/output.png" title="OutPut">
+        <p>Finally Java 8 has made Reading &amp; Writing a text file a simple task. </p>
+<p>If we need more fine-grained control on reading we can use new <code>Files.newBufferedReader()</code> </p>
+<h3 id="Read-File-Using-Buffered-Reader"><a href="#Read-File-Using-Buffered-Reader" class="headerlink" title="Read File Using Buffered Reader"></a>Read File Using Buffered Reader</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Stream;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8ReadUsingBufferedReader</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">			String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">			BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));</span><br><span class="line">			reader.lines().forEach(System.out::println);		    </span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>    
+<figure class="highlight plain"><figcaption><span>Sample.txt file for testing.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Files extends Object</span><br><span class="line">This class consists exclusively of static methods that operate on files, directories, or other types of files.</span><br><span class="line">In most cases, the methods defined here will delegate to the associated file system provider to perform the file operations.</span><br><span class="line"></span><br><span class="line">Since:</span><br><span class="line">1.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Line-By-Line/" data-id="cjhij7koh00035g9irifdpihu" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Using-Buffered-Reader/" data-id="cjhij7kol00055g9iobg61a9i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -113,19 +110,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/05/22/Java-8-Read-File-As-Single-String/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/05/22/Java-8-Read-File-Line-By-Line/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Java 8 Read File As Single String
+          Java 8 Read File Line By Line
         
       </div>
     </a>
   
   
-    <a href="/2018/05/22/Java-8-Read-File-Using-Buffered-Reader/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/05/22/Java-8-Read-File-With-try-with-resources/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Java 8 Read File Using Buffered Reader</div>
+      <div class="article-nav-title">Java 8 Read File With try-with-resources</div>
     </a>
   
 </nav>

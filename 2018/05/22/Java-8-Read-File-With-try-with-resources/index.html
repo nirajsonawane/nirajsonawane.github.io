@@ -5,22 +5,20 @@
   
 
   
-  <title>Java 8 Read File Line By Line | Niraj Sonawane</title>
+  <title>Java 8 Read File With try-with-resources | Niraj Sonawane</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
+  <meta name="description" content="You might have noticed that,In previous post about files we have not closed any file stream. Streams implement AutoCloseable and in this case we  need to close  stream explicitly.We can use try-with-r">
 <meta name="keywords" content="Java,Java-8">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 8 Read File Line By Line">
-<meta property="og:url" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Line-By-Line/index.html">
+<meta property="og:title" content="Java 8 Read File With try-with-resources">
+<meta property="og:url" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-With-try-with-resources/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
+<meta property="og:description" content="You might have noticed that,In previous post about files we have not closed any file stream. Streams implement AutoCloseable and in this case we  need to close  stream explicitly.We can use try-with-r">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Line-By-Line/output.png">
-<meta property="og:updated_time" content="2018-05-23T02:16:52.728Z">
+<meta property="og:updated_time" content="2018-05-23T03:09:54.943Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 8 Read File Line By Line">
-<meta name="twitter:description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
-<meta name="twitter:image" content="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Line-By-Line/output.png">
+<meta name="twitter:title" content="Java 8 Read File With try-with-resources">
+<meta name="twitter:description" content="You might have noticed that,In previous post about files we have not closed any file stream. Streams implement AutoCloseable and in this case we  need to close  stream explicitly.We can use try-with-r">
   
     <link rel="alternate" href="/atom.xml" title="Niraj Sonawane" type="application/atom+xml">
   
@@ -67,14 +65,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Java-8-Read-File-Line-By-Line" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Java-8-Read-File-With-try-with-resources" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/05/22/Java-8-Read-File-Line-By-Line/" class="article-date">
+    <a href="/2018/05/22/Java-8-Read-File-With-try-with-resources/" class="article-date">
   <time datetime="2018-05-22T01:58:08.000Z" itemprop="datePublished">2018-05-22</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Java-8/">Java-8</a>►<a class="article-category-link" href="/categories/Java-8/File/">File</a>►<a class="article-category-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a>
+    <a class="article-category-link" href="/categories/Java-8/">Java-8</a>►<a class="article-category-link" href="/categories/Java-8/File/">File</a>►<a class="article-category-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a>
   </div>
 
   </div>
@@ -85,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Java 8 Read File Line By Line
+      Java 8 Read File With try-with-resources
     </h1>
   
 
@@ -93,16 +91,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Java 8 has addded  <code>Files.readAllLines()</code> method ,which can be used to read file as List of Strings.</p>
-<h3 id="Read-file-as-a-List-of-Strings"><a href="#Read-file-as-a-List-of-Strings" class="headerlink" title="Read file as a List of Strings"></a>Read file as a List of Strings</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8ReadFileAsListOfStrings</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">		List&lt;String&gt; readAllLines = Files.readAllLines(Paths.get((filePath)));</span><br><span class="line">		readAllLines.forEach(System.out::println);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
-<p>Text file sample.txt for testing.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Files extends Object</span><br><span class="line">This class consists exclusively of static methods that operate on files, directories, or other types of files.</span><br><span class="line">In most cases, the methods defined here will delegate to the associated file system provider to perform the file operations.</span><br><span class="line"></span><br><span class="line">Since:</span><br><span class="line">1.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
-<p>Output:</p>
-<img src="/2018/05/22/Java-8-Read-File-Line-By-Line/output.png" title="OutPut">
+        <p>You might have noticed that,In previous post about files we have not closed any file stream. Streams implement AutoCloseable and in this case we  need to close  stream explicitly.We can use try-with-resources  to close stream. </p>
+<h3 id="Sample-Code"><a href="#Sample-Code" class="headerlink" title="Sample Code"></a>Sample Code</h3><figure class="highlight java"><figcaption><span>Close BufferedReader</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">	String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">	<span class="keyword">try</span>(BufferedReader reader = Files.newBufferedReader(Paths.get(filePath)))</span><br><span class="line">	&#123;</span><br><span class="line">		reader.lines().forEach(System.out::println);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		<span class="comment">// <span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
+<figure class="highlight java"><figcaption><span>Close Stream</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">			String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">			<span class="keyword">try</span>(Stream&lt;String&gt; lines = Files.lines(Paths.get((filePath))))</span><br><span class="line">			&#123;</span><br><span class="line">				lines.forEach(System.out::println);</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">				<span class="comment">// <span class="doctag">TODO:</span> handle exception</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>            
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-Line-By-Line/" data-id="cjhij7koh00035g9irifdpihu" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-With-try-with-resources/" data-id="cjhij7koo00065g9im5f3gxkj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -113,19 +108,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/05/22/Java-8-Read-File-As-Single-String/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/05/22/Java-8-Read-File-Using-Buffered-Reader/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Java 8 Read File As Single String
+          Java 8 Read File Using Buffered Reader
         
       </div>
     </a>
   
   
-    <a href="/2018/05/22/Java-8-Read-File-Using-Buffered-Reader/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/05/20/Java-Process-Builder/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Java 8 Read File Using Buffered Reader</div>
+      <div class="article-nav-title">Java Process Builder</div>
     </a>
   
 </nav>
