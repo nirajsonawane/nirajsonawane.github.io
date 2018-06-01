@@ -62,6 +62,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-java-8-File-Operations-Copy-Delete-Move" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/" class="article-date">
+  <time datetime="2018-05-30T01:22:00.000Z" itemprop="datePublished">2018-05-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java-8/">Java-8</a>►<a class="article-category-link" href="/categories/Java-8/File/">File</a>►<a class="article-category-link" href="/categories/Java-8/File/8-0-Java-8-File-Operations-Copy-Delete-Move/">8.0 - Java 8 File Operations - Copy,Delete,Move</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/">Java 8 File Operations - Copy,Delete,Move</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Deleting-a-File-or-Directory"><a href="#Deleting-a-File-or-Directory" class="headerlink" title="Deleting a File or Directory"></a>Deleting a File or Directory</h4><p>The <code>Files</code> class provides two deletion methods.</p>
+<p>1 : The <code>delete(Path)</code> method deletes the file or throws an exception if the deletion fails</p>
+<p>2 : The <code>deleteIfExists(Path)</code> method also deletes the file, but if the file does not exist, no exception is thrown.</p>
+<figure class="highlight java"><figcaption><span>Delete File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Path path = Paths.get(<span class="string">"C:\\data\\temp\\temp.txt"</span>);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Files.delete(path);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;	</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Delete Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Path path = Paths.get(<span class="string">"C:\\data\\temp\\"</span>);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Files.delete(path);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;	</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Trying to delete Non Empty Directory will throw <code>DirectoryNotEmptyException</code>.<br>So, First we need to delete all files inside a particular non-empty directory:</p>
+<figure class="highlight java"><figcaption><span>Delete Non Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Path path = Paths.get(<span class="string">"C:\\data\\temp\\"</span>);</span><br><span class="line">			Files.walk(path)</span><br><span class="line">		     .sorted(Comparator.reverseOrder())</span><br><span class="line">		     .map(Path::toFile)</span><br><span class="line">		     .forEach(File::delete);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="Copying-a-File-or-Directory"><a href="#Copying-a-File-or-Directory" class="headerlink" title="Copying a File or Directory"></a>Copying a File or Directory</h4><p>You can copy a file or directory by using the<br><code>copy(Path, Path, CopyOption...)</code> method. The copy fails if the target file exists, unless the <code>REPLACE_EXISTING</code> option is specified.</p>
+<p>This method takes a varargs argument. The following StandardCopyOption and LinkOption enums are supported:</p>
+<p><strong>REPLACE_EXISTING</strong> – replace a file if it exists<br><strong>COPY_ATTRIBUTES</strong> – copy metadata to the new file<br><strong>NOFOLLOW_LINKS</strong> – shouldn’t follow symbolic links</p>
+<figure class="highlight java"><figcaption><span>Copy File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\temp.txt"</span>);</span><br><span class="line">		Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\destination.txt"</span>);</span><br><span class="line">	    Files.copy(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Copy Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir"</span>);</span><br><span class="line">       Path destinationepath =         Paths.get(<span class="string">"C:\\data\\temp\\destinationDir"</span>);</span><br><span class="line">       Files.copy(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Copy Non empty Directory</strong><br>Directories can be copied. However, files inside the directory are not copied, so the new directory is empty even when the original directory contains files.</p>
+<figure class="highlight java"><figcaption><span>Copy Non Empty Directory recursively</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir"</span>);</span><br><span class="line">		Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\destinationDir"</span>);	  	</span><br><span class="line">		Files.walk(sourcepath)</span><br><span class="line">             .forEach(source -&gt; copy(source, destinationepath.resolve(sourcepath.relativize(source))));	</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copy</span><span class="params">(Path source, Path dest)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">try</span> &#123;</span><br><span class="line">	        Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">	    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">	        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e.getMessage(), e);</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="Moving-a-File-or-Directory"><a href="#Moving-a-File-or-Directory" class="headerlink" title="Moving a File or Directory"></a>Moving a File or Directory</h4><p>You can move a file or directory by using the <code>move(Path, Path, CopyOption...)</code> method.<br>The move fails if the target file exists, unless the <code>REPLACE_EXISTING</code> option is specified.</p>
+<p>Empty directories can be moved. If the directory is not empty, the move is allowed when the directory can be moved without moving the contents of that directory. On UNIX systems, moving a directory within the same partition generally consists of renaming the directory. In that situation, this method works even when the directory contains files.</p>
+<p>This method takes a varargs argument – the following <code>StandardCopyOption</code> enums are supported:</p>
+<p><strong>REPLACE_EXISTING</strong> – Performs the move even when the target file already exists. If the target is a symbolic link, the symbolic link is replaced but what it points to is not affected.<br><strong>ATOMIC_MOVE</strong> – Performs the move as an atomic file operation. If the file system does not support an atomic move, an exception is thrown. With an ATOMIC_MOVE you can move a file into a directory and be guaranteed that any process watching the directory accesses a complete file.</p>
+<figure class="highlight java"><figcaption><span>Move File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Path sourcepath = Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\temp.txt"</span>);</span><br><span class="line">		Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir\\temp.txtr"</span>);</span><br><span class="line"></span><br><span class="line">Files.move(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Move Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">			Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\copyme"</span>);</span><br><span class="line">		Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir\\copyme"</span>);</span><br><span class="line">		Files.move(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Move Non Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">              Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\copyme"</span>);</span><br><span class="line">              Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir\\copyme"</span>);</span><br><span class="line">              Files.move(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nirajsonawane.com/2018/05/30/java-8-File-Operations-Copy-Delete-Move/" data-id="cjhv9phfr0000mk9i1k1fe5yb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java-8-List-all-Files-in-Directory-and-Subdirectories" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/" class="article-date">
@@ -97,7 +159,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/" data-id="cjhr2wb690000989i3hrffvhg" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/" data-id="cjhr1nz0m001wm49iauj85dif" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -141,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/24/Java-8-Read-File-With-try-with-resources/" data-id="cjhr2wb730007989indqjsg3j" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/24/Java-8-Read-File-With-try-with-resources/" data-id="cjhr1g3ll0006m49i4welgb6k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -191,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/23/java-8-List-All-Files-in-Directory/" data-id="cjhr2wb7h000e989ixvsu1mo0" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/23/java-8-List-All-Files-in-Directory/" data-id="cjhr1g3lu000am49imx2rnmpa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -236,7 +298,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/" data-id="cjhr2wb7c000b989i0xc5y1ye" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/" data-id="cjhr1g3li0005m49ipa5dkmvv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -281,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/" data-id="cjhr2wb6n0002989isrc01q7f" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/" data-id="cjhr1g3l70001m49i33bu8v6y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -328,7 +390,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/21/Java-8-Read-File-As-A-Stream/" data-id="cjhr2wb6w0005989ievnk8fi2" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/21/Java-8-Read-File-As-A-Stream/" data-id="cjhr1g3ky0000m49i31cedvko" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -375,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/20/Java-8-Read-File-Line-By-Line/" data-id="cjhr2wb700006989iffntdy28" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/20/Java-8-Read-File-Line-By-Line/" data-id="cjhr1g3lf0003m49iq3ir3xux" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -426,7 +488,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/20/Java-Process-Builder/" data-id="cjhr2wb79000a989i640p03rb" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/20/Java-Process-Builder/" data-id="cjhr1g3lr0009m49ieck15msn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-9/">Java-9</a></li></ul>
@@ -448,7 +510,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/7-0-List-All-Files-in-Directory-and-Subdirectories/">7.0 - List All Files in Directory and Subdirectories</a></li></ul></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/7-0-List-All-Files-in-Directory-and-Subdirectories/">7.0 - List All Files in Directory and Subdirectories</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/8-0-Java-8-File-Operations-Copy-Delete-Move/">8.0 - Java 8 File Operations - Copy,Delete,Move</a></li></ul></li></ul></li></ul>
     </div>
   </div>
 
@@ -490,6 +552,10 @@
       <ul>
         
           <li>
+            <a href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/">Java 8 File Operations - Copy,Delete,Move</a>
+          </li>
+        
+          <li>
             <a href="/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/">Java 8 List all Files in Directory and Subdirectories</a>
           </li>
         
@@ -503,10 +569,6 @@
         
           <li>
             <a href="/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/">Java 8 Read File Using Buffered Reader</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/22/Java-8-Read-File-As-Single-String/">Java 8 Read File As Single String</a>
           </li>
         
       </ul>
