@@ -5,15 +5,19 @@
   
 
   
-  <title>Tag: Java-9 | Niraj Sonawane</title>
+  <title>Watching a Directory for Changes | Niraj Sonawane</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Niraj Sonawane">
-<meta property="og:url" content="http://nirajsonawane.com/tags/Java-9/index.html">
+  <meta name="description" content="The java.nio.file package provides a file change notification API, called the Watch Service API. This API enables you to register a directory (or directories) with the watch service. When registering,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Watching a Directory for Changes">
+<meta property="og:url" content="http://nirajsonawane.com/2018/06/01/Watching-a-Directory-for-Changes/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
+<meta property="og:description" content="The java.nio.file package provides a file change notification API, called the Watch Service API. This API enables you to register a directory (or directories) with the watch service. When registering,">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-01T01:31:13.225Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Niraj Sonawane">
+<meta name="twitter:title" content="Watching a Directory for Changes">
+<meta name="twitter:description" content="The java.nio.file package provides a file change notification API, called the Watch Service API. This API enables you to register a directory (or directories) with the watch service. When registering,">
   
     <link rel="alternate" href="/atom.xml" title="Niraj Sonawane" type="application/atom+xml">
   
@@ -60,40 +64,64 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/05/20/Java-Process-Builder/" class="archive-article-date">
-  <time datetime="2018-05-19T18:35:48.000Z" itemprop="datePublished">May 20</time>
+        <section id="main"><article id="post-Watching-a-Directory-for-Changes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/01/Watching-a-Directory-for-Changes/" class="article-date">
+  <time datetime="2018-06-01T01:12:32.000Z" itemprop="datePublished">2018-06-01</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/20/Java-Process-Builder/">Java Process Builder</a>
+    <h1 class="article-title" itemprop="name">
+      Watching a Directory for Changes
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The <code>java.nio.file</code> package provides a file change notification API, called the <strong>Watch Service API</strong>.</p>
+<p>This API enables you to register a directory (or directories) with the watch service. When registering, you tell the service which types of events you are interested in:<br><strong>1:File creation.<br>2:File deletion.<br>3:File Modification.</strong></p>
+<p>When the service detects an event of interest, it is forwarded to the registered process. </p>
+<p>The registered process has a thread (or a pool of threads) dedicated to watching for any events it has registered for. When an event comes in, it is handled as needed.</p>
+<h4 id="Creating-watcher-service"><a href="#Creating-watcher-service" class="headerlink" title="Creating watcher service"></a>Creating watcher service</h4><p>The first step is to create a new <code>WatchService</code> by using the <code>newWatchService</code> method in the <code>FileSystem</code> class, as follows:</p>
+<p><code>WatchService watcher = FileSystems.getDefault().newWatchService()</code></p>
+<h4 id="Registering-for-Events"><a href="#Registering-for-Events" class="headerlink" title="Registering for Events"></a>Registering for Events</h4><p>We Can register one or more objects with the watch service.<strong>Any object that implements the Watchable interface</strong> can be registered.<br>The <code>Path</code> class implements the Watchable interface, so each directory to be monitored is registered as a Path object.</p>
+<p>When registering an object with the watch service, you specify the types of events that you want to monitor. The supported <em>StandardWatchEventKinds</em> event types follow:</p>
+<ol>
+<li><code>ENTRY_CREATE</code> – A directory entry is created.</li>
+<li><code>ENTRY_DELETE</code> – A directory entry is deleted.</li>
+<li><code>ENTRY_MODIFY</code> – A directory entry is modified.</li>
+</ol>
+<figure class="highlight java"><figcaption><span>Registering for Events</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WatchService watcher = FileSystems.getDefault().newWatchService()</span><br><span class="line">Path dir = Paths.get(<span class="string">"C:\\data\\temp\\mydir\\"</span>);</span><br><span class="line">dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://nirajsonawane.com/2018/06/01/Watching-a-Directory-for-Changes/" data-id="cjhv9wflt0006p89iupvzuq4e" class="article-share-link">Share</a>
+      
+      
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java 8 File Operations - Copy,Delete,Move</div>
+    </a>
   
+</nav>
 
+  
+</article>
 
 </section>
         
