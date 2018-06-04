@@ -69,6 +69,10 @@
   <time datetime="2018-06-01T01:12:32.000Z" itemprop="datePublished">2018-06-01</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java-8/">Java-8</a>►<a class="article-category-link" href="/categories/Java-8/File/">File</a>►<a class="article-category-link" href="/categories/Java-8/File/9-0-Java-8-Watching-a-Directory-for-Changes/">9.0 - Java 8 Watching a Directory for Changes</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -99,12 +103,26 @@
 <li><code>ENTRY_MODIFY</code> – A directory entry is modified.</li>
 </ol>
 <figure class="highlight java"><figcaption><span>Registering for Events</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WatchService watcher = FileSystems.getDefault().newWatchService()</span><br><span class="line">Path dir = Paths.get(<span class="string">"C:\\data\\temp\\mydir\\"</span>);</span><br><span class="line">dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);</span><br></pre></td></tr></table></figure>
+<h3 id="Directory-Watching-Example"><a href="#Directory-Watching-Example" class="headerlink" title="Directory Watching Example"></a>Directory Watching Example</h3><p>Putting all above together. We can now go ahead and look at a complete and practical example.</p>
+<p>In below example we are going to watch directory for all the changes and will process the events. </p>
+<figure class="highlight java"><figcaption><span>Directory Watching Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.FileSystems;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Path;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.WatchEvent;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.WatchKey;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.WatchService;</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DirectoryChangeListeners</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            WatchService watcher = FileSystems.getDefault().newWatchService();</span><br><span class="line">            Path dir = Paths.get(<span class="string">"C:\\data\\temp\\"</span>);</span><br><span class="line">            dir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);             </span><br><span class="line">            System.out.println(<span class="string">"Watch Service registered for dir: "</span> + dir.getFileName());</span><br><span class="line">            WatchKey key;</span><br><span class="line">            <span class="keyword">while</span> ((key = watcher.take())!=<span class="keyword">null</span>) </span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span> (WatchEvent&lt;?&gt; event : key.pollEvents()) &#123;</span><br><span class="line">                     </span><br><span class="line">                	WatchEvent.Kind&lt;?&gt; kind = event.kind();</span><br><span class="line">                    </span><br><span class="line">                    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">                    WatchEvent&lt;Path&gt; ev = (WatchEvent&lt;Path&gt;) event;</span><br><span class="line">                    Path fileName = ev.context();</span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">if</span>(kind==ENTRY_CREATE)</span><br><span class="line">                    &#123;</span><br><span class="line">                    	System.out.println(<span class="string">"New File Added, file Name "</span> + fileName);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span>(kind==ENTRY_DELETE)</span><br><span class="line">                    &#123;</span><br><span class="line">                    	System.out.println(<span class="string">"File Deleted "</span> + fileName);</span><br><span class="line">                    &#125;</span><br><span class="line">                     </span><br><span class="line">                    <span class="keyword">if</span> (kind == ENTRY_MODIFY ) &#123;</span><br><span class="line">                    	System.out.println(<span class="string">"File Modified "</span> + fileName);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                 </span><br><span class="line">                <span class="keyword">boolean</span> valid = key.reset();</span><br><span class="line">                <span class="keyword">if</span> (!valid) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">             </span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">            System.err.println(ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Key-Points"><a href="#Key-Points" class="headerlink" title="Key Points"></a>Key Points</h3><h5 id="Three-methods-are-available-for-Retrieving-events"><a href="#Three-methods-are-available-for-Retrieving-events" class="headerlink" title="Three methods are available for Retrieving events :"></a>Three methods are available for Retrieving events :</h5><ol>
+<li><code>poll</code> – Returns a queued key, if available. Returns immediately with a null value, if unavailable.</li>
+<li><code>poll(long, TimeUnit)</code> – Returns a queued key, if one is available. If a queued key is not immediately available, the program waits until the specified time. The TimeUnit argument determines whether the specified time is nanoseconds, milliseconds, or some other unit of time.</li>
+<li><code>take</code> – Returns a queued key. If no queued key is available, this method waits.</li>
+</ol>
+<h5 id="Reset-key"><a href="#Reset-key" class="headerlink" title="Reset key"></a>Reset key</h5><p>After the events for the key have been processed, you need to put the key back into a ready state by invoking reset. If this method returns false, the key is no longer valid and the loop can exit. This step is very important. If you fail to invoke reset, this key will not receive any further events.</p>
+<h5 id="When-to-Use-and-Not-Use-This-API"><a href="#When-to-Use-and-Not-Use-This-API" class="headerlink" title="When to Use and Not Use This API"></a>When to Use and Not Use This API</h5><p>The Watch Service API is designed for applications that need to be notified about file change events. It is well suited for any application, like an editor or IDE, that potentially has many open files and needs to ensure that the files are synchronized with the file system. It is also well suited for an application server that watches a directory, perhaps waiting for .jsp or .jar files to drop, in order to deploy them.</p>
+<p>This API is not designed for indexing a hard drive. Most file system implementations have native support for file change notification. The Watch Service API takes advantage of this support where available. However, when a file system does not support this mechanism, the Watch Service will poll the file system, waiting for events.</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/06/01/Watching-a-Directory-for-Changes/" data-id="cjhve4out0007y89it12rrx83" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/06/01/Watching-a-Directory-for-Changes/" data-id="cjhzjm0kw0029l89izsit3mkh" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
+
     </footer>
   </div>
   
@@ -162,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/30/java-8-File-Operations-Copy-Delete-Move/" data-id="cjhve4ouz000ay89ioduhowb3" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/30/java-8-File-Operations-Copy-Delete-Move/" data-id="cjhzjm0f2000fl89il6ayf2zx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -209,7 +227,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/" data-id="cjhve4oxp0022y89isskmg4zo" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/" data-id="cjhzjm0dw0000l89id1yetfen" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -253,7 +271,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/24/Java-8-Read-File-With-try-with-resources/" data-id="cjhve4ouq0006y89idyabrrbn" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/24/Java-8-Read-File-With-try-with-resources/" data-id="cjhzjm0eu000al89ixr9zmfl8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -303,7 +321,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/23/java-8-List-All-Files-in-Directory/" data-id="cjhve4ov4000by89itq10utgu" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/23/java-8-List-All-Files-in-Directory/" data-id="cjhzjm0f7000hl89ioh0zoxjj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -348,7 +366,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/" data-id="cjhve4ouc0002y89inomojo2z" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/" data-id="cjhzjm0eo0007l89ik5ypt60g" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -393,7 +411,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/" data-id="cjhve4ou30001y89i7bsksbmc" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/" data-id="cjhzjm0eh0005l89ilbqk78un" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -440,7 +458,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/21/Java-8-Read-File-As-A-Stream/" data-id="cjhve4ov9000fy89isoke1vnl" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/21/Java-8-Read-File-As-A-Stream/" data-id="cjhzjm0e80002l89i1dljjc1e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -487,7 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/20/Java-8-Read-File-Line-By-Line/" data-id="cjhve4ovc000hy89ic1ugp6we" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/20/Java-8-Read-File-Line-By-Line/" data-id="cjhzjm0el0006l89idiy1zos3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-8/">Java-8</a></li></ul>
@@ -538,7 +556,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://nirajsonawane.com/2018/05/20/Java-Process-Builder/" data-id="cjhve4oul0004y89igrjxdqui" class="article-share-link">Share</a>
+      <a data-url="http://nirajsonawane.com/2018/05/20/Java-Process-Builder/" data-id="cjhzjm0ex000bl89ikoji6c4k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-9/">Java-9</a></li></ul>
@@ -560,7 +578,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/7-0-List-All-Files-in-Directory-and-Subdirectories/">7.0 - List All Files in Directory and Subdirectories</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/8-0-Java-8-File-Operations-Copy-Delete-Move/">8.0 - Java 8 File Operations - Copy,Delete,Move</a></li></ul></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/7-0-List-All-Files-in-Directory-and-Subdirectories/">7.0 - List All Files in Directory and Subdirectories</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/8-0-Java-8-File-Operations-Copy-Delete-Move/">8.0 - Java 8 File Operations - Copy,Delete,Move</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/9-0-Java-8-Watching-a-Directory-for-Changes/">9.0 - Java 8 Watching a Directory for Changes</a></li></ul></li></ul></li></ul>
     </div>
   </div>
 
