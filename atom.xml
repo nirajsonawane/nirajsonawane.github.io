@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://nirajsonawane.com/"/>
+  <link href="https://nirajsonawane.github.io/"/>
   <updated>2018-06-04T01:50:11.693Z</updated>
-  <id>http://nirajsonawane.com/</id>
+  <id>https://nirajsonawane.github.io/</id>
   
   <author>
     <name>Niraj Sonawane</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Watching a Directory for Changes</title>
-    <link href="http://nirajsonawane.com/2018/06/01/Watching-a-Directory-for-Changes/"/>
-    <id>http://nirajsonawane.com/2018/06/01/Watching-a-Directory-for-Changes/</id>
+    <link href="https://nirajsonawane.github.io/2018/06/01/Watching-a-Directory-for-Changes/"/>
+    <id>https://nirajsonawane.github.io/2018/06/01/Watching-a-Directory-for-Changes/</id>
     <published>2018-06-01T01:12:32.000Z</published>
     <updated>2018-06-04T01:50:11.693Z</updated>
     
@@ -35,23 +35,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="9.0 - Java 8 Watching a Directory for Changes" scheme="http://nirajsonawane.com/categories/Java-8/File/9-0-Java-8-Watching-a-Directory-for-Changes/"/>
+      <category term="9.0 - Java 8 Watching a Directory for Changes" scheme="https://nirajsonawane.github.io/categories/Java-8/File/9-0-Java-8-Watching-a-Directory-for-Changes/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java 8 File Operations - Copy,Delete,Move</title>
-    <link href="http://nirajsonawane.com/2018/05/30/java-8-File-Operations-Copy-Delete-Move/"/>
-    <id>http://nirajsonawane.com/2018/05/30/java-8-File-Operations-Copy-Delete-Move/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/30/java-8-File-Operations-Copy-Delete-Move/"/>
+    <id>https://nirajsonawane.github.io/2018/05/30/java-8-File-Operations-Copy-Delete-Move/</id>
     <published>2018-05-30T01:22:00.000Z</published>
     <updated>2018-06-01T00:57:55.597Z</updated>
     
@@ -66,23 +66,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="8.0 - Java 8 File Operations - Copy,Delete,Move" scheme="http://nirajsonawane.com/categories/Java-8/File/8-0-Java-8-File-Operations-Copy-Delete-Move/"/>
+      <category term="8.0 - Java 8 File Operations - Copy,Delete,Move" scheme="https://nirajsonawane.github.io/categories/Java-8/File/8-0-Java-8-File-Operations-Copy-Delete-Move/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java 8 List all Files in Directory and Subdirectories</title>
-    <link href="http://nirajsonawane.com/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/"/>
-    <id>http://nirajsonawane.com/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/"/>
+    <id>https://nirajsonawane.github.io/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/</id>
     <published>2018-05-29T02:10:02.000Z</published>
     <updated>2018-05-29T02:42:45.053Z</updated>
     
@@ -97,23 +97,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="7.0 - List All Files in Directory and Subdirectories" scheme="http://nirajsonawane.com/categories/Java-8/File/7-0-List-All-Files-in-Directory-and-Subdirectories/"/>
+      <category term="7.0 - List All Files in Directory and Subdirectories" scheme="https://nirajsonawane.github.io/categories/Java-8/File/7-0-List-All-Files-in-Directory-and-Subdirectories/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java 8 Read File With try-with-resources</title>
-    <link href="http://nirajsonawane.com/2018/05/24/Java-8-Read-File-With-try-with-resources/"/>
-    <id>http://nirajsonawane.com/2018/05/24/Java-8-Read-File-With-try-with-resources/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/24/Java-8-Read-File-With-try-with-resources/"/>
+    <id>https://nirajsonawane.github.io/2018/05/24/Java-8-Read-File-With-try-with-resources/</id>
     <published>2018-05-24T01:58:00.000Z</published>
     <updated>2018-05-23T17:16:29.444Z</updated>
     
@@ -128,23 +128,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="5.0 -Read File With try-with-resources" scheme="http://nirajsonawane.com/categories/Java-8/File/5-0-Read-File-With-try-with-resources/"/>
+      <category term="5.0 -Read File With try-with-resources" scheme="https://nirajsonawane.github.io/categories/Java-8/File/5-0-Read-File-With-try-with-resources/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java 8 List All Files in Directory</title>
-    <link href="http://nirajsonawane.com/2018/05/23/java-8-List-All-Files-in-Directory/"/>
-    <id>http://nirajsonawane.com/2018/05/23/java-8-List-All-Files-in-Directory/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/23/java-8-List-All-Files-in-Directory/"/>
+    <id>https://nirajsonawane.github.io/2018/05/23/java-8-List-All-Files-in-Directory/</id>
     <published>2018-05-23T17:32:00.000Z</published>
     <updated>2018-05-23T18:48:21.282Z</updated>
     
@@ -159,23 +159,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="6.0 - List All Files in Directory" scheme="http://nirajsonawane.com/categories/Java-8/File/6-0-List-All-Files-in-Directory/"/>
+      <category term="6.0 - List All Files in Directory" scheme="https://nirajsonawane.github.io/categories/Java-8/File/6-0-List-All-Files-in-Directory/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java 8 Read File Using Buffered Reader</title>
-    <link href="http://nirajsonawane.com/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/"/>
-    <id>http://nirajsonawane.com/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/"/>
+    <id>https://nirajsonawane.github.io/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/</id>
     <published>2018-05-23T01:58:08.000Z</published>
     <updated>2018-05-23T17:22:35.928Z</updated>
     
@@ -191,23 +191,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="4.0 -Read File Using Buffered Reader" scheme="http://nirajsonawane.com/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/"/>
+      <category term="4.0 -Read File Using Buffered Reader" scheme="https://nirajsonawane.github.io/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java 8 Read File As Single String</title>
-    <link href="http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/"/>
-    <id>http://nirajsonawane.com/2018/05/22/Java-8-Read-File-As-Single-String/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/22/Java-8-Read-File-As-Single-String/"/>
+    <id>https://nirajsonawane.github.io/2018/05/22/Java-8-Read-File-As-Single-String/</id>
     <published>2018-05-22T01:58:08.000Z</published>
     <updated>2018-05-23T16:32:30.845Z</updated>
     
@@ -222,23 +222,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="3.0 -Read File As Single String" scheme="http://nirajsonawane.com/categories/Java-8/File/3-0-Read-File-As-Single-String/"/>
+      <category term="3.0 -Read File As Single String" scheme="https://nirajsonawane.github.io/categories/Java-8/File/3-0-Read-File-As-Single-String/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java 8 Read File As A Stream</title>
-    <link href="http://nirajsonawane.com/2018/05/21/Java-8-Read-File-As-A-Stream/"/>
-    <id>http://nirajsonawane.com/2018/05/21/Java-8-Read-File-As-A-Stream/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/21/Java-8-Read-File-As-A-Stream/"/>
+    <id>https://nirajsonawane.github.io/2018/05/21/Java-8-Read-File-As-A-Stream/</id>
     <published>2018-05-21T01:58:08.000Z</published>
     <updated>2018-05-23T16:33:28.212Z</updated>
     
@@ -254,23 +254,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="2.0 -Read File As A Stream" scheme="http://nirajsonawane.com/categories/Java-8/File/2-0-Read-File-As-A-Stream/"/>
+      <category term="2.0 -Read File As A Stream" scheme="https://nirajsonawane.github.io/categories/Java-8/File/2-0-Read-File-As-A-Stream/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java 8 Read File Line By Line</title>
-    <link href="http://nirajsonawane.com/2018/05/20/Java-8-Read-File-Line-By-Line/"/>
-    <id>http://nirajsonawane.com/2018/05/20/Java-8-Read-File-Line-By-Line/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/"/>
+    <id>https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/</id>
     <published>2018-05-20T01:58:08.000Z</published>
     <updated>2018-05-23T16:11:15.011Z</updated>
     
@@ -286,23 +286,23 @@
     
     </summary>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/categories/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
     
-      <category term="File" scheme="http://nirajsonawane.com/categories/Java-8/File/"/>
+      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
     
-      <category term="1.0 -Read File Line by Line" scheme="http://nirajsonawane.com/categories/Java-8/File/1-0-Read-File-Line-by-Line/"/>
+      <category term="1.0 -Read File Line by Line" scheme="https://nirajsonawane.github.io/categories/Java-8/File/1-0-Read-File-Line-by-Line/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-8" scheme="http://nirajsonawane.com/tags/Java-8/"/>
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
     
   </entry>
   
   <entry>
     <title>Java Process Builder</title>
-    <link href="http://nirajsonawane.com/2018/05/20/Java-Process-Builder/"/>
-    <id>http://nirajsonawane.com/2018/05/20/Java-Process-Builder/</id>
+    <link href="https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/"/>
+    <id>https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/</id>
     <published>2018-05-19T18:35:48.000Z</published>
     <updated>2018-05-23T17:20:58.527Z</updated>
     
@@ -317,14 +317,14 @@
     
     </summary>
     
-      <category term="Java" scheme="http://nirajsonawane.com/categories/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/categories/Java/"/>
     
-      <category term="Java Process Builder" scheme="http://nirajsonawane.com/categories/Java/Java-Process-Builder/"/>
+      <category term="Java Process Builder" scheme="https://nirajsonawane.github.io/categories/Java/Java-Process-Builder/"/>
     
     
-      <category term="Java" scheme="http://nirajsonawane.com/tags/Java/"/>
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
-      <category term="Java-9" scheme="http://nirajsonawane.com/tags/Java-9/"/>
+      <category term="Java-9" scheme="https://nirajsonawane.github.io/tags/Java-9/"/>
     
   </entry>
   
