@@ -1,98 +1,248 @@
 <!DOCTYPE html>
-<html>
+<html lang=en>
 <head>
-<meta name="google-site-verification" content="_9a6FEfTi78ZpszLREPXlnEqoeJLohOmJei3TvZBOQE" />
-  <meta charset="utf-8">
-  
-
-  
-  <title>Java Process Builder | Niraj Sonawane</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="The ProcessBuilder class is used to create separate operating system processes. There are many scenarios, Where we need to launch separate operating system processes form java program.    Before JDK 5">
+    <meta charset="utf-8">
+    
+    <title>Java Process Builder | Niraj Sonawane</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="The ProcessBuilder class is used to create separate operating system processes. There are many scenarios, Where we need to launch separate operating system processes form java program.    Before JDK 5">
 <meta name="keywords" content="Java,Java-9">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java Process Builder">
 <meta property="og:url" content="https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
 <meta property="og:description" content="The ProcessBuilder class is used to create separate operating system processes. There are many scenarios, Where we need to launch separate operating system processes form java program.    Before JDK 5">
-<meta property="og:locale" content="default">
+<meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2018-05-23T17:20:58.527Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java Process Builder">
 <meta name="twitter:description" content="The ProcessBuilder class is used to create separate operating system processes. There are many scenarios, Where we need to launch separate operating system processes form java program.    Before JDK 5">
-  
-    <link rel="alternate" href="/atom.xml" title="Niraj Sonawane" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
 </head>
 
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Niraj Sonawane</a>
-      </h1>
-      
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Niraj Sonawane</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://nirajsonawane.github.io"></form>
-      </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
     </div>
-  </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
 </header>
-      <div class="outer">
-        <section id="main"><article id="post-Java-Process-Builder" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/05/20/Java-Process-Builder/" class="article-date">
-  <time datetime="2018-05-19T18:35:48.000Z" itemprop="datePublished">2018-05-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">Niraj Sonawane</h2>
+            <h3 id="title">I am a Java developer, open-source contributor, student and lifelong learner.</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Pune, India</span>
+            <a id="follow" target="_blank" href="https://github.com/nirajsonawane/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                10
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                3
+                <span>tags</span>
+            </div>
+        </div>
         
-  
-    <h1 class="article-title" itemprop="name">
-      Java Process Builder
-    </h1>
-  
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/nirajsonawane/" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
 
-      </header>
+            
+            <section id="main"><article id="post-Java-Process-Builder" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>The <code>ProcessBuilder</code> class is used to create separate operating system processes. There are many scenarios, Where we need to launch separate operating system processes form java program.   </p>
+        <h1 class="article-title" itemprop="name">
+            Java Process Builder
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2018/05/20/Java-Process-Builder/">
+            <time datetime="2018-05-19T18:35:48.000Z" itemprop="datePublished">2018-05-20</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Java/">Java</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-9/">Java-9</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>The <code>ProcessBuilder</code> class is used to create separate operating system processes. There are many scenarios, Where we need to launch separate operating system processes form java program.   </p>
 <p>Before JDK 5.0, We need to use the exec() method of the java.lang.Runtime class to start new process.</p>
 <p>JDK 5.0 has added ProcessBuilder to Start new OS process.</p>
 <h3 id="Note"><a href="#Note" class="headerlink" title="Note:"></a>Note:</h3><p><code>ProcessBuilder</code> is not synchronized. If multiple threads access a ProcessBuilder instance concurrently, and at least one of the threads modifies one of the attributes structurally, it must be synchronized externally.</p>
@@ -102,142 +252,260 @@
 <h3 id="ProcessBuilder-Examples"><a href="#ProcessBuilder-Examples" class="headerlink" title="ProcessBuilder Examples."></a>ProcessBuilder Examples.</h3><h2 id="1-Run-External-bat-file-sh-file"><a href="#1-Run-External-bat-file-sh-file" class="headerlink" title="1:Run External bat file/sh file."></a>1:Run External bat file/sh file.</h2><p>In this example, We will try to run demo.bat file. The demo.bat file is at src/ root location.<br>The out put of process builder will be printed on consol.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessBuilderExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"ProcessBuilderExample.Start!!"</span>);</span><br><span class="line">			<span class="keyword">final</span> File batchFile = <span class="keyword">new</span> File(<span class="string">"src\\demo.bat"</span>);</span><br><span class="line">			ProcessBuilder processBuilder = <span class="keyword">new</span> ProcessBuilder(batchFile.getAbsolutePath());</span><br><span class="line"></span><br><span class="line">			Process process = processBuilder.start();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">int</span> resposneCode = process.waitFor();</span><br><span class="line">			<span class="keyword">if</span> (resposneCode == <span class="number">0</span>) &#123;</span><br><span class="line">				System.out.println(<span class="string">"Process executed successfully"</span>);</span><br><span class="line">				InputStream inputStream = process.getInputStream();</span><br><span class="line">				String result = readInputStreamData(inputStream);</span><br><span class="line">				System.out.println(result);</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">readInputStreamData</span><span class="params">(InputStream input)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> (BufferedReader buffer = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(input))) &#123;</span><br><span class="line">			<span class="keyword">return</span> buffer.lines()</span><br><span class="line">					.collect(Collectors.joining(<span class="string">"\n"</span>));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><figcaption><span>demo.bat File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Hello World&quot;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/" data-id="cji3xcyvd000ao09i2y3plfy3" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java-9/">Java-9</a></li></ul>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
 
-    </footer>
-  </div>
-  
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/" data-id="cji7eywn40013x09i48wvanpf" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
     
+
+        </footer>
+    </div>
+    
+        
 <nav id="article-nav">
-  
-    <a href="/2018/05/20/Java-8-Read-File-Line-By-Line/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Java 8 Read File Line By Line
-        
-      </div>
-    </a>
-  
-  
+    
+        <a href="/2018/05/20/Java-8-Read-File-Line-By-Line/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Java 8 Read File Line By Line
+                
+            </div>
+        </a>
+    
+    
 </nav>
 
-  
+
+    
 </article>
 
+
+    
+    
+
 </section>
+            
+                
+<aside id="sidebar">
+   
         
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/7-0-List-All-Files-in-Directory-and-Subdirectories/">7.0 - List All Files in Directory and Subdirectories</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/8-0-Java-8-File-Operations-Copy-Delete-Move/">8.0 - Java 8 File Operations - Copy,Delete,Move</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/9-0-Java-8-Watching-a-Directory-for-Changes/">9.0 - Java 8 Watching a Directory for Changes</a></li></ul></li></ul></li></ul>
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a></p>
+                            <p class="item-title"><a href="/2018/06/01/Watching-a-Directory-for-Changes/" class="title">Watching a Directory for Changes</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T01:12:32.000Z" itemprop="datePublished">2018-06-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a></p>
+                            <p class="item-title"><a href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/" class="title">Java 8 File Operations - Copy,Delete,Move</a></p>
+                            <p class="item-date"><time datetime="2018-05-30T01:22:00.000Z" itemprop="datePublished">2018-05-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a></p>
+                            <p class="item-title"><a href="/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/" class="title">Java 8 List all Files in Directory and Subdirectories</a></p>
+                            <p class="item-date"><time datetime="2018-05-29T02:10:02.000Z" itemprop="datePublished">2018-05-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a></p>
+                            <p class="item-title"><a href="/2018/05/24/Java-8-Read-File-With-try-with-resources/" class="title">Java 8 Read File With try-with-resources</a></p>
+                            <p class="item-date"><time datetime="2018-05-24T01:58:00.000Z" itemprop="datePublished">2018-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a></p>
+                            <p class="item-title"><a href="/2018/05/23/java-8-List-All-Files-in-Directory/" class="title">Java 8 List All Files in Directory</a></p>
+                            <p class="item-date"><time datetime="2018-05-23T17:32:00.000Z" itemprop="datePublished">2018-05-23</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
     </div>
-  </div>
 
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a></li></ul>
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul>
+        </div>
     </div>
-  </div>
 
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 15px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 10px;">Java-9</a>
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+        </div>
     </div>
-  </div>
 
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">10</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">1</span></li></ul>
+        </div>
     </div>
-  </div>
 
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
         
-          <li>
-            <a href="/2018/06/01/Watching-a-Directory-for-Changes/">Watching a Directory for Changes</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/">Java 8 File Operations - Copy,Delete,Move</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/">Java 8 List all Files in Directory and Subdirectories</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/24/Java-8-Read-File-With-try-with-resources/">Java 8 Read File With try-with-resources</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/23/java-8-List-All-Files-in-Directory/">Java 8 List All Files in Directory</a>
-          </li>
-        
-      </ul>
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 15px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 10px;">Java-9</a>
+        </div>
     </div>
-  </div>
 
-  
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile">StackOverflow</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
 </aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Niraj Sonawane<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Niraj Sonawane<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
     </div>
-  </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+        
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
 
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
+    </div>
 </body>
 </html>
