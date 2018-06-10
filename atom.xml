@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://nirajsonawane.github.io/"/>
-  <updated>2018-06-09T19:05:32.934Z</updated>
+  <updated>2018-06-10T12:11:51.659Z</updated>
   <id>https://nirajsonawane.github.io/</id>
   
   <author>
@@ -15,6 +15,99 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Join Method</title>
+    <link href="https://nirajsonawane.github.io/2018/06/10/Join-Method/"/>
+    <id>https://nirajsonawane.github.io/2018/06/10/Join-Method/</id>
+    <published>2018-06-10T11:40:23.000Z</published>
+    <updated>2018-06-10T12:11:51.659Z</updated>
+    
+    <content type="html"><![CDATA[<p>This is Second Article in Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p><p>The <code>join</code> method allows one thread to wait for the completion of another. If t is a <code>Thread</code> object whose thread is currently executing,</p><p><code>t.join();</code><br>causes the current thread to pause execution until t’s thread terminates.</p><p>Overloads of join allow the programmer to specify a waiting period. However, as with sleep, join is dependent on the OS for timing, so you should not assume that join will wait exactly as long as you specify.</p><p><code>join</code> responds to an interrupt by exiting with an <code>InterruptedException</code></p><figure class="highlight java"><figcaption><span>Join Method Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JoinMethodExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"Main Method Start"</span>);</span><br><span class="line"></span><br><span class="line">Thread t1 = <span class="keyword">new</span> Thread(()-&gt;System.out.println(<span class="string">"Thread Number 1"</span>));</span><br><span class="line">Thread t2 = <span class="keyword">new</span> Thread(()-&gt;System.out.println(<span class="string">"Thread Number 2"</span>));</span><br><span class="line">t1.start();</span><br><span class="line">t2.start();</span><br><span class="line">  System.out.println(<span class="string">"Main Method End"</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><img src="/2018/06/10/Join-Method/output1.png" title="OutPut"><p>If you check output , The main <code>Thread</code> ends before <code>T2</code> Thread. If you want to wait for Completion of  <code>T2</code> then we need to call <code>join</code> method.</p><figure class="highlight java"><figcaption><span>Join Method Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JoinMethodExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"Main Method Start"</span>);</span><br><span class="line"></span><br><span class="line">Thread t1 = <span class="keyword">new</span> Thread(()-&gt;System.out.println(<span class="string">"Thread Number 1"</span>));</span><br><span class="line">Thread t2 = <span class="keyword">new</span> Thread(()-&gt;System.out.println(<span class="string">"Thread Number 2"</span>));</span><br><span class="line">t1.start();</span><br><span class="line">t2.start();</span><br><span class="line">        t1.join();</span><br><span class="line">t2.join();</span><br><span class="line">  System.out.println(<span class="string">"Main Method End"</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><img src="/2018/06/10/Join-Method/output2.png" title="OutPut">]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;This is Second Article in Series of  Articles on  &lt;a href=&quot;/2018/06/10/Concurrency-1-0/&quot; title=&quot;Java 8 Concurrency Tutorial&quot;&gt;Java 8 Concu
+      
+    
+    </summary>
+    
+      <category term="Multithreading" scheme="https://nirajsonawane.github.io/categories/Multithreading/"/>
+    
+    
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
+    
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
+    
+      <category term="Concurrency" scheme="https://nirajsonawane.github.io/tags/Concurrency/"/>
+    
+      <category term="Multithreading" scheme="https://nirajsonawane.github.io/tags/Multithreading/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Creating Threads in Java</title>
+    <link href="https://nirajsonawane.github.io/2018/06/10/Creating-Threads/"/>
+    <id>https://nirajsonawane.github.io/2018/06/10/Creating-Threads/</id>
+    <published>2018-06-10T10:17:39.000Z</published>
+    <updated>2018-06-10T12:09:20.180Z</updated>
+    
+    <content type="html"><![CDATA[<p>This is First Article in Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p><h3 id="Threads-can-be-Created-using-below-ways"><a href="#Threads-can-be-Created-using-below-ways" class="headerlink" title="Threads can be Created using below ways."></a>Threads can be Created using below ways.</h3><h4 id="Extending-Thread-class"><a href="#Extending-Thread-class" class="headerlink" title="Extending Thread class"></a>Extending Thread class</h4><p>The First way is to extend the <code>Thread</code> class, and  override the <code>run()</code><br>The extending class must override <code>run()</code> method which is the entry point of new thread.</p><figure class="highlight java"><figcaption><span>Extending Thread class</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadRunner</span> <span class="keyword">extends</span> <span class="title">Thread</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">System.out.println(<span class="string">"ThreadRunner : "</span> + i);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CreatingThreadsExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"Main Method Start"</span>);</span><br><span class="line"></span><br><span class="line">Thread t1= <span class="keyword">new</span> ThreadRunner();</span><br><span class="line">t1.start();</span><br><span class="line">System.out.println(<span class="string">"Main Method End"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="Implementing-the-Runnable-Interface"><a href="#Implementing-the-Runnable-Interface" class="headerlink" title="Implementing the Runnable Interface"></a>Implementing the Runnable Interface</h4><p>We Can pass an implementation of the Runnable interface to the constructor of <code>Thread</code>, then call <code>start()</code></p><figure class="highlight java"><figcaption><span>Implementing the Runnable Interface</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadRunner</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">System.out.println(<span class="string">"ThreadRunner1 : "</span> + i);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CreatingThreadsExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"Main Method Start"</span>);</span><br><span class="line"></span><br><span class="line">Thread t1= <span class="keyword">new</span> Thread(<span class="keyword">new</span> ThreadRunner());</span><br><span class="line">t1.start();</span><br><span class="line">System.out.println(<span class="string">"Main Method End"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="Threads-Using-Anonymous-Classes"><a href="#Threads-Using-Anonymous-Classes" class="headerlink" title="Threads Using Anonymous Classes"></a>Threads Using Anonymous Classes</h4><p><strong>Anonymous Inner class</strong> is an inner class that is declared without any class name and that’s why it’s called anonymous. You can define an anonymous inner class within a method or even within an argument to a method. </p><p>Anonymous class can be used to -<br><strong>Extend</strong> an class and override its method.<br><strong>Implement</strong> an interface and provide an implementation of its method.</p><figure class="highlight java"><figcaption><span>Threads Using Anonymous Classes</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CreatingThreadsExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"Main Method Start"</span>);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">System.out.println(<span class="string">"ThreadRunner : "</span> + i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125;).start();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h4 id="Threads-Using-Java-8-Lambda"><a href="#Threads-Using-Java-8-Lambda" class="headerlink" title="Threads Using Java 8 Lambda"></a>Threads Using Java 8 Lambda</h4><p><code>Runnable</code> is a functional interface and we can use lambda expressions to provide it’s implementation rather than using anonymous class. </p><figure class="highlight java"><figcaption><span>Threads Using Anonymous Classes</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CreatingThreadsExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">Runnable task = () -&gt; &#123;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">System.out.println(<span class="string">"ThreadRunner2 : "</span> + i);</span><br><span class="line">&#125; &#125;;</span><br><span class="line"><span class="keyword">new</span> Thread(task).start();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Next <a href="/2018/06/10/Join-Method/" title="Join Method">Join Method</a>.  in Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;This is First Article in Series of  Articles on  &lt;a href=&quot;/2018/06/10/Concurrency-1-0/&quot; title=&quot;Java 8 Concurrency Tutorial&quot;&gt;Java 8 Concur
+      
+    
+    </summary>
+    
+      <category term="Multithreading" scheme="https://nirajsonawane.github.io/categories/Multithreading/"/>
+    
+    
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
+    
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
+    
+      <category term="Concurrency" scheme="https://nirajsonawane.github.io/tags/Concurrency/"/>
+    
+      <category term="Multithreading" scheme="https://nirajsonawane.github.io/tags/Multithreading/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java 8 Concurrency Tutorial</title>
+    <link href="https://nirajsonawane.github.io/2018/06/10/Concurrency-1-0/"/>
+    <id>https://nirajsonawane.github.io/2018/06/10/Concurrency-1-0/</id>
+    <published>2018-06-10T09:56:34.000Z</published>
+    <updated>2018-06-10T12:10:10.870Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to Java Concurrency tutorials. These articles will describe you the Java Concurrency concepts in the context of Java 8 with easily understood code examples. </p><p>The majority of concepts shown in these articles are also available in older versions of Java.<br>However, my code samples focus on Java 8 and make heavy use of lambda expressions and other new features.</p><h4 id="Topics"><a href="#Topics" class="headerlink" title="Topics"></a>Topics</h4><ol><li><a href="/2018/06/10/Creating-Threads/" title="Creating Threads in Java">Creating Threads in Java</a></li><li><a href="/2018/06/10/Join-Method/" title="Join Method">Join Method</a></li><li>Threads pools with the Executor Framework</li><li>Futures and Callables</li><li>CompletableFuture</li><li>Nonblocking algorithms</li><li>Fork-Join in Java 7</li><li>Deadlock</li></ol><p>Check The  First Article in Series of Java Concurrency tutorials <a href="/2018/06/10/Creating-Threads/" title="Creating Threads in Java">Creating Threads in Java</a>.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Welcome to Java Concurrency tutorials. These articles will describe you the Java Concurrency concepts in the context of Java 8 with easil
+      
+    
+    </summary>
+    
+      <category term="Multithreading" scheme="https://nirajsonawane.github.io/categories/Multithreading/"/>
+    
+    
+      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
+    
+      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
+    
+      <category term="Concurrency" scheme="https://nirajsonawane.github.io/tags/Concurrency/"/>
+    
+      <category term="Multithreading" scheme="https://nirajsonawane.github.io/tags/Multithreading/"/>
+    
+  </entry>
   
   <entry>
     <title>Watching a Directory for Changes</title>
@@ -226,99 +319,6 @@
       <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
     
       <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java 8 Read File As A Stream</title>
-    <link href="https://nirajsonawane.github.io/2018/05/21/Java-8-Read-File-As-A-Stream/"/>
-    <id>https://nirajsonawane.github.io/2018/05/21/Java-8-Read-File-As-A-Stream/</id>
-    <published>2018-05-21T01:58:08.000Z</published>
-    <updated>2018-05-23T16:33:28.212Z</updated>
-    
-    <content type="html"><![CDATA[<p>Java 8 has added  <code>Files.lines()</code> method, which can be used to read the file as Stream.</p><h3 id="Read-file-as-a-stream"><a href="#Read-file-as-a-stream" class="headerlink" title="Read file as a stream"></a>Read file as a stream</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Stream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8ReadFileAsStream</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line"> Stream&lt;String&gt; lines = Files.lines(Paths.get((filePath)));</span><br><span class="line">lines.forEach(System.out::println);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>    <figure class="highlight plain"><figcaption><span>sample.txt for testing.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Files extends Object</span><br><span class="line">This class consists exclusively of static methods that operate on files, directories, or other types of files.</span><br><span class="line">In most cases, the methods defined here will delegate to the associated file system provider to perform the file operations.</span><br><span class="line"></span><br><span class="line">Since:</span><br><span class="line">1.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>    <p>Output:</p><img src="/2018/05/21/Java-8-Read-File-As-A-Stream/output1.png" title="OutPut">]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Java 8 has added  &lt;code&gt;Files.lines()&lt;/code&gt; method, which can be used to read the file as Stream.&lt;/p&gt;
-&lt;h3 id=&quot;Read-file-as-a-stream&quot;&gt;&lt;a 
-      
-    
-    </summary>
-    
-      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
-    
-      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
-    
-      <category term="2.0 -Read File As A Stream" scheme="https://nirajsonawane.github.io/categories/Java-8/File/2-0-Read-File-As-A-Stream/"/>
-    
-    
-      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
-    
-      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java 8 Read File Line By Line</title>
-    <link href="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/"/>
-    <id>https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/</id>
-    <published>2018-05-20T01:58:08.000Z</published>
-    <updated>2018-05-23T16:11:15.011Z</updated>
-    
-    <content type="html"><![CDATA[<p>Java 8 has addded  <code>Files.readAllLines()</code> method ,which can be used to read file as List of Strings.</p><h3 id="Read-file-as-a-List-of-Strings"><a href="#Read-file-as-a-List-of-Strings" class="headerlink" title="Read file as a List of Strings"></a>Read file as a List of Strings</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8ReadFileAsListOfStrings</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">List&lt;String&gt; readAllLines = Files.readAllLines(Paths.get((filePath)));</span><br><span class="line">readAllLines.forEach(System.out::println);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>    <p>Text file sample.txt for testing.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Files extends Object</span><br><span class="line">This class consists exclusively of static methods that operate on files, directories, or other types of files.</span><br><span class="line">In most cases, the methods defined here will delegate to the associated file system provider to perform the file operations.</span><br><span class="line"></span><br><span class="line">Since:</span><br><span class="line">1.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>    <p>Output:</p><img src="/2018/05/20/Java-8-Read-File-Line-By-Line/output.png" title="OutPut">]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Java 8 has addded  &lt;code&gt;Files.readAllLines()&lt;/code&gt; method ,which can be used to read file as List of Strings.&lt;/p&gt;
-&lt;h3 id=&quot;Read-file-as-
-      
-    
-    </summary>
-    
-      <category term="Java-8" scheme="https://nirajsonawane.github.io/categories/Java-8/"/>
-    
-      <category term="File" scheme="https://nirajsonawane.github.io/categories/Java-8/File/"/>
-    
-      <category term="1.0 -Read File Line by Line" scheme="https://nirajsonawane.github.io/categories/Java-8/File/1-0-Read-File-Line-by-Line/"/>
-    
-    
-      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
-    
-      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java Process Builder</title>
-    <link href="https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/"/>
-    <id>https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/</id>
-    <published>2018-05-19T18:35:48.000Z</published>
-    <updated>2018-05-23T17:20:58.527Z</updated>
-    
-    <content type="html"><![CDATA[<p>The <code>ProcessBuilder</code> class is used to create separate operating system processes. There are many scenarios, Where we need to launch separate operating system processes form java program.   </p><p>Before JDK 5.0, We need to use the exec() method of the java.lang.Runtime class to start new process.</p><p>JDK 5.0 has added ProcessBuilder to Start new OS process.</p><h3 id="Note"><a href="#Note" class="headerlink" title="Note:"></a>Note:</h3><p><code>ProcessBuilder</code> is not synchronized. If multiple threads access a ProcessBuilder instance concurrently, and at least one of the threads modifies one of the attributes structurally, it must be synchronized externally.</p><p>Starting a new process which uses the default working directory and the environment is easy:</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Process p = <span class="keyword">new</span> ProcessBuilder(<span class="string">"myCommand"</span>, <span class="string">"myArg"</span>).start();</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>The ProcessBuilder class defines two constructors, such as:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ProcessBuilder(List&lt;String&gt; command);</span><br><span class="line"><span class="comment">//Constructs a process builder with the specified operating system program and arguments.</span></span><br><span class="line"></span><br><span class="line">ProcessBuilder(String... command);</span><br><span class="line"><span class="comment">//Constructs a process builder with the specified operating system program and arguments</span></span><br></pre></td></tr></table></figure></p><h3 id="ProcessBuilder-Examples"><a href="#ProcessBuilder-Examples" class="headerlink" title="ProcessBuilder Examples."></a>ProcessBuilder Examples.</h3><h2 id="1-Run-External-bat-file-sh-file"><a href="#1-Run-External-bat-file-sh-file" class="headerlink" title="1:Run External bat file/sh file."></a>1:Run External bat file/sh file.</h2><p>In this example, We will try to run demo.bat file. The demo.bat file is at src/ root location.<br>The out put of process builder will be printed on consol.</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessBuilderExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">System.out.println(<span class="string">"ProcessBuilderExample.Start!!"</span>);</span><br><span class="line"><span class="keyword">final</span> File batchFile = <span class="keyword">new</span> File(<span class="string">"src\\demo.bat"</span>);</span><br><span class="line">ProcessBuilder processBuilder = <span class="keyword">new</span> ProcessBuilder(batchFile.getAbsolutePath());</span><br><span class="line"></span><br><span class="line">Process process = processBuilder.start();</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> resposneCode = process.waitFor();</span><br><span class="line"><span class="keyword">if</span> (resposneCode == <span class="number">0</span>) &#123;</span><br><span class="line">System.out.println(<span class="string">"Process executed successfully"</span>);</span><br><span class="line">InputStream inputStream = process.getInputStream();</span><br><span class="line">String result = readInputStreamData(inputStream);</span><br><span class="line">System.out.println(result);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">readInputStreamData</span><span class="params">(InputStream input)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"><span class="keyword">try</span> (BufferedReader buffer = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(input))) &#123;</span><br><span class="line"><span class="keyword">return</span> buffer.lines()</span><br><span class="line">.collect(Collectors.joining(<span class="string">"\n"</span>));</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><figure class="highlight plain"><figcaption><span>demo.bat File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Hello World&quot;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;The &lt;code&gt;ProcessBuilder&lt;/code&gt; class is used to create separate operating system processes. There are many scenarios, Where we need to l
-      
-    
-    </summary>
-    
-      <category term="Java" scheme="https://nirajsonawane.github.io/categories/Java/"/>
-    
-      <category term="Java Process Builder" scheme="https://nirajsonawane.github.io/categories/Java/Java-Process-Builder/"/>
-    
-    
-      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
-    
-      <category term="Java-9" scheme="https://nirajsonawane.github.io/tags/Java-9/"/>
     
   </entry>
   
