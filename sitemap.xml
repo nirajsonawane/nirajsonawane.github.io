@@ -2,16 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://nirajsonawane.github.io/2018/06/10/Join-Method/</loc>
+    <loc>https://nirajsonawane.github.io/2018/06/13/Intrinsic-Locks/</loc>
     
-    <lastmod>2018-06-10T12:11:51.659Z</lastmod>
+    <lastmod>2018-06-13T02:22:17.326Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://nirajsonawane.github.io/2018/06/10/Concurrency-1-0/</loc>
     
-    <lastmod>2018-06-10T12:10:10.870Z</lastmod>
+    <lastmod>2018-06-13T02:04:16.888Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/2018/06/13/Synchronization/</loc>
+    
+    <lastmod>2018-06-13T02:03:01.338Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/2018/06/10/Join-Method/</loc>
+    
+    <lastmod>2018-06-10T12:11:51.659Z</lastmod>
     
   </url>
   
