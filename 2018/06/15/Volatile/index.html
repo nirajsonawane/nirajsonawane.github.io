@@ -3,15 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Category: 2.0 -Read File As A Stream | Niraj Sonawane</title>
+    <title>Volatile | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Niraj Sonawane">
-<meta property="og:url" content="https://nirajsonawane.github.io/categories/Java-8/File/2-0-Read-File-As-A-Stream/index.html">
+    <meta name="description" content="This is Fifth Article in Series of  Articles on  Java 8 Concurrency Tutorial. In this quick article, we’ll focus on a the concept of volatile keyword in the Java language. Every read of a volatile var">
+<meta name="keywords" content="Java,Java-8,Concurrency,Multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Volatile">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/06/15/Volatile/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
+<meta property="og:description" content="This is Fifth Article in Series of  Articles on  Java 8 Concurrency Tutorial. In this quick article, we’ll focus on a the concept of volatile keyword in the Java language. Every read of a volatile var">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-15T08:54:45.606Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Niraj Sonawane">
+<meta name="twitter:title" content="Volatile">
+<meta name="twitter:description" content="This is Fifth Article in Series of  Articles on  Java 8 Concurrency Tutorial. In this quick article, we’ll focus on a the concept of volatile keyword in the Java language. Every read of a volatile var">
     
 
     
@@ -194,50 +199,164 @@
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fas fa-folder"></i></span>
-        <h1 class="title">2.0 -Read File As A Stream</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-Volatile" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/05/21/Java-8-Read-File-As-A-Stream/">Java 8 Read File As A Stream</a>
+        <h1 class="article-title" itemprop="name">
+            Volatile
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/21/Java-8-Read-File-As-A-Stream/">
-            <time datetime="2018-05-21T01:58:08.000Z" itemprop="datePublished">2018-05-21</time>
+        <a href="/2018/06/15/Volatile/">
+            <time datetime="2018-06-15T08:40:37.000Z" itemprop="datePublished">2018-06-15</time>
         </a>
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a>
+        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
+        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
     </div>
 
-                </div>
-            </div>
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>This is Fifth Article in Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p>
+<p>In this quick article, we’ll focus on a the concept of <code>volatile</code> keyword in the Java language.</p>
+<p>Every read of a <code>volatile</code> variable will be read from the RAM so from the main memory and not from cache. Usually variables are cached for performance reasons.</p>
+<p>Using <code>volatile</code> variables reduces the risk of memory consistency errors, because any write to a volatile variable establishes a happens-before relationship with subsequent reads of that same variable. This means that changes to a volatile variable are always visible to other thread.</p>
+<figure class="highlight java"><figcaption><span>Volatile Keyword Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> COUNT = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
 </div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Volatile/" data-id="cjify4828000rlk9iisufuyjv" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/06/15/Wait-Notify-And-Notifyall/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Wait-Notify-And-Notifyall
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/06/13/Intrinsic-Locks/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Intrinsic Locks</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
 </section>
             
                 
