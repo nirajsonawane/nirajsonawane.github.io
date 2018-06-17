@@ -154,7 +154,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                17
+                19
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -195,6 +195,296 @@
 
             
             <section id="main">
+    <article id="post-ExecutorServiceAndThreadPools" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/06/15/ExecutorServiceAndThreadPools/">ExecutorServiceAndThreadPools</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2018/06/15/ExecutorServiceAndThreadPools/">
+            <time datetime="2018-06-15T17:26:51.000Z" itemprop="datePublished">2018-06-15</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>This Article is part of Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p>
+<p>In this quick article, we’ll focus on a the concept of <code>ExecutorService</code> Framework in the Java language.</p>
+<p><code>ExecutorService</code> is a framework simplifies the task of creating threads and managing thread  life cycle. <code>ExecutorService</code> is an interface, We need its implementations in order to make any use of it. </p>
+<p><code>ThreadPoolExecutor</code> &amp; <code>ScheduledThreadPoolExecutor</code> implementations are available in java concurrent package.</p>
+<h3 id="Creating-an-ExecutorService"><a href="#Creating-an-ExecutorService" class="headerlink" title="Creating an ExecutorService:"></a>Creating an ExecutorService:</h3><p><code>Executors</code> factory methods are available for creating ExecutorService. </p>
+<p><code>ExecutorService executorService1 = Executors.newSingleThreadExecutor();</code><br><code>ExecutorService executorService2 = Executors.newFixedThreadPool(10);</code><br><code>ExecutorService executorService3 = Executors.newCachedThreadPool();</code></p>
+<h4 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool"></a>newCachedThreadPool</h4><p><code>newCachedThreadPool</code> method creates an executor having an expandable thread pool.Whenever a thread is needed, pool returns a thread from cache and if not available, a new thread is created for a short time. When the timeout of thread is over, that thread is vanished. </p>
+<p><em>In below example 10 Threds will run Simultaneously </em></p>
+<figure class="highlight java"><figcaption><span>newCachedThreadPool Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MyWorker</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyWorker</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id=id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"MyWorker id "</span> + id + <span class="string">" IS Working"</span> + <span class="string">"Start Time "</span> + System.currentTimeMillis());</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorServiceExample</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				 .forEach(cnt-&gt;newCachedThreadPool.execute(<span class="keyword">new</span> MyWorker(cnt)));		</span><br><span class="line">		newCachedThreadPool.shutdown();	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool"></a>newFixedThreadPool</h4><p><code>newFixedThreadPool</code> method Creates a thread pool that reuses a fixed number of threads operating off a shared unbounded queue.. </p>
+<p><em>In below example 5 Threds will run Simultaneously. After Complition of task same 5 threds will be used for next 5 taks </em></p>
+<figure class="highlight java"><figcaption><span>newFixedThreadPool Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MyWorker</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyWorker</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id=id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"MyWorker id "</span> + id + <span class="string">" IS Working"</span> + <span class="string">"Start Time "</span> + System.currentTimeMillis());</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorServiceExample</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				 .forEach(cnt-&gt;newFixedThreadPool.execute(<span class="keyword">new</span> MyWorker(cnt)));		</span><br><span class="line">		newFixedThreadPool.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor"></a>newSingleThreadExecutor</h4><p><code>newSingleThreadExecutor</code> method Creates an Executor that uses a single worker thread operating off an unbounded queue.</p>
+<p><em>In below example 1 Thread will run Simultaneously. After Complition of task same threds will be used for next 10 taks </em></p>
+<figure class="highlight java"><figcaption><span>newSingleThreadExecutor Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MyWorker</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyWorker</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id=id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"MyWorker id "</span> + id + <span class="string">" IS Working"</span> + <span class="string">"Start Time "</span> + System.currentTimeMillis());</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorServiceExample</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				 .forEach(cnt-&gt;newSingleThreadExecutor.execute(<span class="keyword">new</span> MyWorker(cnt)));		</span><br><span class="line">		newSingleThreadExecutor.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Key-Points"><a href="#Key-Points" class="headerlink" title="Key Points"></a>Key Points</h4><p><code>shutdown()</code><br>An <code>ExecutorService</code> can be shut down, which will cause it to reject new tasks. Two different methods are provided for shutting down an <code>ExecutorService</code>.<br>The <code>shutdown()</code> method will allow previously submitted tasks to execute before terminating, while the <code>shutdownNow()</code> method prevents waiting tasks from starting and attempts to stop currently executing tasks.</p>
+<p><code>execute()</code><br>Executes the given command at some time in the future. The command may execute in a new thread, in a pooled thread, or in the calling thread, at the discretion of the Executor implementation.<br>execute method only takes <strong>runnable</strong> task.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/" data-id="cjig8wsd4000svk9izhz3uyym" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-Semaphores" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/06/15/Semaphores/">Semaphores</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2018/06/15/Semaphores/">
+            <time datetime="2018-06-15T12:47:27.000Z" itemprop="datePublished">2018-06-15</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><strong>Semaphores are a really simple concept, invented by the famous Dutch computer scientist Edsger Dijkstra.</strong> </p>
+<p>Basically a semaphore is a counter (integer) that allows a thread to get into a critical region.<br>What the counter is counting are permits that allow access to the shared resource. Thus, to access the resource, a thread must be granted a permit from the semaphore.</p>
+<p>If the value of the counter is greater than 0 then thread get the permit otherwise waits for the permit.<br>Once thread leaves the critical region increments the counter so that other thread can access the critical section.  </p>
+<p>Most of the time we use semaphores to limit the number of concurrent threads accessing a specific resource.</p>
+<p><strong>Example</strong><br>let consider, We want to limit connections to some resources to some max limit.Similar to connection pool.<br>In below example 10 threads are trying to get connection at same time.But we should not allow more than 5 connections </p>
+<figure class="highlight java"><figcaption><span>Semaphore Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.nirajsonawane;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Semaphore;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.IntStream;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionPool</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Semaphore connectionSemaphore;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ConnectionPool</span><span class="params">(<span class="keyword">int</span> poolsize)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.connectionSemaphore = <span class="keyword">new</span> Semaphore(poolsize);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getConnectionFromPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (connectionSemaphore.availablePermits() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			connectionSemaphore.tryAcquire();</span><br><span class="line">			System.out.println(<span class="string">"Get the connection"</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"Max active connection limit reach!! try again"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">releaseConnection</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		connectionSemaphore.release();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionService</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> ConnectionPool connectionPool;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ConnectionService</span><span class="params">(ConnectionPool connectionPool)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.connectionPool = connectionPool;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		connectionPool.getConnectionFromPool();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Semaphores</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line">		ConnectionPool connectionPool = <span class="keyword">new</span> ConnectionPool(<span class="number">5</span>);</span><br><span class="line">		ConnectionService service = <span class="keyword">new</span> ConnectionService(connectionPool);</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				.forEach((cnt) -&gt; executorService.execute(service));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Out of 10 threds only 5 was able to get the connection.</em></p>
+<img src="/2018/06/15/Semaphores/output.png" title="OutPut">
+<p><strong>Key Points</strong></p>
+<ol>
+<li><code>tryAcquire()</code>– Return true if a permit is available immediately and acquire it otherwise return false,</li>
+<li><code>acquire()</code>- Acquires a permit and blocking until one is available.</li>
+<li><code>release()</code> – Release a permit</li>
+<li><code>availablePermits()</code> – Return number of current permits available</li>
+</ol>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Semaphores/" data-id="cjifyx6tz000cvk9i8jqn69ec" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Wait-Notify-And-Notifyall" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -256,7 +546,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Wait-Notify-And-Notifyall/" data-id="cjify484z003hlk9i30x3f28i" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Wait-Notify-And-Notifyall/" data-id="cjifr21r00006vk9il8o4dq1c" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -390,7 +680,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Volatile/" data-id="cjify4828000rlk9iisufuyjv" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Volatile/" data-id="cjifq3r160000vk9i9qy4jw0g" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -525,7 +815,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/13/Intrinsic-Locks/" data-id="cjify481w000ilk9igl0q78gz" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/13/Intrinsic-Locks/" data-id="cjicic7d90006rw9idj8d7peq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -673,7 +963,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/13/Synchronization/" data-id="cjify4825000plk9igloan0qs" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/13/Synchronization/" data-id="cjicic7ec000wrw9ima1t3e27" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -811,7 +1101,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/10/Join-Method/" data-id="cjify482j0013lk9iwezb43nr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/10/Join-Method/" data-id="cjicic7e8000srw9i6p8oq4ta" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -951,7 +1241,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/10/Creating-Threads/" data-id="cjify47z30001lk9igl4jlqfm" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/10/Creating-Threads/" data-id="cjicic7cz0003rw9ilescx0g1" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1079,7 +1369,11 @@
 <li><a href="/2018/06/13/Intrinsic-Locks/" title="Intrinsic Locks">Intrinsic Locks</a> </li>
 <li><a href="/2018/06/15/Volatile/" title="Volatile">Volatile</a> </li>
 <li><a href="/2018/06/15/Wait-Notify-And-Notifyall/" title="Wait-Notify-And-Notifyall">Wait-Notify-And-Notifyall</a> </li>
-<li>Threads pools with the Executor Framework</li>
+<li><a href="/2018/06/15/Semaphores/" title="Semaphores">Semaphores</a> </li>
+<li><a href="/2018/06/15/ExecutorServiceAndThreadPools/" title="ExecutorServiceAndThreadPools">ExecutorServiceAndThreadPools</a> 
+</li>
+<li><p>Threads pools with the Executor Framework</p>
+</li>
 <li>Futures and Callables</li>
 <li>CompletableFuture</li>
 <li>Nonblocking algorithms</li>
@@ -1097,7 +1391,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/10/Concurrency-1-0/" data-id="cjify480g0006lk9ilhtpbzzx" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/10/Concurrency-1-0/" data-id="cjicic7cp0001rw9isb15dbvz" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1251,290 +1545,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/01/Watching-a-Directory-for-Changes/" data-id="cjify482c000vlk9ibxc8wrx2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-java-8-File-Operations-Copy-Delete-Move" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/">Java 8 File Operations - Copy,Delete,Move</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/">
-            <time datetime="2018-05-30T01:22:00.000Z" itemprop="datePublished">2018-05-30</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h4 id="Deleting-a-File-or-Directory"><a href="#Deleting-a-File-or-Directory" class="headerlink" title="Deleting a File or Directory"></a>Deleting a File or Directory</h4><p>The <code>Files</code> class provides two deletion methods.</p>
-<p>1 : The <code>delete(Path)</code> method deletes the file or throws an exception if the deletion fails</p>
-<p>2 : The <code>deleteIfExists(Path)</code> method also deletes the file, but if the file does not exist, no exception is thrown.</p>
-<figure class="highlight java"><figcaption><span>Delete File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Path path = Paths.get(<span class="string">"C:\\data\\temp\\temp.txt"</span>);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Files.delete(path);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;	</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><figcaption><span>Delete Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Path path = Paths.get(<span class="string">"C:\\data\\temp\\"</span>);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Files.delete(path);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;	</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>Trying to delete Non Empty Directory will throw <code>DirectoryNotEmptyException</code>.<br>So, First we need to delete all files inside a particular non-empty directory:</p>
-<figure class="highlight java"><figcaption><span>Delete Non Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Path path = Paths.get(<span class="string">"C:\\data\\temp\\"</span>);</span><br><span class="line">			Files.walk(path)</span><br><span class="line">		     .sorted(Comparator.reverseOrder())</span><br><span class="line">		     .map(Path::toFile)</span><br><span class="line">		     .forEach(File::delete);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="Copying-a-File-or-Directory"><a href="#Copying-a-File-or-Directory" class="headerlink" title="Copying a File or Directory"></a>Copying a File or Directory</h4><p>You can copy a file or directory by using the<br><code>copy(Path, Path, CopyOption...)</code> method. The copy fails if the target file exists, unless the <code>REPLACE_EXISTING</code> option is specified.</p>
-<p>This method takes a varargs argument. The following StandardCopyOption and LinkOption enums are supported:</p>
-<p><strong>REPLACE_EXISTING</strong> – replace a file if it exists<br><strong>COPY_ATTRIBUTES</strong> – copy metadata to the new file<br><strong>NOFOLLOW_LINKS</strong> – shouldn’t follow symbolic links</p>
-<figure class="highlight java"><figcaption><span>Copy File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\temp.txt"</span>);</span><br><span class="line">		Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\destination.txt"</span>);</span><br><span class="line">	    Files.copy(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><figcaption><span>Copy Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir"</span>);</span><br><span class="line">       Path destinationepath =         Paths.get(<span class="string">"C:\\data\\temp\\destinationDir"</span>);</span><br><span class="line">       Files.copy(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>Copy Non empty Directory</strong><br>Directories can be copied. However, files inside the directory are not copied, so the new directory is empty even when the original directory contains files.</p>
-<figure class="highlight java"><figcaption><span>Copy Non Empty Directory recursively</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir"</span>);</span><br><span class="line">		Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\destinationDir"</span>);	  	</span><br><span class="line">		Files.walk(sourcepath)</span><br><span class="line">             .forEach(source -&gt; copy(source, destinationepath.resolve(sourcepath.relativize(source))));	</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copy</span><span class="params">(Path source, Path dest)</span> </span>&#123;</span><br><span class="line">	    <span class="keyword">try</span> &#123;</span><br><span class="line">	        Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">	    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">	        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e.getMessage(), e);</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="Moving-a-File-or-Directory"><a href="#Moving-a-File-or-Directory" class="headerlink" title="Moving a File or Directory"></a>Moving a File or Directory</h4><p>You can move a file or directory by using the <code>move(Path, Path, CopyOption...)</code> method.<br>The move fails if the target file exists, unless the <code>REPLACE_EXISTING</code> option is specified.</p>
-<p>Empty directories can be moved. If the directory is not empty, the move is allowed when the directory can be moved without moving the contents of that directory. On UNIX systems, moving a directory within the same partition generally consists of renaming the directory. In that situation, this method works even when the directory contains files.</p>
-<p>This method takes a varargs argument – the following <code>StandardCopyOption</code> enums are supported:</p>
-<p><strong>REPLACE_EXISTING</strong> – Performs the move even when the target file already exists. If the target is a symbolic link, the symbolic link is replaced but what it points to is not affected.<br><strong>ATOMIC_MOVE</strong> – Performs the move as an atomic file operation. If the file system does not support an atomic move, an exception is thrown. With an ATOMIC_MOVE you can move a file into a directory and be guaranteed that any process watching the directory accesses a complete file.</p>
-<figure class="highlight java"><figcaption><span>Move File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Path sourcepath = Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\temp.txt"</span>);</span><br><span class="line">		Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir\\temp.txtr"</span>);</span><br><span class="line"></span><br><span class="line">Files.move(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><figcaption><span>Move Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">			Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\copyme"</span>);</span><br><span class="line">		Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir\\copyme"</span>);</span><br><span class="line">		Files.move(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><figcaption><span>Move Non Empty Directory</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">              Path sourcepath = Paths.get(<span class="string">"C:\\data\\temp\\copyme"</span>);</span><br><span class="line">              Path destinationepath = Paths.get(<span class="string">"C:\\data\\temp\\mydir\\copyme"</span>);</span><br><span class="line">              Files.move(sourcepath, destinationepath, StandardCopyOption.REPLACE_EXISTING);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2018/05/30/java-8-File-Operations-Copy-Delete-Move/" data-id="cjify4851003ilk9i3zvzy5sn" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Java-8-List-all-Files-in-Directory-and-Subdirectories" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/">Java 8 List all Files in Directory and Subdirectories</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/">
-            <time datetime="2018-05-29T02:10:02.000Z" itemprop="datePublished">2018-05-29</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="List-All-Files-in-Directory-and-Subdirectories"><a href="#List-All-Files-in-Directory-and-Subdirectories" class="headerlink" title="List All Files in Directory and Subdirectories"></a>List All Files in Directory and Subdirectories</h3><p><code>Files.walk</code> Return a Stream that is lazily populated with Path by walking the file tree rooted at a given starting file.</p>
-<p><code>Files.list</code> Method Return a lazily populated Stream for the current directory only,<code>Files.walk</code> can be used to get list of files  from Directory &amp; Subdirectories . </p>
-<h5 id="Example-1-List-All-Files-in-Directory-and-Subdirectories"><a href="#Example-1-List-All-Files-in-Directory-and-Subdirectories" class="headerlink" title="Example 1: List All Files in Directory and Subdirectories"></a>Example 1: List All Files in Directory and Subdirectories</h5><figure class="highlight java"><figcaption><span>List All Files in Directory and Subdirectories</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">		Path start = Paths.get(<span class="string">"C:\\data\\"</span>);</span><br><span class="line">		<span class="keyword">try</span> (Stream&lt;Path&gt; stream = Files.walk(start, Integer.MAX_VALUE)) &#123;</span><br><span class="line">		    List&lt;String&gt; collect = stream</span><br><span class="line">		        .map(String::valueOf)</span><br><span class="line">		        .sorted()</span><br><span class="line">		        .collect(Collectors.toList());</span><br><span class="line">		    </span><br><span class="line">		    collect.forEach(System.out::println);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h4><p><code>Files.walk</code> method takes <code>int maxDepth</code> as parameter. The maxDepth parameter is the maximum number of levels of directories to visit.<br><code>MAX_VALUE</code> may be used to indicate that all levels should be visited. Value 1 can be used to list files in current Directory. </p>
-<h5 id="Example-2-List-All-Files-in-Current-Directory-only"><a href="#Example-2-List-All-Files-in-Current-Directory-only" class="headerlink" title="Example 2: List All Files in Current Directory only"></a>Example 2: List All Files in Current Directory only</h5><figure class="highlight java"><figcaption><span>List All Files in Current Directory only</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">		Path start = Paths.get(<span class="string">"C:\\data\\"</span>);</span><br><span class="line">		<span class="keyword">try</span> (Stream&lt;Path&gt; stream = Files.walk(start, <span class="number">1</span>)) &#123;</span><br><span class="line">		    List&lt;String&gt; collect = stream</span><br><span class="line">		        .map(String::valueOf)</span><br><span class="line">		        .sorted()</span><br><span class="line">		        .collect(Collectors.toList());</span><br><span class="line">		    </span><br><span class="line">		    collect.forEach(System.out::println);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/" data-id="cjify480o000alk9inxi5aj1f" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/01/Watching-a-Directory-for-Changes/" data-id="cjicic7ef000zrw9itpxh0t2k" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1628,6 +1639,24 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Multithreading/">Multithreading</a></p>
+                            <p class="item-title"><a href="/2018/06/15/ExecutorServiceAndThreadPools/" class="title">ExecutorServiceAndThreadPools</a></p>
+                            <p class="item-date"><time datetime="2018-06-15T17:26:51.000Z" itemprop="datePublished">2018-06-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Multithreading/">Multithreading</a></p>
+                            <p class="item-title"><a href="/2018/06/15/Semaphores/" class="title">Semaphores</a></p>
+                            <p class="item-date"><time datetime="2018-06-15T12:47:27.000Z" itemprop="datePublished">2018-06-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Multithreading/">Multithreading</a></p>
                             <p class="item-title"><a href="/2018/06/15/Wait-Notify-And-Notifyall/" class="title">Wait-Notify-And-Notifyall</a></p>
                             <p class="item-date"><time datetime="2018-06-15T09:07:17.000Z" itemprop="datePublished">2018-06-15</time></p>
                         </div>
@@ -1651,24 +1680,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Multithreading/">Multithreading</a></p>
-                            <p class="item-title"><a href="/2018/06/13/Synchronization/" class="title">Synchronization</a></p>
-                            <p class="item-date"><time datetime="2018-06-13T01:10:27.000Z" itemprop="datePublished">2018-06-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Multithreading/">Multithreading</a></p>
-                            <p class="item-title"><a href="/2018/06/10/Join-Method/" class="title">Join Method</a></p>
-                            <p class="item-date"><time datetime="2018-06-10T11:40:23.000Z" itemprop="datePublished">2018-06-10</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1678,7 +1689,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1687,7 +1698,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1696,7 +1707,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">7</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">9</span></li></ul>
         </div>
     </div>
 

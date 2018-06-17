@@ -3,20 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Intrinsic Locks | Niraj Sonawane</title>
+    <title>ExecutorServiceAndThreadPools | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="This is Fourth Article in Series of  Articles on  Java 8 Concurrency Tutorial. Intrinsic LocksSynchronization  is built around an internal entity known as the intrinsic lock or monitor lock. Intrinsic">
+    <meta name="description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial. In this quick article, we’ll focus on a the concept of ExecutorService Framework in the Java language. ExecutorService is a">
 <meta name="keywords" content="Java,Java-8,Concurrency,Multithreading">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Intrinsic Locks">
-<meta property="og:url" content="https://nirajsonawane.github.io/2018/06/13/Intrinsic-Locks/index.html">
+<meta property="og:title" content="ExecutorServiceAndThreadPools">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="This is Fourth Article in Series of  Articles on  Java 8 Concurrency Tutorial. Intrinsic LocksSynchronization  is built around an internal entity known as the intrinsic lock or monitor lock. Intrinsic">
+<meta property="og:description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial. In this quick article, we’ll focus on a the concept of ExecutorService Framework in the Java language. ExecutorService is a">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-06-13T02:22:17.326Z">
+<meta property="og:updated_time" content="2018-06-15T19:04:38.067Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Intrinsic Locks">
-<meta name="twitter:description" content="This is Fourth Article in Series of  Articles on  Java 8 Concurrency Tutorial. Intrinsic LocksSynchronization  is built around an internal entity known as the intrinsic lock or monitor lock. Intrinsic">
+<meta name="twitter:title" content="ExecutorServiceAndThreadPools">
+<meta name="twitter:description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial. In this quick article, we’ll focus on a the concept of ExecutorService Framework in the Java language. ExecutorService is a">
     
 
     
@@ -199,7 +199,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-Intrinsic-Locks" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-ExecutorServiceAndThreadPools" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -207,7 +207,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            Intrinsic Locks
+            ExecutorServiceAndThreadPools
         </h1>
     
 
@@ -216,8 +216,8 @@
                         
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/13/Intrinsic-Locks/">
-            <time datetime="2018-06-13T02:08:33.000Z" itemprop="datePublished">2018-06-13</time>
+        <a href="/2018/06/15/ExecutorServiceAndThreadPools/">
+            <time datetime="2018-06-15T17:26:51.000Z" itemprop="datePublished">2018-06-15</time>
         </a>
     </div>
 
@@ -242,12 +242,23 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>This is Fourth Article in Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p>
-<h4 id="Intrinsic-Locks"><a href="#Intrinsic-Locks" class="headerlink" title="Intrinsic Locks"></a>Intrinsic Locks</h4><p><a href="/2018/06/13/Synchronization/" title="Synchronization">Synchronization</a>  is built around an internal entity known as the <strong>intrinsic lock</strong> or <strong>monitor lock</strong>. Intrinsic locks play a role in both aspects of synchronization: enforcing exclusive access to an object’s state and establishing happens-before relationships that are essential to visibility.</p>
-<p>Every object has an <code>intrinsic</code> lock associated with it. By convention, a thread that needs exclusive and consistent access to an object’s fields has to acquire the object’s intrinsic lock before accessing them, and then release the intrinsic lock when it’s done with them.</p>
-<p> As long as a thread owns an intrinsic lock, no other thread can acquire the same lock. The other thread will block when it attempts to acquire the lock.</p>
-<h4 id="Locks-In-Synchronized-Methods"><a href="#Locks-In-Synchronized-Methods" class="headerlink" title="Locks In Synchronized Methods"></a>Locks In Synchronized Methods</h4><p>We have discussed  Synchronized Methods in previous Article <a href="/2018/06/13/Synchronization/" title="Synchronization">Synchronization</a>.<br>When a thread invokes a synchronized method, it automatically acquires the intrinsic lock for that method’s object and releases it when the method returns. The lock release occurs even if the return was caused by an uncaught exception.</p>
-<h4 id="Locks-In-Synchronized-Static-Methods"><a href="#Locks-In-Synchronized-Static-Methods" class="headerlink" title="Locks In Synchronized Static Methods"></a>Locks In Synchronized Static Methods</h4><p>As  a static method is associated with a class, not an object. In this case, the thread acquires the intrinsic lock for the Class object associated with the class. Thus access to class’s static fields is controlled by a lock that’s disti</p>
+            <p>This Article is part of Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p>
+<p>In this quick article, we’ll focus on a the concept of <code>ExecutorService</code> Framework in the Java language.</p>
+<p><code>ExecutorService</code> is a framework simplifies the task of creating threads and managing thread  life cycle. <code>ExecutorService</code> is an interface, We need its implementations in order to make any use of it. </p>
+<p><code>ThreadPoolExecutor</code> &amp; <code>ScheduledThreadPoolExecutor</code> implementations are available in java concurrent package.</p>
+<h3 id="Creating-an-ExecutorService"><a href="#Creating-an-ExecutorService" class="headerlink" title="Creating an ExecutorService:"></a>Creating an ExecutorService:</h3><p><code>Executors</code> factory methods are available for creating ExecutorService. </p>
+<p><code>ExecutorService executorService1 = Executors.newSingleThreadExecutor();</code><br><code>ExecutorService executorService2 = Executors.newFixedThreadPool(10);</code><br><code>ExecutorService executorService3 = Executors.newCachedThreadPool();</code></p>
+<h4 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool"></a>newCachedThreadPool</h4><p><code>newCachedThreadPool</code> method creates an executor having an expandable thread pool.Whenever a thread is needed, pool returns a thread from cache and if not available, a new thread is created for a short time. When the timeout of thread is over, that thread is vanished. </p>
+<p><em>In below example 10 Threds will run Simultaneously </em></p>
+<figure class="highlight java"><figcaption><span>newCachedThreadPool Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MyWorker</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyWorker</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id=id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"MyWorker id "</span> + id + <span class="string">" IS Working"</span> + <span class="string">"Start Time "</span> + System.currentTimeMillis());</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorServiceExample</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				 .forEach(cnt-&gt;newCachedThreadPool.execute(<span class="keyword">new</span> MyWorker(cnt)));		</span><br><span class="line">		newCachedThreadPool.shutdown();	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool"></a>newFixedThreadPool</h4><p><code>newFixedThreadPool</code> method Creates a thread pool that reuses a fixed number of threads operating off a shared unbounded queue.. </p>
+<p><em>In below example 5 Threds will run Simultaneously. After Complition of task same 5 threds will be used for next 5 taks </em></p>
+<figure class="highlight java"><figcaption><span>newFixedThreadPool Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MyWorker</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyWorker</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id=id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"MyWorker id "</span> + id + <span class="string">" IS Working"</span> + <span class="string">"Start Time "</span> + System.currentTimeMillis());</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorServiceExample</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				 .forEach(cnt-&gt;newFixedThreadPool.execute(<span class="keyword">new</span> MyWorker(cnt)));		</span><br><span class="line">		newFixedThreadPool.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor"></a>newSingleThreadExecutor</h4><p><code>newSingleThreadExecutor</code> method Creates an Executor that uses a single worker thread operating off an unbounded queue.</p>
+<p><em>In below example 1 Thread will run Simultaneously. After Complition of task same threds will be used for next 10 taks </em></p>
+<figure class="highlight java"><figcaption><span>newSingleThreadExecutor Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MyWorker</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyWorker</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id=id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"MyWorker id "</span> + id + <span class="string">" IS Working"</span> + <span class="string">"Start Time "</span> + System.currentTimeMillis());</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExecutorServiceExample</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				 .forEach(cnt-&gt;newSingleThreadExecutor.execute(<span class="keyword">new</span> MyWorker(cnt)));		</span><br><span class="line">		newSingleThreadExecutor.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Key-Points"><a href="#Key-Points" class="headerlink" title="Key Points"></a>Key Points</h4><p><code>shutdown()</code><br>An <code>ExecutorService</code> can be shut down, which will cause it to reject new tasks. Two different methods are provided for shutting down an <code>ExecutorService</code>.<br>The <code>shutdown()</code> method will allow previously submitted tasks to execute before terminating, while the <code>shutdownNow()</code> method prevents waiting tasks from starting and attempts to stop currently executing tasks.</p>
+<p><code>execute()</code><br>Executes the given command at some time in the future. The command may execute in a new thread, in a pooled thread, or in the calling thread, at the discretion of the Executor implementation.<br>execute method only takes <strong>runnable</strong> task.</p>
 
         
         </div>
@@ -258,7 +269,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/13/Intrinsic-Locks/" data-id="cjicic7d90006rw9idj8d7peq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/" data-id="cjig8wsd4000svk9izhz3uyym" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -333,19 +344,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2018/06/15/Volatile/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    Volatile
-                
-            </div>
-        </a>
     
-    
-        <a href="/2018/06/13/Synchronization/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/06/15/Semaphores/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Synchronization</div>
+            <div class="article-nav-title">Semaphores</div>
         </a>
     
 </nav>

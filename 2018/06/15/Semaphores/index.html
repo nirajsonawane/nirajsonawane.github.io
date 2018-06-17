@@ -3,20 +3,22 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Intrinsic Locks | Niraj Sonawane</title>
+    <title>Semaphores | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="This is Fourth Article in Series of  Articles on  Java 8 Concurrency Tutorial. Intrinsic LocksSynchronization  is built around an internal entity known as the intrinsic lock or monitor lock. Intrinsic">
+    <meta name="description" content="Semaphores are a really simple concept, invented by the famous Dutch computer scientist Edsger Dijkstra.  Basically a semaphore is a counter (integer) that allows a thread to get into a critical regio">
 <meta name="keywords" content="Java,Java-8,Concurrency,Multithreading">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Intrinsic Locks">
-<meta property="og:url" content="https://nirajsonawane.github.io/2018/06/13/Intrinsic-Locks/index.html">
+<meta property="og:title" content="Semaphores">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/06/15/Semaphores/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="This is Fourth Article in Series of  Articles on  Java 8 Concurrency Tutorial. Intrinsic LocksSynchronization  is built around an internal entity known as the intrinsic lock or monitor lock. Intrinsic">
+<meta property="og:description" content="Semaphores are a really simple concept, invented by the famous Dutch computer scientist Edsger Dijkstra.  Basically a semaphore is a counter (integer) that allows a thread to get into a critical regio">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-06-13T02:22:17.326Z">
+<meta property="og:image" content="https://nirajsonawane.github.io/2018/06/15/Semaphores/output.png">
+<meta property="og:updated_time" content="2018-06-15T14:15:27.910Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Intrinsic Locks">
-<meta name="twitter:description" content="This is Fourth Article in Series of  Articles on  Java 8 Concurrency Tutorial. Intrinsic LocksSynchronization  is built around an internal entity known as the intrinsic lock or monitor lock. Intrinsic">
+<meta name="twitter:title" content="Semaphores">
+<meta name="twitter:description" content="Semaphores are a really simple concept, invented by the famous Dutch computer scientist Edsger Dijkstra.  Basically a semaphore is a counter (integer) that allows a thread to get into a critical regio">
+<meta name="twitter:image" content="https://nirajsonawane.github.io/2018/06/15/Semaphores/output.png">
     
 
     
@@ -199,7 +201,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-Intrinsic-Locks" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-Semaphores" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -207,7 +209,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            Intrinsic Locks
+            Semaphores
         </h1>
     
 
@@ -216,8 +218,8 @@
                         
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/13/Intrinsic-Locks/">
-            <time datetime="2018-06-13T02:08:33.000Z" itemprop="datePublished">2018-06-13</time>
+        <a href="/2018/06/15/Semaphores/">
+            <time datetime="2018-06-15T12:47:27.000Z" itemprop="datePublished">2018-06-15</time>
         </a>
     </div>
 
@@ -242,12 +244,21 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>This is Fourth Article in Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p>
-<h4 id="Intrinsic-Locks"><a href="#Intrinsic-Locks" class="headerlink" title="Intrinsic Locks"></a>Intrinsic Locks</h4><p><a href="/2018/06/13/Synchronization/" title="Synchronization">Synchronization</a>  is built around an internal entity known as the <strong>intrinsic lock</strong> or <strong>monitor lock</strong>. Intrinsic locks play a role in both aspects of synchronization: enforcing exclusive access to an object’s state and establishing happens-before relationships that are essential to visibility.</p>
-<p>Every object has an <code>intrinsic</code> lock associated with it. By convention, a thread that needs exclusive and consistent access to an object’s fields has to acquire the object’s intrinsic lock before accessing them, and then release the intrinsic lock when it’s done with them.</p>
-<p> As long as a thread owns an intrinsic lock, no other thread can acquire the same lock. The other thread will block when it attempts to acquire the lock.</p>
-<h4 id="Locks-In-Synchronized-Methods"><a href="#Locks-In-Synchronized-Methods" class="headerlink" title="Locks In Synchronized Methods"></a>Locks In Synchronized Methods</h4><p>We have discussed  Synchronized Methods in previous Article <a href="/2018/06/13/Synchronization/" title="Synchronization">Synchronization</a>.<br>When a thread invokes a synchronized method, it automatically acquires the intrinsic lock for that method’s object and releases it when the method returns. The lock release occurs even if the return was caused by an uncaught exception.</p>
-<h4 id="Locks-In-Synchronized-Static-Methods"><a href="#Locks-In-Synchronized-Static-Methods" class="headerlink" title="Locks In Synchronized Static Methods"></a>Locks In Synchronized Static Methods</h4><p>As  a static method is associated with a class, not an object. In this case, the thread acquires the intrinsic lock for the Class object associated with the class. Thus access to class’s static fields is controlled by a lock that’s disti</p>
+            <p><strong>Semaphores are a really simple concept, invented by the famous Dutch computer scientist Edsger Dijkstra.</strong> </p>
+<p>Basically a semaphore is a counter (integer) that allows a thread to get into a critical region.<br>What the counter is counting are permits that allow access to the shared resource. Thus, to access the resource, a thread must be granted a permit from the semaphore.</p>
+<p>If the value of the counter is greater than 0 then thread get the permit otherwise waits for the permit.<br>Once thread leaves the critical region increments the counter so that other thread can access the critical section.  </p>
+<p>Most of the time we use semaphores to limit the number of concurrent threads accessing a specific resource.</p>
+<p><strong>Example</strong><br>let consider, We want to limit connections to some resources to some max limit.Similar to connection pool.<br>In below example 10 threads are trying to get connection at same time.But we should not allow more than 5 connections </p>
+<figure class="highlight java"><figcaption><span>Semaphore Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.nirajsonawane;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Semaphore;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.IntStream;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionPool</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Semaphore connectionSemaphore;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ConnectionPool</span><span class="params">(<span class="keyword">int</span> poolsize)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.connectionSemaphore = <span class="keyword">new</span> Semaphore(poolsize);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getConnectionFromPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (connectionSemaphore.availablePermits() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			connectionSemaphore.tryAcquire();</span><br><span class="line">			System.out.println(<span class="string">"Get the connection"</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"Max active connection limit reach!! try again"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">releaseConnection</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		connectionSemaphore.release();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionService</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> ConnectionPool connectionPool;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ConnectionService</span><span class="params">(ConnectionPool connectionPool)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.connectionPool = connectionPool;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		connectionPool.getConnectionFromPool();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Semaphores</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line">		ConnectionPool connectionPool = <span class="keyword">new</span> ConnectionPool(<span class="number">5</span>);</span><br><span class="line">		ConnectionService service = <span class="keyword">new</span> ConnectionService(connectionPool);</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				.forEach((cnt) -&gt; executorService.execute(service));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Out of 10 threds only 5 was able to get the connection.</em></p>
+<img src="/2018/06/15/Semaphores/output.png" title="OutPut">
+<p><strong>Key Points</strong></p>
+<ol>
+<li><code>tryAcquire()</code>– Return true if a permit is available immediately and acquire it otherwise return false,</li>
+<li><code>acquire()</code>- Acquires a permit and blocking until one is available.</li>
+<li><code>release()</code> – Release a permit</li>
+<li><code>availablePermits()</code> – Return number of current permits available</li>
+</ol>
 
         
         </div>
@@ -258,7 +269,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/13/Intrinsic-Locks/" data-id="cjicic7d90006rw9idj8d7peq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Semaphores/" data-id="cjifyx6tz000cvk9i8jqn69ec" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -333,19 +344,19 @@
         
 <nav id="article-nav">
     
-        <a href="/2018/06/15/Volatile/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2018/06/15/ExecutorServiceAndThreadPools/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    Volatile
+                    ExecutorServiceAndThreadPools
                 
             </div>
         </a>
     
     
-        <a href="/2018/06/13/Synchronization/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/06/15/Wait-Notify-And-Notifyall/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Synchronization</div>
+            <div class="article-nav-title">Wait-Notify-And-Notifyall</div>
         </a>
     
 </nav>
