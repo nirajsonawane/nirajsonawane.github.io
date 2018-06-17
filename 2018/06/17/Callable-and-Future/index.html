@@ -3,15 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archive: 2018 | Niraj Sonawane</title>
+    <title>Callable and Future | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Niraj Sonawane">
-<meta property="og:url" content="https://nirajsonawane.github.io/archives/2018/index.html">
+    <meta name="description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial.In this quick article, we’ll focus on a the concept of Callable &amp;amp;  Future in the Java language. CallableThe Callable int">
+<meta name="keywords" content="Java,Java-8,Concurrency,Multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Callable and Future">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/06/17/Callable-and-Future/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
+<meta property="og:description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial.In this quick article, we’ll focus on a the concept of Callable &amp;amp;  Future in the Java language. CallableThe Callable int">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-17T12:22:24.468Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Niraj Sonawane">
+<meta name="twitter:title" content="Callable and Future">
+<meta name="twitter:description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial.In this quick article, we’ll focus on a the concept of Callable &amp;amp;  Future in the Java language. CallableThe Callable int">
     
 
     
@@ -194,25 +199,21 @@
 </aside>
 
             
-            <section id="main"><div class="timeline timeline-wrap">
-    
-            <div class="timeline-row timeline-row-major">
-                <span class="node"><i class="fas fa-calendar-alt"></i></span>
-                <h1 class="title">2018</h1>
-            </div>
+            <section id="main"><article id="post-Callable-and-Future" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/17/Callable-and-Future/">Callable and Future</a>
+        <h1 class="article-title" itemprop="name">
+            Callable and Future
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
         <a href="/2018/06/17/Callable-and-Future/">
@@ -221,351 +222,132 @@
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fas fa-folder"></i>
         <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fas fa-tag"></i>
         <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
     </div>
 
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+                    </div>
                 
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/15/ExecutorServiceAndThreadPools/">ExecutorServiceAndThreadPools</a>
-        </h1>
-    
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>This Article is part of Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.<br>In this quick article, we’ll focus on a the concept of <code>Callable</code> &amp;  <code>Future</code> in the Java language.</p>
+<h3 id="Callable"><a href="#Callable" class="headerlink" title="Callable"></a>Callable</h3><p>The <code>Callable</code> interface represents a thread that can return the value. It’s the same as the Runnable interface but can return the value.<br>The callable interface can be used to Compute the value and return it to invoking thread. </p>
+<h3 id="Future"><a href="#Future" class="headerlink" title="Future"></a>Future</h3><p><code>Future</code>is generic interface that represents value which will be returned by callable interface.<br>There are two methods to get actual value from Future.<br><code>get()</code> : When this method is called, thread will wait for result indefinitely.<br><code>V get(long timeout, TimeUnit unit)</code> : When this method is called, thread will wait for result only for specified time. </p>
+<figure class="highlight java"><figcaption><span>Callable Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CallableWorkerExample</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">String</span>&gt;</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String someReturnValue;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">CallableWorkerExample</span><span class="params">(String someValue)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.someReturnValue=someValue;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	</span><br><span class="line">		System.out.println(<span class="string">"Working on call"</span>);</span><br><span class="line">		Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.someReturnValue;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallableAndFuture</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException, ExecutionException </span>&#123;</span><br><span class="line">		CallableWorkerExample worker= <span class="keyword">new</span> CallableWorkerExample(<span class="string">"Some Value"</span>);</span><br><span class="line">		ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();</span><br><span class="line">		Future&lt;String&gt; submit = newSingleThreadExecutor.submit(worker);</span><br><span class="line">		System.out.println(<span class="string">"Task Submited"</span>);</span><br><span class="line">		String returnValue = submit.get();</span><br><span class="line">		System.out.println(<span class="string">"Return value from Callable "</span> +returnValue);		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Key-Points"><a href="#Key-Points" class="headerlink" title="Key Points"></a>Key Points</h4><p><strong>Exception Handling</strong><br><code>Runnable.run</code> method does not throws exceptions but <code>Callable.call</code> method throws exception.<br><strong>ExecutorService</strong><br><code>ExecutorService.submit</code> Submits a value-returning task for execution and returns a Future representing the pending results of the task.<code>submit</code>Method can take <strong>Callable</strong> and <strong>Runnable</strong> task as input.But the <code>execute</code> Method Discussed in <a href="/2018/06/15/ExecutorServiceAndThreadPools/" title="ExecutorServiceAndThreadPools">ExecutorServiceAndThreadPools</a>  only takes <strong>Runnable</strong>  task as input.</p>
 
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/15/ExecutorServiceAndThreadPools/">
-            <time datetime="2018-06-15T17:26:51.000Z" itemprop="datePublished">2018-06-15</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
+        
         </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/15/Semaphores/">Semaphores</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/15/Semaphores/">
-            <time datetime="2018-06-15T12:47:27.000Z" itemprop="datePublished">2018-06-15</time>
-        </a>
-    </div>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
 
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/15/Wait-Notify-And-Notifyall/">Wait-Notify-And-Notifyall</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/15/Wait-Notify-And-Notifyall/">
-            <time datetime="2018-06-15T09:07:17.000Z" itemprop="datePublished">2018-06-15</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/15/Volatile/">Volatile</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/15/Volatile/">
-            <time datetime="2018-06-15T08:40:37.000Z" itemprop="datePublished">2018-06-15</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/13/Intrinsic-Locks/">Intrinsic Locks</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/13/Intrinsic-Locks/">
-            <time datetime="2018-06-13T02:08:33.000Z" itemprop="datePublished">2018-06-13</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/13/Synchronization/">Synchronization</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/13/Synchronization/">
-            <time datetime="2018-06-13T01:10:27.000Z" itemprop="datePublished">2018-06-13</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/10/Join-Method/">Join Method</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/10/Join-Method/">
-            <time datetime="2018-06-10T11:40:23.000Z" itemprop="datePublished">2018-06-10</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/10/Creating-Threads/">Creating Threads in Java</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/10/Creating-Threads/">
-            <time datetime="2018-06-10T10:17:39.000Z" itemprop="datePublished">2018-06-10</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/10/Concurrency-1-0/">Java 8 Concurrency Tutorial</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/10/Concurrency-1-0/">
-            <time datetime="2018-06-10T09:56:34.000Z" itemprop="datePublished">2018-06-10</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
 </div>
 
-    <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><a class="extend next" rel="next" href="/archives/2018/page/2/">Next &raquo;</a>
-    </nav>
+    <a data-url="https://nirajsonawane.github.io/2018/06/17/Callable-and-Future/" data-id="cjiiharxq0003ds9iizhrd7sk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/06/15/ExecutorServiceAndThreadPools/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">ExecutorServiceAndThreadPools</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
 </section>
             
                 
