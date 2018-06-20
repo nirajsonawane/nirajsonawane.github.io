@@ -3,15 +3,22 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Archive | Niraj Sonawane</title>
+    <title>Exchanger | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Niraj Sonawane">
-<meta property="og:url" content="https://nirajsonawane.github.io/archives/page/2/index.html">
+    <meta name="description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial.In this article, we’ll focus on a the concept of Exchanger in the Java language. ExchangerThe exchanger class provides a kin">
+<meta name="keywords" content="Java,Java-8,Concurrency,Multithreading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Exchanger">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/06/18/Exchanger/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
+<meta property="og:description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial.In this article, we’ll focus on a the concept of Exchanger in the Java language. ExchangerThe exchanger class provides a kin">
 <meta property="og:locale" content="en">
+<meta property="og:image" content="https://nirajsonawane.github.io/2018/06/18/Exchanger/output.png">
+<meta property="og:updated_time" content="2018-06-20T02:13:15.651Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Niraj Sonawane">
+<meta name="twitter:title" content="Exchanger">
+<meta name="twitter:description" content="This Article is part of Series of  Articles on  Java 8 Concurrency Tutorial.In this article, we’ll focus on a the concept of Exchanger in the Java language. ExchangerThe exchanger class provides a kin">
+<meta name="twitter:image" content="https://nirajsonawane.github.io/2018/06/18/Exchanger/output.png">
     
 
     
@@ -194,378 +201,154 @@
 </aside>
 
             
-            <section id="main"><div class="timeline timeline-wrap">
-    
-            <div class="timeline-row timeline-row-major">
-                <span class="node"><i class="fas fa-calendar-alt"></i></span>
-                <h1 class="title">2018</h1>
-            </div>
+            <section id="main"><article id="post-Exchanger" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/13/Synchronization/">Synchronization</a>
+        <h1 class="article-title" itemprop="name">
+            Exchanger
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/13/Synchronization/">
-            <time datetime="2018-06-13T01:10:27.000Z" itemprop="datePublished">2018-06-13</time>
+        <a href="/2018/06/18/Exchanger/">
+            <time datetime="2018-06-18T12:35:57.000Z" itemprop="datePublished">2018-06-18</time>
         </a>
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fas fa-folder"></i>
         <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fas fa-tag"></i>
         <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
     </div>
 
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+                    </div>
                 
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/10/Join-Method/">Join Method</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/10/Join-Method/">
-            <time datetime="2018-06-10T11:40:23.000Z" itemprop="datePublished">2018-06-10</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>This Article is part of Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.<br>In this article, we’ll focus on a the concept of <code>Exchanger</code> in the Java language.</p>
+<h3 id="Exchanger"><a href="#Exchanger" class="headerlink" title="Exchanger"></a>Exchanger</h3><p>The exchanger class provides a kind of point for two threads, where threads can exchange their objects with other threads.An Exchanger may be viewed as a bidirectional form of a SynchronousQueue. Exchangers may be useful in applications such as genetic algorithms and pipeline designs.<br>When a thread arrives at an exchange point, it is necessary to wait for another thread to arrive. When other partners come in threads, two threads go forward to exchange threads.</p>
+<p><em>In below example two threads are passing Integer values to each others. Both the Thread will wait until they receive the Information</em></p>
+<figure class="highlight java"><figcaption><span>Exchanger Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FirstThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Exchanger&lt;Integer&gt; exchanger;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">FirstThread</span><span class="params">(Exchanger&lt;Integer&gt; exchanger)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.exchanger = exchanger;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"Passing information form FirstThread"</span>);</span><br><span class="line">			Integer exchange = exchanger.exchange(<span class="number">99</span>);</span><br><span class="line">			System.out.println(<span class="string">"Information Sent From FirstThread"</span>);</span><br><span class="line">			System.out.println(<span class="string">"Received information from Second Thread."</span> + exchange);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecondThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Exchanger&lt;Integer&gt; exchanger;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SecondThread</span><span class="params">(Exchanger&lt;Integer&gt; exchanger)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.exchanger = exchanger;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		System.out.println(<span class="string">"Receiving information from First Thread."</span>);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">			Integer exchange = exchanger.exchange(<span class="number">2</span>);</span><br><span class="line">			System.out.println(<span class="string">"Received information from first Thread."</span> + exchange);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExchangerExample</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Exchanger&lt;Integer&gt; exchanger = <span class="keyword">new</span> Exchanger&lt;&gt;();</span><br><span class="line"></span><br><span class="line">		ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line">		newFixedThreadPool.submit(<span class="keyword">new</span> FirstThread(exchanger));</span><br><span class="line">		newFixedThreadPool.submit(<span class="keyword">new</span> SecondThread(exchanger));</span><br><span class="line">		newFixedThreadPool.shutdown();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="/2018/06/18/Exchanger/output.png" title="OutPut">
+        
         </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/10/Creating-Threads/">Creating Threads in Java</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/10/Creating-Threads/">
-            <time datetime="2018-06-10T10:17:39.000Z" itemprop="datePublished">2018-06-10</time>
-        </a>
-    </div>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
 
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/10/Concurrency-1-0/">Java 8 Concurrency Tutorial</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/10/Concurrency-1-0/">
-            <time datetime="2018-06-10T09:56:34.000Z" itemprop="datePublished">2018-06-10</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/06/01/Watching-a-Directory-for-Changes/">Watching a Directory for Changes</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/01/Watching-a-Directory-for-Changes/">
-            <time datetime="2018-06-01T01:12:32.000Z" itemprop="datePublished">2018-06-01</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/">Java 8 File Operations - Copy,Delete,Move</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/30/java-8-File-Operations-Copy-Delete-Move/">
-            <time datetime="2018-05-30T01:22:00.000Z" itemprop="datePublished">2018-05-30</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/">Java 8 List all Files in Directory and Subdirectories</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/29/Java-8-List-all-Files-in-Directory-and-Subdirectories/">
-            <time datetime="2018-05-29T02:10:02.000Z" itemprop="datePublished">2018-05-29</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/05/24/Java-8-Read-File-With-try-with-resources/">Java 8 Read File With try-with-resources</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/24/Java-8-Read-File-With-try-with-resources/">
-            <time datetime="2018-05-24T01:58:00.000Z" itemprop="datePublished">2018-05-24</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/05/23/java-8-List-All-Files-in-Directory/">Java 8 List All Files in Directory</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/23/java-8-List-All-Files-in-Directory/">
-            <time datetime="2018-05-23T17:32:00.000Z" itemprop="datePublished">2018-05-23</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
-                
-    
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/">Java 8 Read File Using Buffered Reader</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/">
-            <time datetime="2018-05-23T01:58:08.000Z" itemprop="datePublished">2018-05-23</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
-    </div>
-
-                </div>
-            </div>
-        </div>
-    
 </div>
 
-    <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">Next &raquo;</a>
-    </nav>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/Exchanger/" data-id="cjik8ty79000ak49ine44uqh2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/06/18/BlockingQueue/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">BlockingQueue</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
 </section>
             
                 

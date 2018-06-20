@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://nirajsonawane.github.io/2018/06/18/BlockingQueue/</loc>
+    <loc>https://nirajsonawane.github.io/2018/06/10/Concurrency-1-0/</loc>
     
-    <lastmod>2018-06-18T12:24:18.595Z</lastmod>
+    <lastmod>2018-06-20T02:15:17.847Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/2018/06/10/Concurrency-1-0/</loc>
+    <loc>https://nirajsonawane.github.io/2018/06/18/Exchanger/</loc>
     
-    <lastmod>2018-06-18T10:05:45.644Z</lastmod>
+    <lastmod>2018-06-20T02:13:15.651Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/2018/06/18/BlockingQueue/</loc>
+    
+    <lastmod>2018-06-18T12:25:16.718Z</lastmod>
     
   </url>
   
