@@ -5,18 +5,18 @@
     
     <title>Remove Optional Empty/Null values from list | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="In this Article , we’ll Discuss a the how we can Convert Stream of Optional elements to a Stream of present value elements. Java 8 has added Optional type to avoid null pointer exception. lets say we">
+    <meta name="description" content="In this Article , we’ll Discuss, How we can Convert Stream of Optional elements to a Stream of present value elements. Java 8 has added Optional type to avoid null pointer exception. lets say we have">
 <meta name="keywords" content="Java,Java-8,Java-9,Optional,Filter">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Remove Optional Empty&#x2F;Null values from list">
 <meta property="og:url" content="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="In this Article , we’ll Discuss a the how we can Convert Stream of Optional elements to a Stream of present value elements. Java 8 has added Optional type to avoid null pointer exception. lets say we">
+<meta property="og:description" content="In this Article , we’ll Discuss, How we can Convert Stream of Optional elements to a Stream of present value elements. Java 8 has added Optional type to avoid null pointer exception. lets say we have">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-06-22T02:59:58.321Z">
+<meta property="og:updated_time" content="2018-06-22T04:58:44.011Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Remove Optional Empty&#x2F;Null values from list">
-<meta name="twitter:description" content="In this Article , we’ll Discuss a the how we can Convert Stream of Optional elements to a Stream of present value elements. Java 8 has added Optional type to avoid null pointer exception. lets say we">
+<meta name="twitter:description" content="In this Article , we’ll Discuss, How we can Convert Stream of Optional elements to a Stream of present value elements. Java 8 has added Optional type to avoid null pointer exception. lets say we have">
     
 
     
@@ -242,11 +242,11 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>In this Article , we’ll Discuss a the how we can <strong>Convert Stream of Optional elements to a Stream of present value elements.</strong></p>
+            <p>In this Article , we’ll Discuss, How we can <strong>Convert Stream of Optional elements to a Stream of present value elements.</strong></p>
 <p>Java 8 has added <code>Optional</code> type to avoid null pointer exception.</p>
 <p>lets say we have <code>List&lt;Optional&lt;String&gt;&gt;</code> and for further processing we want <code>List&lt;Strings&gt;</code>.<br>In This case we need to remove the null and empty elements from stream and convert it into a Stream of present value elements.</p>
-<figure class="highlight java"><figcaption><span>Convert Stream of Optional elements to a Stream of present value elements</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Input List </span></span><br><span class="line">List&lt;Optional&lt;String&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.of(<span class="string">"Str1"</span>));</span><br><span class="line">list.add(Optional.of(<span class="string">"Str2"</span>));</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.ofNullable(<span class="keyword">null</span>));</span><br><span class="line"><span class="comment">//Using Filter</span></span><br><span class="line">List&lt;String&gt; listWithoutNull = list.stream()</span><br><span class="line">                                   .filter(Optional::isPresent)</span><br><span class="line">                                   .map(obj -&gt;obj.get())</span><br><span class="line">                                   .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"><span class="comment">//Using removeIf (if that list supports removal )</span></span><br><span class="line">                        list.removeIf(iteam-&gt;!iteam.isPresent());                                  </span><br><span class="line"></span><br><span class="line">                        </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="Java-9"><a href="#Java-9" class="headerlink" title="Java 9"></a>Java 9</h4><p>In java 9 We can easily get from a stream of optionals to a stream of present values!<br>Using newly  addded  <code>Optional::stream</code> API </p>
+<figure class="highlight java"><figcaption><span>Convert Stream of Optional elements to a Stream of present value elements</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Input List </span></span><br><span class="line">List&lt;Optional&lt;String&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.of(<span class="string">"Str1"</span>));</span><br><span class="line">list.add(Optional.of(<span class="string">"Str2"</span>));</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.ofNullable(<span class="keyword">null</span>));</span><br><span class="line"><span class="comment">//Using Filter</span></span><br><span class="line">List&lt;String&gt; listWithoutNull = list.stream()</span><br><span class="line">                                   .filter(Optional::isPresent)</span><br><span class="line">                                   .map(obj -&gt;obj.get())</span><br><span class="line">                                   .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"><span class="comment">//Using removeIf (if that list supports removal )</span></span><br><span class="line">                        list.removeIf(iteam-&gt;!iteam.isPresent());                                  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="Java-9"><a href="#Java-9" class="headerlink" title="Java 9"></a>Java 9</h4><p>In java 9 We can easily convert Stream of optionals to a stream of present values.<br>Using newly  addded  <code>Optional::stream</code> API </p>
 <figure class="highlight java"><figcaption><span>java 9</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; listWithoutNull = list.stream()</span><br><span class="line">                                  .flatMap(Optional::stream)</span><br><span class="line">                                 .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
         
         </div>
@@ -257,7 +257,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/" data-id="cjio5oy51004x5c9iq2gx2ey0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/" data-id="cjipib16w0012z49ieyj43nb2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

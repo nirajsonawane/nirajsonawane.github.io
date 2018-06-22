@@ -238,11 +238,11 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>In this Article , we’ll Discuss a the how we can <strong>Convert Stream of Optional elements to a Stream of present value elements.</strong></p>
+            <p>In this Article , we’ll Discuss, How we can <strong>Convert Stream of Optional elements to a Stream of present value elements.</strong></p>
 <p>Java 8 has added <code>Optional</code> type to avoid null pointer exception.</p>
 <p>lets say we have <code>List&lt;Optional&lt;String&gt;&gt;</code> and for further processing we want <code>List&lt;Strings&gt;</code>.<br>In This case we need to remove the null and empty elements from stream and convert it into a Stream of present value elements.</p>
-<figure class="highlight java"><figcaption><span>Convert Stream of Optional elements to a Stream of present value elements</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Input List </span></span><br><span class="line">List&lt;Optional&lt;String&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.of(<span class="string">"Str1"</span>));</span><br><span class="line">list.add(Optional.of(<span class="string">"Str2"</span>));</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.ofNullable(<span class="keyword">null</span>));</span><br><span class="line"><span class="comment">//Using Filter</span></span><br><span class="line">List&lt;String&gt; listWithoutNull = list.stream()</span><br><span class="line">                                   .filter(Optional::isPresent)</span><br><span class="line">                                   .map(obj -&gt;obj.get())</span><br><span class="line">                                   .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"><span class="comment">//Using removeIf (if that list supports removal )</span></span><br><span class="line">                        list.removeIf(iteam-&gt;!iteam.isPresent());                                  </span><br><span class="line"></span><br><span class="line">                        </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="Java-9"><a href="#Java-9" class="headerlink" title="Java 9"></a>Java 9</h4><p>In java 9 We can easily get from a stream of optionals to a stream of present values!<br>Using newly  addded  <code>Optional::stream</code> API </p>
+<figure class="highlight java"><figcaption><span>Convert Stream of Optional elements to a Stream of present value elements</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Input List </span></span><br><span class="line">List&lt;Optional&lt;String&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.of(<span class="string">"Str1"</span>));</span><br><span class="line">list.add(Optional.of(<span class="string">"Str2"</span>));</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.ofNullable(<span class="keyword">null</span>));</span><br><span class="line"><span class="comment">//Using Filter</span></span><br><span class="line">List&lt;String&gt; listWithoutNull = list.stream()</span><br><span class="line">                                   .filter(Optional::isPresent)</span><br><span class="line">                                   .map(obj -&gt;obj.get())</span><br><span class="line">                                   .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"><span class="comment">//Using removeIf (if that list supports removal )</span></span><br><span class="line">                        list.removeIf(iteam-&gt;!iteam.isPresent());                                  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="Java-9"><a href="#Java-9" class="headerlink" title="Java 9"></a>Java 9</h4><p>In java 9 We can easily convert Stream of optionals to a stream of present values.<br>Using newly  addded  <code>Optional::stream</code> API </p>
 <figure class="highlight java"><figcaption><span>java 9</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; listWithoutNull = list.stream()</span><br><span class="line">                                  .flatMap(Optional::stream)</span><br><span class="line">                                 .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
         
         </div>
@@ -253,7 +253,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/" data-id="cjio5oy51004x5c9iq2gx2ey0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/" data-id="cjipib16w0012z49ieyj43nb2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -386,7 +386,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/Exchanger/" data-id="cjio38unb000d5c9i884w9mfq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/Exchanger/" data-id="cjipib160000bz49i8cpiqimj" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -525,7 +525,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/BlockingQueue/" data-id="cjio38uiv00035c9ifvb73cbc" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/BlockingQueue/" data-id="cjipib1580001z49i2yl8xau3" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -646,7 +646,7 @@
             
             <p>This Article is part of Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.<br>In this article, we’ll focus on a the concept of <code>CyclicBarrier</code> in the Java language.</p>
 <h3 id="CyclicBarrier"><a href="#CyclicBarrier" class="headerlink" title="CyclicBarrier"></a>CyclicBarrier</h3><p><code>CyclicBarrier</code> allows a set of threads to all wait for each other to reach a common barrier point. CyclicBarriers are useful in programs involving a fixed sized party of threads that must occasionally wait for each other. The barrier is called cyclic because it can be <strong>re-used</strong> after the waiting threads are released.</p>
-<p><em>CyclicBarrier</em> are Similar to   but CyclicBarrier provide some additional features like<br><strong>Reseting CyclicBarrier &amp; Supports an optional Runnable command that is run once per barrier point.</strong></p>
+<p><em>CyclicBarrier</em> are Similar to <a href="/2018/06/17/CountDownLatch/" title="CountDownLatch">CountDownLatch</a>  but CyclicBarrier provide some additional features like<br><strong>Reseting CyclicBarrier &amp; Supports an optional Runnable command that is run once per barrier point.</strong></p>
 <figure class="highlight java"><figcaption><span>CyclicBarrier Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CyclicBarrierWorker</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> CyclicBarrier cyclicBarrier;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> workerId;</span><br><span class="line">	<span class="keyword">private</span> Random random;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">CyclicBarrierWorker</span><span class="params">(CyclicBarrier cyclicBarrier ,<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.cyclicBarrier=cyclicBarrier;</span><br><span class="line">		<span class="keyword">this</span>.workerId=id;</span><br><span class="line">		<span class="keyword">this</span>.random = <span class="keyword">new</span> Random();</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Starting worker ID "</span> + <span class="keyword">this</span>.workerId);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Thread.sleep(random.nextInt(<span class="number">4000</span>));</span><br><span class="line">			System.out.println(<span class="string">"Worker "</span> + workerId + <span class="string">" Completed it's work, Reducing  count of cyclicBarrier "</span> );</span><br><span class="line">			cyclicBarrier.await();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException | BrokenBarrierException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CyclicBarrierExample</span> </span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">		CyclicBarrier cyclicBarrier = <span class="keyword">new</span> CyclicBarrier(<span class="number">5</span>, ()-&gt;System.out.println(<span class="string">"Barrier point reach ::: All Task Completed"</span>));</span><br><span class="line">		ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line">		IntStream.range(<span class="number">1</span>,<span class="number">6</span>)</span><br><span class="line">				 .forEach(cnt-&gt;&#123;newFixedThreadPool.submit(<span class="keyword">new</span> CyclicBarrierWorker(cyclicBarrier, cnt));</span><br><span class="line">				 &#125;);		</span><br><span class="line">		System.out.println(<span class="string">"All Task Submited"</span>);</span><br><span class="line">		newFixedThreadPool.shutdown();		</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <img src="/2018/06/18/CyclicBarrier/output.png" title="OutPut">
 <h4 id="Key-Points"><a href="#Key-Points" class="headerlink" title="Key Points"></a>Key Points</h4><p><code>CyclicBarrier(int parties, Runnable barrierAction)</code> :<br>Creates a new CyclicBarrier that will trip when the given number of parties (threads) are waiting upon it, <strong>and which will execute the given barrier action when the barrier is tripped, performed by the last thread entering the barrier.</strong></p>
@@ -662,7 +662,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/CyclicBarrier/" data-id="cjio38un400095c9i982p2gzg" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/CyclicBarrier/" data-id="cjipib163000cz49i2al9iefy" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -799,7 +799,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/17/CountDownLatch/" data-id="cjio5tdj3004y5c9ixaawh00f" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/17/CountDownLatch/" data-id="cjipib15p0005z49i4vbntf7d" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -933,7 +933,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/17/Callable-and-Future/" data-id="cjio38uma00055c9ioi44ybac" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/17/Callable-and-Future/" data-id="cjipib15h0003z49ikkyryi2i" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1079,7 +1079,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/" data-id="cjio38uos001r5c9iebvr9mdu" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/" data-id="cjipib16c000hz49i3zxwiywp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1223,7 +1223,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Semaphores/" data-id="cjio38upm002h5c9ibqeweynz" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Semaphores/" data-id="cjipib17b001jz49ipdfdmt4f" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1360,7 +1360,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Wait-Notify-And-Notifyall/" data-id="cjio38uq6002z5c9iegm3ds9r" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Wait-Notify-And-Notifyall/" data-id="cjipib1bg005az49ij98ix368" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1494,7 +1494,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Volatile/" data-id="cjio38upp002j5c9i0zlgflkv" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Volatile/" data-id="cjipib178001gz49i2qkonmpj" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
