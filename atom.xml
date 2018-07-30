@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://nirajsonawane.github.io/"/>
-  <updated>2018-06-22T04:58:44.011Z</updated>
+  <updated>2018-07-30T17:18:36.423Z</updated>
   <id>https://nirajsonawane.github.io/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Kotlin Smart Casts</title>
+    <link href="https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/"/>
+    <id>https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/</id>
+    <published>2018-07-30T16:46:36.000Z</published>
+    <updated>2018-07-30T17:18:36.423Z</updated>
+    
+    <content type="html"><![CDATA[<p>Many times while working we need to check if an object is of certain type at runtime. </p><p>In java we have <code>instanceof</code> operator  to check whether the object is an instance of the specified type.</p><figure class="highlight java"><figcaption><span>instanceof Java Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstanceofExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">MyClass obj=<span class="keyword">new</span> MyClass();  </span><br><span class="line">        System.out.println(s <span class="keyword">instanceof</span> MyClass);<span class="comment">//true </span></span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>In Kotlin, You can check whether an object is of a certain type at runtime by using the <code>is</code> operator. </p><figure class="highlight kotlin"><figcaption><span>is operator Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> (obj <span class="keyword">is</span> String) &#123;</span><br><span class="line">        print(obj.length)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (obj !<span class="keyword">is</span> String) &#123; <span class="comment">// same as !(obj is String)</span></span><br><span class="line">print(<span class="string">"Not a String"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">print(obj.length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="Smart-Casts"><a href="#Smart-Casts" class="headerlink" title="Smart Casts"></a>Smart Casts</h3><p><strong>Kotlin Complier is quite smart help us to avoid  boilerplate code.</strong></p><p>In many cases we do not need to use explicit cast operators , because the compiler tracks the is -checks and explicit casts for immutable values and inserts (safe) casts automatically when needed:</p><figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">demo</span><span class="params">(x: <span class="type">Any</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (x <span class="keyword">is</span> String) &#123;</span><br><span class="line">    print(x.length) <span class="comment">// x is automatically cast to String</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>The compiler is smart enough to know a cast to be safe if a negative check leads to a return:<br><figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (x !<span class="keyword">is</span> String) <span class="keyword">return</span></span><br><span class="line">    print(x.length) <span class="comment">// x is automatically cast to String</span></span><br></pre></td></tr></table></figure></p><p>Such smart casts work for when-expressions and while-loops as well:<br><figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">when</span> (x) &#123;</span><br><span class="line">     <span class="keyword">is</span> <span class="built_in">Int</span> -&gt; print(x + <span class="number">1</span>)</span><br><span class="line">     <span class="keyword">is</span> String -&gt; print(x.length + <span class="number">1</span>)</span><br><span class="line">     <span class="keyword">is</span> IntArray -&gt; print(x.sum())</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Many times while working we need to check if an object is of certain type at runtime. &lt;/p&gt;
+&lt;p&gt;In java we have &lt;code&gt;instanceof&lt;/code&gt; ope
+      
+    
+    </summary>
+    
+      <category term="Kotlin" scheme="https://nirajsonawane.github.io/categories/Kotlin/"/>
+    
+    
+      <category term="Kotlin" scheme="https://nirajsonawane.github.io/tags/Kotlin/"/>
+    
+      <category term="Smart Casts" scheme="https://nirajsonawane.github.io/tags/Smart-Casts/"/>
+    
+      <category term="Kotlin Types" scheme="https://nirajsonawane.github.io/tags/Kotlin-Types/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Remove Optional Empty/Null values from list</title>
     <link href="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/"/>
     <id>https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/</id>
     <published>2018-06-21T06:19:10.000Z</published>
-    <updated>2018-06-22T04:58:44.011Z</updated>
+    <updated>2018-07-30T16:39:42.727Z</updated>
     
     <content type="html"><![CDATA[<p>In this Article , we’ll Discuss, How we can <strong>Convert Stream of Optional elements to a Stream of present value elements.</strong></p><p>Java 8 has added <code>Optional</code> type to avoid null pointer exception.</p><p>lets say we have <code>List&lt;Optional&lt;String&gt;&gt;</code> and for further processing we want <code>List&lt;Strings&gt;</code>.<br>In This case we need to remove the null and empty elements from stream and convert it into a Stream of present value elements.</p><figure class="highlight java"><figcaption><span>Convert Stream of Optional elements to a Stream of present value elements</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Input List </span></span><br><span class="line">List&lt;Optional&lt;String&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.of(<span class="string">"Str1"</span>));</span><br><span class="line">list.add(Optional.of(<span class="string">"Str2"</span>));</span><br><span class="line">list.add(Optional.empty());</span><br><span class="line">list.add(Optional.ofNullable(<span class="keyword">null</span>));</span><br><span class="line"><span class="comment">//Using Filter</span></span><br><span class="line">List&lt;String&gt; listWithoutNull = list.stream()</span><br><span class="line">                                   .filter(Optional::isPresent)</span><br><span class="line">                                   .map(obj -&gt;obj.get())</span><br><span class="line">                                   .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"><span class="comment">//Using removeIf (if that list supports removal )</span></span><br><span class="line">                        list.removeIf(iteam-&gt;!iteam.isPresent());                                  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="Java-9"><a href="#Java-9" class="headerlink" title="Java 9"></a>Java 9</h4><p>In java 9 We can easily convert Stream of optionals to a stream of present values.<br>Using newly  addded  <code>Optional::stream</code> API </p><figure class="highlight java"><figcaption><span>java 9</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; listWithoutNull = list.stream()</span><br><span class="line">                                  .flatMap(Optional::stream)</span><br><span class="line">                                 .collect(Collectors.toList());</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -285,37 +315,6 @@
       
       
         &lt;p&gt;This is Sixth Article in Series of  Articles on  &lt;a href=&quot;/2018/06/10/Concurrency-1-0/&quot; title=&quot;Java 8 Concurrency Tutorial&quot;&gt;Java 8 Concur
-      
-    
-    </summary>
-    
-      <category term="Multithreading" scheme="https://nirajsonawane.github.io/categories/Multithreading/"/>
-    
-    
-      <category term="Java" scheme="https://nirajsonawane.github.io/tags/Java/"/>
-    
-      <category term="Java-8" scheme="https://nirajsonawane.github.io/tags/Java-8/"/>
-    
-      <category term="Concurrency" scheme="https://nirajsonawane.github.io/tags/Concurrency/"/>
-    
-      <category term="Multithreading" scheme="https://nirajsonawane.github.io/tags/Multithreading/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Volatile</title>
-    <link href="https://nirajsonawane.github.io/2018/06/15/Volatile/"/>
-    <id>https://nirajsonawane.github.io/2018/06/15/Volatile/</id>
-    <published>2018-06-15T08:40:37.000Z</published>
-    <updated>2018-06-15T08:54:45.606Z</updated>
-    
-    <content type="html"><![CDATA[<p>This is Fifth Article in Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p><p>In this quick article, we’ll focus on a the concept of <code>volatile</code> keyword in the Java language.</p><p>Every read of a <code>volatile</code> variable will be read from the RAM so from the main memory and not from cache. Usually variables are cached for performance reasons.</p><p>Using <code>volatile</code> variables reduces the risk of memory consistency errors, because any write to a volatile variable establishes a happens-before relationship with subsequent reads of that same variable. This means that changes to a volatile variable are always visible to other thread.</p><figure class="highlight java"><figcaption><span>Volatile Keyword Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> COUNT = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;This is Fifth Article in Series of  Articles on  &lt;a href=&quot;/2018/06/10/Concurrency-1-0/&quot; title=&quot;Java 8 Concurrency Tutorial&quot;&gt;Java 8 Concur
       
     
     </summary>

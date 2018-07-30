@@ -3,22 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Java 8 Read File Line By Line | Niraj Sonawane</title>
+    <title>Kotlin Smart Casts | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
-<meta name="keywords" content="Java,Java-8">
+    <meta name="description" content="Many times while working we need to check if an object is of certain type at runtime.  In java we have instanceof operator  to check whether the object is an instance of the specified type. instanceof">
+<meta name="keywords" content="Kotlin,Smart Casts,Kotlin Types">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 8 Read File Line By Line">
-<meta property="og:url" content="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/index.html">
+<meta property="og:title" content="Kotlin Smart Casts">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
+<meta property="og:description" content="Many times while working we need to check if an object is of certain type at runtime.  In java we have instanceof operator  to check whether the object is an instance of the specified type. instanceof">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/output.png">
-<meta property="og:updated_time" content="2018-05-23T16:11:15.011Z">
+<meta property="og:updated_time" content="2018-07-30T17:18:36.423Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 8 Read File Line By Line">
-<meta name="twitter:description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
-<meta name="twitter:image" content="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/output.png">
+<meta name="twitter:title" content="Kotlin Smart Casts">
+<meta name="twitter:description" content="Many times while working we need to check if an object is of certain type at runtime.  In java we have instanceof operator  to check whether the object is an instance of the specified type. instanceof">
     
 
     
@@ -201,7 +199,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-Java-8-Read-File-Line-By-Line" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-Kotlin-Smart-Casts" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -209,7 +207,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            Java 8 Read File Line By Line
+            Kotlin Smart Casts
         </h1>
     
 
@@ -218,8 +216,8 @@
                         
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/20/Java-8-Read-File-Line-By-Line/">
-            <time datetime="2018-05-20T01:58:08.000Z" itemprop="datePublished">2018-05-20</time>
+        <a href="/2018/07/30/Kotlin-Smart-Casts/">
+            <time datetime="2018-07-30T16:46:36.000Z" itemprop="datePublished">2018-07-30</time>
         </a>
     </div>
 
@@ -227,13 +225,13 @@
                         
     <div class="article-category">
     	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a>
+        <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
+        <a class="tag-link" href="/tags/Kotlin/">Kotlin</a>, <a class="tag-link" href="/tags/Kotlin-Types/">Kotlin Types</a>, <a class="tag-link" href="/tags/Smart-Casts/">Smart Casts</a>
     </div>
 
                     </div>
@@ -244,12 +242,17 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>Java 8 has addded  <code>Files.readAllLines()</code> method ,which can be used to read file as List of Strings.</p>
-<h3 id="Read-file-as-a-List-of-Strings"><a href="#Read-file-as-a-List-of-Strings" class="headerlink" title="Read file as a List of Strings"></a>Read file as a List of Strings</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8ReadFileAsListOfStrings</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">		List&lt;String&gt; readAllLines = Files.readAllLines(Paths.get((filePath)));</span><br><span class="line">		readAllLines.forEach(System.out::println);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
-<p>Text file sample.txt for testing.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Files extends Object</span><br><span class="line">This class consists exclusively of static methods that operate on files, directories, or other types of files.</span><br><span class="line">In most cases, the methods defined here will delegate to the associated file system provider to perform the file operations.</span><br><span class="line"></span><br><span class="line">Since:</span><br><span class="line">1.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
-<p>Output:</p>
-<img src="/2018/05/20/Java-8-Read-File-Line-By-Line/output.png" title="OutPut">
+            <p>Many times while working we need to check if an object is of certain type at runtime. </p>
+<p>In java we have <code>instanceof</code> operator  to check whether the object is an instance of the specified type.</p>
+<figure class="highlight java"><figcaption><span>instanceof Java Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstanceofExample</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		MyClass obj=<span class="keyword">new</span> MyClass();  </span><br><span class="line">        System.out.println(s <span class="keyword">instanceof</span> MyClass);<span class="comment">//true 		</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In Kotlin, You can check whether an object is of a certain type at runtime by using the <code>is</code> operator. </p>
+<figure class="highlight kotlin"><figcaption><span>is operator Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span> (obj <span class="keyword">is</span> String) &#123;</span><br><span class="line">        print(obj.length)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (obj !<span class="keyword">is</span> String) &#123; <span class="comment">// same as !(obj is String)</span></span><br><span class="line">print(<span class="string">"Not a String"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">print(obj.length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Smart-Casts"><a href="#Smart-Casts" class="headerlink" title="Smart Casts"></a>Smart Casts</h3><p><strong>Kotlin Complier is quite smart help us to avoid  boilerplate code.</strong></p>
+<p>In many cases we do not need to use explicit cast operators , because the compiler tracks the is -checks and explicit casts for immutable values and inserts (safe) casts automatically when needed:</p>
+<figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">demo</span><span class="params">(x: <span class="type">Any</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (x <span class="keyword">is</span> String) &#123;</span><br><span class="line">    print(x.length) <span class="comment">// x is automatically cast to String</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The compiler is smart enough to know a cast to be safe if a negative check leads to a return:<br><figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (x !<span class="keyword">is</span> String) <span class="keyword">return</span></span><br><span class="line">    print(x.length) <span class="comment">// x is automatically cast to String</span></span><br></pre></td></tr></table></figure></p>
+<p>Such smart casts work for when-expressions and while-loops as well:<br><figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">when</span> (x) &#123;</span><br><span class="line">     <span class="keyword">is</span> <span class="built_in">Int</span> -&gt; print(x + <span class="number">1</span>)</span><br><span class="line">     <span class="keyword">is</span> String -&gt; print(x.length + <span class="number">1</span>)</span><br><span class="line">     <span class="keyword">is</span> IntArray -&gt; print(x.sum())</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+
         
         </div>
         <footer class="article-footer">
@@ -259,7 +262,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/" data-id="cjk8jglzw000x0o9itio4utcp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/" data-id="cjk8jgm06001a0o9ig2aak437" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -334,19 +337,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2018/05/21/Java-8-Read-File-As-A-Stream/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    Java 8 Read File As A Stream
-                
-            </div>
-        </a>
     
-    
-        <a href="/2018/05/20/Java-Process-Builder/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/06/21/Remove-Optional-Empty-null-values-from-list/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Java Process Builder</div>
+            <div class="article-nav-title">Remove Optional Empty/Null values from list</div>
         </a>
     
 </nav>

@@ -3,22 +3,15 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Java 8 Read File Line By Line | Niraj Sonawane</title>
+    <title>Archive: 2018/7 | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
-<meta name="keywords" content="Java,Java-8">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Java 8 Read File Line By Line">
-<meta property="og:url" content="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Niraj Sonawane">
+<meta property="og:url" content="https://nirajsonawane.github.io/archives/2018/07/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/output.png">
-<meta property="og:updated_time" content="2018-05-23T16:11:15.011Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 8 Read File Line By Line">
-<meta name="twitter:description" content="Java 8 has addded  Files.readAllLines() method ,which can be used to read file as List of Strings. Read file as a List of Strings1234567891011public class Java8ReadFileAsListOfStrings &amp;#123;	public st">
-<meta name="twitter:image" content="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/output.png">
+<meta name="twitter:title" content="Niraj Sonawane">
     
 
     
@@ -201,164 +194,50 @@
 </aside>
 
             
-            <section id="main"><article id="post-Java-8-Read-File-Line-By-Line" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
+            <section id="main"><div class="timeline timeline-wrap">
+    
+            <div class="timeline-row timeline-row-major">
+                <span class="node"><i class="fas fa-calendar-alt"></i></span>
+                <h1 class="title">2018</h1>
+            </div>
         
-        
-            <header class="article-header">
+        <div class="timeline-row">
+            <span class="node"></span>
+            <div class="content">
                 
     
-        <h1 class="article-title" itemprop="name">
-            Java 8 Read File Line By Line
+        <h1 itemprop="name">
+            <a class="timeline-article-title" href="/2018/07/30/Kotlin-Smart-Casts/">Kotlin Smart Casts</a>
         </h1>
     
 
-                
-                    <div class="article-meta">
-                        
+                <div class="article-meta">
+                    
     <div class="article-date">
         <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/05/20/Java-8-Read-File-Line-By-Line/">
-            <time datetime="2018-05-20T01:58:08.000Z" itemprop="datePublished">2018-05-20</time>
+        <a href="/2018/07/30/Kotlin-Smart-Casts/">
+            <time datetime="2018-07-30T16:46:36.000Z" itemprop="datePublished">2018-07-30</time>
         </a>
     </div>
 
 
-                        
+                    
     <div class="article-category">
     	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/">File</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a>
+        <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
     </div>
 
-                        
+                    
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>
+        <a class="tag-link" href="/tags/Kotlin/">Kotlin</a>, <a class="tag-link" href="/tags/Kotlin-Types/">Kotlin Types</a>, <a class="tag-link" href="/tags/Smart-Casts/">Smart Casts</a>
     </div>
 
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>Java 8 has addded  <code>Files.readAllLines()</code> method ,which can be used to read file as List of Strings.</p>
-<h3 id="Read-file-as-a-List-of-Strings"><a href="#Read-file-as-a-List-of-Strings" class="headerlink" title="Read file as a List of Strings"></a>Read file as a List of Strings</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8ReadFileAsListOfStrings</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		String filePath = <span class="string">"C:\\data\\demo\\sample.txt"</span>;</span><br><span class="line">		List&lt;String&gt; readAllLines = Files.readAllLines(Paths.get((filePath)));</span><br><span class="line">		readAllLines.forEach(System.out::println);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
-<p>Text file sample.txt for testing.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public final class Files extends Object</span><br><span class="line">This class consists exclusively of static methods that operate on files, directories, or other types of files.</span><br><span class="line">In most cases, the methods defined here will delegate to the associated file system provider to perform the file operations.</span><br><span class="line"></span><br><span class="line">Since:</span><br><span class="line">1.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>    
-<p>Output:</p>
-<img src="/2018/05/20/Java-8-Read-File-Line-By-Line/output.png" title="OutPut">
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/" data-id="cjk8jglzw000x0o9itio4utcp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2018/05/21/Java-8-Read-File-As-A-Stream/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    Java 8 Read File As A Stream
-                
+                </div>
             </div>
-        </a>
+        </div>
     
-    
-        <a href="/2018/05/20/Java-Process-Builder/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Java Process Builder</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    
-
+</div>
 </section>
             
                 
