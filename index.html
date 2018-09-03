@@ -154,11 +154,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                27
+                28
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                12
+                15
                 <span>tags</span>
             </div>
         </div>
@@ -195,6 +195,149 @@
 
             
             <section id="main">
+    <article id="post-Java-8-Custom-Collector" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/09/03/Java-8-Custom-Collector/">Java 8 Custom Collector</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2018/09/03/Java-8-Custom-Collector/">
+            <time datetime="2018-09-03T02:52:10.000Z" itemprop="datePublished">2018-09-03</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Collector/">Collector</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Bigdecimal/">Bigdecimal</a>, <a class="tag-link" href="/tags/Collector/">Collector</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Java-9/">Java-9</a>, <a class="tag-link" href="/tags/Summary-Statistics/">Summary Statistics</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>In this Article , we’ll Discuss How we can <strong>Create our own Custom Collector</strong> in java 8 and above.<br>For this article, We will implement <strong>Summary Statistics</strong> For BigDecimal number. </p>
+<h3 id="Java-8-Summary-Statistics"><a href="#Java-8-Summary-Statistics" class="headerlink" title="Java 8 Summary Statistics"></a>Java 8 Summary Statistics</h3><p>Java 8 Provides Summary Statistics for Long,Int &amp; Double. These Summary classes will help you to get count, min, max, sum, and average values.</p>
+<ul>
+<li>LongSummaryStatistics</li>
+<li>IntSummaryStatistics</li>
+<li>DoubleSummaryStatistics</li>
+</ul>
+<h5 id="IntSummaryStatistics-Example"><a href="#IntSummaryStatistics-Example" class="headerlink" title="IntSummaryStatistics Example"></a>IntSummaryStatistics Example</h5><p>In below example we are trying to calculate count, min, max, sum, and average of 1 to 100 Integer.</p>
+<figure class="highlight java"><figcaption><span>Calculate Sum,Min,Max,Count & Average</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">IntSummaryStatistics summaryStatistics = IntStream.range(<span class="number">1</span>, <span class="number">101</span>)</span><br><span class="line">		.summaryStatistics();</span><br><span class="line">		System.out.println(summaryStatistics);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="implementing-SummaryStatistics-for-Big-Decimal-numbers"><a href="#implementing-SummaryStatistics-for-Big-Decimal-numbers" class="headerlink" title="implementing SummaryStatistics  for Big Decimal numbers"></a>implementing SummaryStatistics  for Big Decimal numbers</h4><p>Java does not provides inbuilt Summary Statistics class for BigDecimal Number. </p>
+<p>Lets try to implement our own BigDecimal SummaryStatistics.</p>
+<p><strong>Step 1 </strong> : Create Collector</p>
+<figure class="highlight java"><figcaption><span>Calculate Sum,Min,Max,Count & Average</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.math.BigDecimal;</span><br><span class="line"><span class="keyword">import</span> java.util.function.Consumer;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Collector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBigDecimalSummaryCollector</span> <span class="keyword">implements</span> <span class="title">Consumer</span>&lt;<span class="title">BigDecimal</span>&gt; </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ROUND_HALF_UP = BigDecimal.ROUND_HALF_UP;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Integer TRANSACTIONS_SCALE = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> BigDecimal sum = BigDecimal.ZERO.setScale(TRANSACTIONS_SCALE, ROUND_HALF_UP);</span><br><span class="line">	<span class="keyword">private</span> BigDecimal minimum = BigDecimal.ZERO.setScale(TRANSACTIONS_SCALE, ROUND_HALF_UP);</span><br><span class="line">	<span class="keyword">private</span> BigDecimal maximum = BigDecimal.ZERO.setScale(TRANSACTIONS_SCALE, ROUND_HALF_UP);</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> count;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Collector&lt;BigDecimal, ?, MyBigDecimalSummaryCollector&gt; myBigDecimalSummaryStatistics() &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> Collector.of(MyBigDecimalSummaryCollector::<span class="keyword">new</span>, MyBigDecimalSummaryCollector::accept,</span><br><span class="line">				MyBigDecimalSummaryCollector::merge);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(BigDecimal t)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">			firstElementSetup(t);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			sum = sum.add(t);</span><br><span class="line">			minimum = minimum.min(t);</span><br><span class="line">			maximum = maximum.max(t);</span><br><span class="line">			count++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> MyBigDecimalSummaryCollector <span class="title">merge</span><span class="params">(MyBigDecimalSummaryCollector s)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (s.count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">				setupFirstElement(s);</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				sum = sum.add(s.sum);</span><br><span class="line">				minimum = minimum.min(s.minimum);</span><br><span class="line">				maximum = maximum.max(s.maximum);</span><br><span class="line">				count += s.count;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setupFirstElement</span><span class="params">(MyBigDecimalSummaryCollector s)</span> </span>&#123;</span><br><span class="line">		count = s.count;</span><br><span class="line">		sum = s.sum;</span><br><span class="line">		minimum = s.minimum;</span><br><span class="line">		maximum = s.maximum;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">firstElementSetup</span><span class="params">(BigDecimal t)</span> </span>&#123;</span><br><span class="line">		count = <span class="number">1</span>;</span><br><span class="line">		sum = t;</span><br><span class="line">		minimum = t;</span><br><span class="line">		maximum = t;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> BigDecimal <span class="title">getAverage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (count == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> BigDecimal.ZERO.setScale(TRANSACTIONS_SCALE, ROUND_HALF_UP);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> sum.divide(BigDecimal.valueOf(count), TRANSACTIONS_SCALE,</span><br><span class="line">				ROUND_HALF_UP);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> BigDecimal <span class="title">getSum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> sum;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSum</span><span class="params">(BigDecimal sum)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.sum = sum;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> BigDecimal <span class="title">getMinimum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> minimum;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMinimum</span><span class="params">(BigDecimal minimum)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.minimum = minimum;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> BigDecimal <span class="title">getMaximum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> maximum;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMaximum</span><span class="params">(BigDecimal maximum)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.maximum = maximum;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> count;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.count = count;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"MyBigDecimalSummaryCollector [sum="</span> + sum + <span class="string">", minimum="</span> + minimum + <span class="string">", maximum="</span> + maximum + <span class="string">", count="</span></span><br><span class="line">				+ count + <span class="string">"]"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Step 2 </strong> :</p>
+<figure class="highlight java"><figcaption><span>Use Collector</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">MyBigDecimalSummaryCollector collect = IntStream.range(<span class="number">1</span>, <span class="number">101</span>)</span><br><span class="line">	.mapToObj(number -&gt; BigDecimal.valueOf(number))</span><br><span class="line">	.collect(MyBigDecimalSummaryCollector.myBigDecimalSummaryStatistics());</span><br><span class="line">	</span><br><span class="line">	System.out.println(collect);</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/09/03/Java-8-Custom-Collector/" data-id="cjllp3vn1000oyoh9h3xw9k0h" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Angular-pipes" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -238,13 +381,16 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h3 id="Angular-Pipes-are-used-to-transforms-texts"><a href="#Angular-Pipes-are-used-to-transforms-texts" class="headerlink" title="Angular Pipes are used to transforms texts."></a>Angular Pipes are used to transforms texts.</h3><h4 id="LowerCase-Pipe"><a href="#LowerCase-Pipe" class="headerlink" title="LowerCase Pipe"></a>LowerCase Pipe</h4><p>Transforms text to all lower case. It is used as follows. </p>
+            <h3 id="Angular-Pipes-are-used-to-transforms-texts"><a href="#Angular-Pipes-are-used-to-transforms-texts" class="headerlink" title="Angular Pipes are used to transforms texts."></a>Angular Pipes are used to transforms texts.</h3><p>A pipe takes in data as input and transforms it to a desired output</p>
+<h4 id="LowerCase-Pipe"><a href="#LowerCase-Pipe" class="headerlink" title="LowerCase Pipe"></a>LowerCase Pipe</h4><p>Transforms text to all lower case. It is used as follows. </p>
 <pre><code>{{value_expression | lowercase }}
 </code></pre><h4 id="UpperCase-Pipe"><a href="#UpperCase-Pipe" class="headerlink" title="UpperCase Pipe"></a>UpperCase Pipe</h4><p>Transforms text to all Upper case. It is used as follows. </p>
 <pre><code>{{ value_expression | uppercase  }} 
-</code></pre><h3 id="TitleCasePipe"><a href="#TitleCasePipe" class="headerlink" title="TitleCasePipe"></a>TitleCasePipe</h3><p>Transforms text to title case. Capitalizes the first letter of each word, and transforms the rest of the word to lower case. Words are delimited by any whitespace character, such as a space, tab, or line-feed character.</p>
+</code></pre><h4 id="TitleCasePipe"><a href="#TitleCasePipe" class="headerlink" title="TitleCasePipe"></a>TitleCasePipe</h4><p>Transforms text to title case. Capitalizes the first letter of each word, and transforms the rest of the word to lower case. Words are delimited by any whitespace character, such as a space, tab, or line-feed character.</p>
 <pre><code>{{ value_expression | titlecase }}
-</code></pre>
+</code></pre><h4 id="Date-Pipe"><a href="#Date-Pipe" class="headerlink" title="Date Pipe"></a>Date Pipe</h4><p>Converts the Date to human-friendly date</p>
+<h4 id="CurrencyPipe"><a href="#CurrencyPipe" class="headerlink" title="CurrencyPipe"></a>CurrencyPipe</h4><p>Transforms a number to a currency string, formatted according to locale rules that determine group sizing and separator, decimal-point character, and other locale-specific configurations.</p>
+
         
         </div>
         <footer class="article-footer">
@@ -254,7 +400,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/08/05/Angular-pipes/" data-id="cjkgz27hw000h8w9iz7maw2hk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/08/05/Angular-pipes/" data-id="cjllp3ver0001yoh9syufo21s" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -393,7 +539,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/" data-id="cjkgz27it001c8w9i9ei34yrf" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/" data-id="cjllp3vs4001syoh9f0cw17nh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -527,7 +673,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/" data-id="cjkgz27jb001u8w9i28ilpgye" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/" data-id="cjllp3vqa001cyoh97veb2hsk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -660,7 +806,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/Exchanger/" data-id="cjkgz27hd000a8w9izyadxccs" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/Exchanger/" data-id="cjllp3vkb000eyoh9h6y6aqht" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -799,7 +945,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/BlockingQueue/" data-id="cjkgz27i4000m8w9iu0buw7af" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/BlockingQueue/" data-id="cjllp3vhx0009yoh9kxy91m9g" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -936,7 +1082,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/CyclicBarrier/" data-id="cjkgz27hl000d8w9ixzi2ajkh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/CyclicBarrier/" data-id="cjllp3vlr000hyoh9bqanu865" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1073,7 +1219,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/17/CountDownLatch/" data-id="cjkgz27hb00098w9i78vbwrl2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/17/CountDownLatch/" data-id="cjllp3vk3000dyoh96zsm3nx9" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1207,7 +1353,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/17/Callable-and-Future/" data-id="cjkgz27gw00038w9iov0h27bd" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/17/Callable-and-Future/" data-id="cjllp3vg30003yoh9tfyctmuu" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1353,151 +1499,7 @@
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/" data-id="cjkgz27hz000j8w9if1yog78h" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Semaphores" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/06/15/Semaphores/">Semaphores</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/15/Semaphores/">
-            <time datetime="2018-06-15T12:47:27.000Z" itemprop="datePublished">2018-06-15</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><strong>Semaphores are a really simple concept, invented by the famous Dutch computer scientist Edsger Dijkstra.</strong> </p>
-<p>Basically a semaphore is a counter (integer) that allows a thread to get into a critical region.<br>What the counter is counting are permits that allow access to the shared resource. Thus, to access the resource, a thread must be granted a permit from the semaphore.</p>
-<p>If the value of the counter is greater than 0 then thread get the permit otherwise waits for the permit.<br>Once thread leaves the critical region increments the counter so that other thread can access the critical section.  </p>
-<p>Most of the time we use semaphores to limit the number of concurrent threads accessing a specific resource.</p>
-<p><strong>Example</strong><br>let consider, We want to limit connections to some resources to some max limit.Similar to connection pool.<br>In below example 10 threads are trying to get connection at same time.But we should not allow more than 5 connections </p>
-<figure class="highlight java"><figcaption><span>Semaphore Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.nirajsonawane;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Semaphore;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.IntStream;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionPool</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Semaphore connectionSemaphore;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ConnectionPool</span><span class="params">(<span class="keyword">int</span> poolsize)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.connectionSemaphore = <span class="keyword">new</span> Semaphore(poolsize);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getConnectionFromPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (connectionSemaphore.availablePermits() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			connectionSemaphore.tryAcquire();</span><br><span class="line">			System.out.println(<span class="string">"Get the connection"</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"Max active connection limit reach!! try again"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">releaseConnection</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		connectionSemaphore.release();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConnectionService</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> ConnectionPool connectionPool;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ConnectionService</span><span class="params">(ConnectionPool connectionPool)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.connectionPool = connectionPool;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		connectionPool.getConnectionFromPool();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Semaphores</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line">		ConnectionPool connectionPool = <span class="keyword">new</span> ConnectionPool(<span class="number">5</span>);</span><br><span class="line">		ConnectionService service = <span class="keyword">new</span> ConnectionService(connectionPool);</span><br><span class="line">		IntStream.range(<span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">				.forEach((cnt) -&gt; executorService.execute(service));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><em>Out of 10 threds only 5 was able to get the connection.</em></p>
-<img src="/2018/06/15/Semaphores/output.png" title="OutPut">
-<p><strong>Key Points</strong></p>
-<ol>
-<li><code>tryAcquire()</code>– Return true if a permit is available immediately and acquire it otherwise return false,</li>
-<li><code>acquire()</code>- Acquires a permit and blocking until one is available.</li>
-<li><code>release()</code> – Release a permit</li>
-<li><code>availablePermits()</code> – Return number of current permits available</li>
-</ol>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Semaphores/" data-id="cjkgz27ix001h8w9i7xwbgc4a" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/" data-id="cjllp3vm3000kyoh95pe31qs2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1590,6 +1592,15 @@
                     <li>
                         
                         <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Collector/">Collector</a></p>
+                            <p class="item-title"><a href="/2018/09/03/Java-8-Custom-Collector/" class="title">Java 8 Custom Collector</a></p>
+                            <p class="item-date"><time datetime="2018-09-03T02:52:10.000Z" itemprop="datePublished">2018-09-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Angular-6/">Angular 6</a></p>
                             <p class="item-title"><a href="/2018/08/05/Angular-pipes/" class="title">Angular pipes</a></p>
                             <p class="item-date"><time datetime="2018-08-05T14:33:17.000Z" itemprop="datePublished">2018-08-05</time></p>
@@ -1623,15 +1634,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Multithreading/">Multithreading</a></p>
-                            <p class="item-title"><a href="/2018/06/18/BlockingQueue/" class="title">BlockingQueue</a></p>
-                            <p class="item-date"><time datetime="2018-06-18T09:57:41.000Z" itemprop="datePublished">2018-06-18</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1641,7 +1643,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-6/">Angular 6</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular-6/">Angular 6</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li></ul>
         </div>
     </div>
 
@@ -1650,7 +1652,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1659,7 +1661,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/">Angular 6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">25</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">24</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular-6/">Angular 6</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">26</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">25</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1668,7 +1670,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Concurrency/" style="font-size: 15px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 17.5px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 12.5px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Multithreading/" style="font-size: 15px;">Multithreading</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a>
+            <a href="/tags/Angular-6/" style="font-size: 10px;">Angular 6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Concurrency/" style="font-size: 15px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 17.5px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 12.5px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Multithreading/" style="font-size: 15px;">Multithreading</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a>
         </div>
     </div>
 
