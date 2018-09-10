@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/</loc>
+    
+    <lastmod>2018-09-10T09:16:47.122Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/</loc>
+    
+    <lastmod>2018-09-10T08:46:32.180Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-value/</loc>
+    
+    <lastmod>2018-09-10T08:26:45.267Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-key/</loc>
+    
+    <lastmod>2018-09-10T08:26:17.076Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2018/09/03/Java-8-Custom-Collector/</loc>
     
     <lastmod>2018-09-03T04:17:58.383Z</lastmod>
