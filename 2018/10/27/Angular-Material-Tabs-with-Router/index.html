@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Angular Material Tabs with Router | Niraj Sonawane</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="In this article, I will show you how to Use Angular Material Tab Component with Angular Routing. The Article is based on Angular 6.We will Create small application using angular cli and will add neede">
+<meta name="keywords" content="Angular6,Material,Navigation,Routing">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular Material Tabs with Router">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/index.html">
+<meta property="og:site_name" content="Niraj Sonawane">
+<meta property="og:description" content="In this article, I will show you how to Use Angular Material Tab Component with Angular Routing. The Article is based on Angular 6.We will Create small application using angular cli and will add neede">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/angular1.png">
+<meta property="og:image" content="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/angular2.png">
+<meta property="og:updated_time" content="2018-10-27T09:20:32.805Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular Material Tabs with Router">
+<meta name="twitter:description" content="In this article, I will show you how to Use Angular Material Tab Component with Angular Routing. The Article is based on Angular 6.We will Create small application using angular cli and will add neede">
+<meta name="twitter:image" content="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/angular1.png">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-125455524-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Niraj Sonawane</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">Niraj Sonawane</h2>
+            <h3 id="title">I am a Java developer, open-source contributor, student and lifelong learner.</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Pune, India</span>
+            <a id="follow" target="_blank" href="https://github.com/nirajsonawane/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                33
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                22
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/nirajsonawane/" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile" target="_blank" title="stack-overflow" class=tooltip>
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Angular-Material-Tabs-with-Router" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Angular Material Tabs with Router
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2018/10/27/Angular-Material-Tabs-with-Router/">
+            <time datetime="2018-10-27T04:28:55.000Z" itemprop="datePublished">2018-10-27</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Angular/">Angular</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Angular6/">Angular6</a>, <a class="tag-link" href="/tags/Material/">Material</a>, <a class="tag-link" href="/tags/Navigation/">Navigation</a>, <a class="tag-link" href="/tags/Routing/">Routing</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>In this article, I will show you how to Use <strong>Angular Material Tab Component with Angular Routing</strong>. The Article is based on <strong>Angular 6</strong>.<br>We will Create small application using angular cli and will add needed component step by step.</p>
+<h2 id="Step-1-Create-Angular-6-Project"><a href="#Step-1-Create-Angular-6-Project" class="headerlink" title="Step 1: Create Angular 6 Project"></a>Step 1: Create Angular 6 Project</h2><figure class="highlight javascript"><figcaption><span>Run the command in angular cli</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng <span class="keyword">new</span> angular-material-tab-router</span><br></pre></td></tr></table></figure>
+<h2 id="Step-2-Add-Angular-material-to-project"><a href="#Step-2-Add-Angular-material-to-project" class="headerlink" title="Step 2: Add Angular material to project"></a>Step 2: Add Angular material to project</h2><figure class="highlight javascript"><figcaption><span>Run the command in angular cli</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save @angular/material @angular/cdk @angular/animations</span><br></pre></td></tr></table></figure>
+<h2 id="Step-3-Add-Angular-PreBuild-Theme-to-project"><a href="#Step-3-Add-Angular-PreBuild-Theme-to-project" class="headerlink" title="Step 3: Add Angular  PreBuild Theme to project."></a>Step 3: Add Angular  PreBuild Theme to project.</h2><p>We will be using indigo-pink Theme.<br><figure class="highlight css"><figcaption><span>styless.css</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> <span class="string">"~@angular/material/prebuilt-themes/indigo-pink.css"</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Step-4-Add-BrowserAnimationsModule"><a href="#Step-4-Add-BrowserAnimationsModule" class="headerlink" title="Step 4: Add BrowserAnimationsModule"></a>Step 4: Add BrowserAnimationsModule</h2><figure class="highlight"><figcaption><span>app.module.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123;BrowserAnimationsModule&#125; from '@angular/platform-browser/animations';</span><br></pre></td></tr></table></figure>
+<h2 id="Step-5-Add-Angular-Material-Toolbar-amp-Tabs"><a href="#Step-5-Add-Angular-Material-Toolbar-amp-Tabs" class="headerlink" title="Step 5: Add Angular Material Toolbar &amp; Tabs."></a>Step 5: Add Angular Material Toolbar &amp; Tabs.</h2><p>In the most situations, a Material toolbar will be placed at the top of your application and will only have a single row that includes the title of your application.</p>
+<figure class="highlight"><figcaption><span>app.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;mat-toolbar color="primary"&gt;</span><br><span class="line">&lt;span&gt; Angular Material App With Tab and Routing &lt;/span&gt;</span><br><span class="line">&lt;span class="example-fill-remaining-space"&gt;&lt;/span&gt;  </span><br><span class="line">&lt;/mat-toolbar&gt; </span><br></pre></td></tr></table></figure>
+<p><strong>Angular Material Tabs</strong> organize content into separate views where only one view can be visible at a time. Each tab’s label is shown in the tab header and the active tab’s label is designated with the animated ink bar. When the list of tab labels exceeds the width of the header, pagination controls appear to let the user scroll left and right across the labels.<br><figure class="highlight plain"><figcaption><span>app.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;mat-tab-group&gt;</span><br><span class="line">&lt;mat-tab label=&quot;First&quot;&gt; Content 1 &lt;/mat-tab&gt;</span><br><span class="line">&lt;mat-tab label=&quot;Second&quot;&gt; Content 2 &lt;/mat-tab&gt;</span><br><span class="line">&lt;mat-tab label=&quot;Third&quot;&gt; Content 3 &lt;/mat-tab&gt;</span><br><span class="line">&lt;/mat-tab-group&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Add corresponding imports in <code>app.module.ts</code><br><figure class="highlight plain"><figcaption><span>app.module.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import &#123;MatToolbarModule&#125; from &apos;@angular/material/toolbar&apos;;</span><br><span class="line">import &#123;MatTabsModule&#125; from &apos;@angular/material/tabs&apos;;</span><br><span class="line">import &#123;BrowserAnimationsModule&#125; from &apos;@angular/platform-browser/animations&apos;;</span><br><span class="line"></span><br><span class="line"> imports: [</span><br><span class="line">    BrowserModule,</span><br><span class="line">    MatToolbarModule,</span><br><span class="line">    MatTabsModule,</span><br><span class="line">    BrowserAnimationsModule,</span><br><span class="line">    AppRoutingModule,</span><br><span class="line">    </span><br><span class="line">  ],</span><br></pre></td></tr></table></figure></p>
+<p><strong>Now  we have integrated  Material MatTabsModule in  our application.</strong>  Start application<br><code>ng serve</code></p>
+<img src="/2018/10/27/Angular-Material-Tabs-with-Router/angular1.png"> 
+<h2 id="Step-6-Add-Routing-module-to-application"><a href="#Step-6-Add-Routing-module-to-application" class="headerlink" title="Step 6: Add Routing module to application"></a>Step 6: Add Routing module to application</h2><p>An Angular best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root AppModule.<br>By convention, the module class name is <code>AppRoutingModule</code> and it belongs in the <code>app-routing.module.ts</code> in the <code>src/app</code> folder.<br><figure class="highlight javascript"><figcaption><span>Run the command in angular cli</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ng generate <span class="built_in">module</span> app-routing --flat --<span class="built_in">module</span>=app</span><br><span class="line"></span><br><span class="line"><span class="comment">//Also generate some test component using cli </span></span><br><span class="line">ng generate component componenet1</span><br><span class="line">ng generate component componenet2</span><br><span class="line">ng generate component componenet3</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h2 id="Step-7-Initialize-and-Add-Routes"><a href="#Step-7-Initialize-and-Add-Routes" class="headerlink" title="Step 7: Initialize and Add Routes"></a>Step 7: Initialize and Add Routes</h2><p>Routes tell the router which view to display when a user clicks a link or pastes a URL into the browser address bar.<br>A typical Angular Route has two properties:</p>
+<ul>
+<li>Path: a string that matches the URL in the browser address bar.</li>
+<li>Component: the component that the router should create when navigating to this route.</li>
+</ul>
+<p>This is how the <code>app-routing.module.ts</code> will look like after adding routes.<br><figure class="highlight javascript"><figcaption><span>app-routing.module.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; NgModule &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; CommonModule &#125; <span class="keyword">from</span> <span class="string">'@angular/common'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; RouterModule, Routes &#125; <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Componenet1Component &#125; <span class="keyword">from</span> <span class="string">'./componenet1/componenet1.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Componenet2Component &#125; <span class="keyword">from</span> <span class="string">'./componenet2/componenet2.component'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Componenet3Component &#125; <span class="keyword">from</span> <span class="string">'./componenet3/componenet3.component'</span>;</span><br><span class="line"><span class="keyword">const</span> routes: Routes = [</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">''</span>, <span class="attr">redirectTo</span>: <span class="string">'/first'</span>, <span class="attr">pathMatch</span>: <span class="string">'full'</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">'first'</span>, <span class="attr">component</span>:  Componenet1Component&#125;,</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">'second'</span>, <span class="attr">component</span>:  Componenet2Component&#125;,</span><br><span class="line">  &#123; <span class="attr">path</span>: <span class="string">'third'</span>, <span class="attr">component</span>: Componenet3Component&#125;,</span><br><span class="line">];</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> appRouting = RouterModule.forRoot(routes);</span><br><span class="line">@NgModule(&#123;</span><br><span class="line">  imports: [</span><br><span class="line">    RouterModule.forRoot(routes),</span><br><span class="line">    CommonModule</span><br><span class="line">  ],</span><br><span class="line">  exports: [ RouterModule ],</span><br><span class="line">  declarations: []</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppRoutingModule</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Step-7-Tabs-and-Navigation"><a href="#Step-7-Tabs-and-Navigation" class="headerlink" title="Step 7 : Tabs and Navigation"></a>Step 7 : Tabs and Navigation</h2><p>While <code>&lt;mat-tab-group&gt;</code> is used to switch between views within a single route, <code>&lt;nav mat-tab-nav-bar&gt;</code> provides a tab-like UI for navigating between routes.<br>let’s update <code>&lt;mat-tab-group&gt;</code> to <code>&lt;nav mat-tab-nav-bar&gt;</code></p>
+<figure class="highlight javascript"><figcaption><span>app.component.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;nav mat-tab-nav-bar&gt;</span><br><span class="line">&lt;a mat-tab-link</span><br><span class="line">*ngFor=<span class="string">"let link of navLinks"</span></span><br><span class="line">[routerLink]=<span class="string">"link.link"</span></span><br><span class="line">routerLinkActive #rla="routerLinkActive"</span><br><span class="line">[active]=<span class="string">"rla.isActive"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/a&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>nav&gt;</span><br><span class="line">&lt;router-outlet&gt;&lt;/router-outlet&gt;</span><br></pre></td></tr></table></figure>
+<p><strong> Setup navLinks </strong><br>In the <code>app.component.ts</code> , I have initialized navLinks with a routeLinks array in the constructor. Also note that <code>ngOnInit()</code> function is responsible to maintaining  Tab selection.  </p>
+<figure class="highlight javascript"><figcaption><span>AppComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;MatToolbarModule&#125; <span class="keyword">from</span> <span class="string">'@angular/material/toolbar'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Router &#125; <span class="keyword">from</span> <span class="string">'@angular/router'</span>;</span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: <span class="string">'app-root'</span>,</span><br><span class="line">  templateUrl: <span class="string">'./app.component.html'</span>,</span><br><span class="line">  styleUrls: [<span class="string">'./app.component.css'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">AppComponent</span> </span>&#123;</span><br><span class="line">  title = <span class="string">'angular-material-tab-router'</span>;  </span><br><span class="line">  navLinks: any[];</span><br><span class="line">  activeLinkIndex = <span class="number">-1</span>; </span><br><span class="line">  <span class="keyword">constructor</span>(private router: Router) &#123;</span><br><span class="line">    <span class="keyword">this</span>.navLinks = [</span><br><span class="line">        &#123;</span><br><span class="line">            label: <span class="string">'First'</span>,</span><br><span class="line">            link: <span class="string">'./first'</span>,</span><br><span class="line">            index: <span class="number">0</span></span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            label: <span class="string">'Second'</span>,</span><br><span class="line">            link: <span class="string">'./second'</span>,</span><br><span class="line">            index: <span class="number">1</span></span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            label: <span class="string">'Third'</span>,</span><br><span class="line">            link: <span class="string">'./third'</span>,</span><br><span class="line">            index: <span class="number">2</span></span><br><span class="line">        &#125;, </span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br><span class="line">ngOnInit(): <span class="keyword">void</span> &#123;</span><br><span class="line">  <span class="keyword">this</span>.router.events.subscribe(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.activeLinkIndex = <span class="keyword">this</span>.navLinks.indexOf(<span class="keyword">this</span>.navLinks.find(<span class="function"><span class="params">tab</span> =&gt;</span> tab.link === <span class="string">'.'</span> + <span class="keyword">this</span>.router.url));</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Working application will look like below</em><br><img src="/2018/10/27/Angular-Material-Tabs-with-Router/angular2.png"> </p>
+<p><strong> References </strong><br><a href="https://material.angular.io/components/" target="_blank" rel="noopener">Material Components</a><br><a href="https://angular.io/docs" target="_blank" rel="noopener">Angular </a></p>
+<p><a href="https://github.com/nirajsonawane/angular-material-tab-router.git" target="_blank" rel="noopener">Github Link of Solution </a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="cjnqy4mkx0012lwh93a53vj3x" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Sort Map by Value using Custom Comparator</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/10/27/Angular-Material-Tabs-with-Router/" class="title">Angular Material Tabs with Router</a></p>
+                            <p class="item-date"><time datetime="2018-10-27T04:28:55.000Z" itemprop="datePublished">2018-10-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Stream/">Stream</a></p>
+                            <p class="item-title"><a href="/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" class="title">Sort Map by Value using Custom Comparator</a></p>
+                            <p class="item-date"><time datetime="2018-09-10T08:33:33.000Z" itemprop="datePublished">2018-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Stream/">Stream</a></p>
+                            <p class="item-title"><a href="/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" class="title">Sort Map by key using Custom Comparator</a></p>
+                            <p class="item-date"><time datetime="2018-09-10T08:33:18.000Z" itemprop="datePublished">2018-09-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Stream/">Stream</a></p>
+                            <p class="item-title"><a href="/2018/09/09/Java-Stream-Sort-map-by-value/" class="title">Java Stream - Sort map by value</a></p>
+                            <p class="item-date"><time datetime="2018-09-09T18:25:43.000Z" itemprop="datePublished">2018-09-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Stream/">Stream</a></p>
+                            <p class="item-title"><a href="/2018/09/09/Java-Stream-Sort-map-by-key/" class="title">Java Stream - Sort map by key</a></p>
+                            <p class="item-date"><time datetime="2018-09-09T18:25:24.000Z" itemprop="datePublished">2018-09-09</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular6/" style="font-size: 11.67px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.67px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 18.33px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.33px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 15px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Multithreading/" style="font-size: 16.67px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 15px;">Sorting</a> <a href="/tags/Stream/" style="font-size: 15px;">Stream</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile">StackOverflow</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Niraj Sonawane<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
