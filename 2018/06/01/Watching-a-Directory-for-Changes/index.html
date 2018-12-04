@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=en>
-<head>
+<head><link rel=manifest href=/manifest.json>
     <meta charset="utf-8">
     
     <title>Watching a Directory for Changes | Niraj Sonawane</title>
@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Niraj Sonawane">
 <meta property="og:description" content="The java.nio.file package provides a file change notification API, called the Watch Service API. This API enables you to register a directory (or directories) with the watch service. When registering,">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-06-09T19:05:34.000Z">
+<meta property="og:updated_time" content="2018-06-10T08:35:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Watching a Directory for Changes">
 <meta name="twitter:description" content="The java.nio.file package provides a file change notification API, called the Watch Service API. This API enables you to register a directory (or directories) with the watch service. When registering,">
@@ -282,7 +282,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/01/Watching-a-Directory-for-Changes/" data-id="cjoba6pk7002ejgh93pm0bmrr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/01/Watching-a-Directory-for-Changes/" data-id="cjp9lrv3g008pd0ukj34w8ejc" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -608,5 +608,10 @@ ga('send', 'pageview');
 <script src="/js/main.js"></script>
 
     </div>
-</body>
+<script>if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js?t=1543919443082')
+    .then(function () {console.log('ServiceWorker Register Successfully.')})
+    .catch(function (e) {console.error(e)});
+}
+</script></body>
 </html>

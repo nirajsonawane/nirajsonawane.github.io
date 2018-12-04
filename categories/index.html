@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=en>
-<head>
+<head><link rel=manifest href=/manifest.json>
     <meta charset="utf-8">
     
     <title>Categories | Niraj Sonawane</title>
@@ -10,7 +10,7 @@
 <meta property="og:url" content="https://nirajsonawane.github.io/categories/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-06-09T13:15:44.000Z">
+<meta property="og:updated_time" content="2018-06-10T02:45:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Categories">
     
@@ -427,5 +427,10 @@ ga('send', 'pageview');
 <script src="/js/main.js"></script>
 
     </div>
-</body>
+<script>if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js?t=1543919443082')
+    .then(function () {console.log('ServiceWorker Register Successfully.')})
+    .catch(function (e) {console.error(e)});
+}
+</script></body>
 </html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=en>
-<head>
+<head><link rel=manifest href=/manifest.json>
     <meta charset="utf-8">
     
     <title>Archive: 2018 | Niraj Sonawane</title>
@@ -787,5 +787,10 @@ ga('send', 'pageview');
 <script src="/js/main.js"></script>
 
     </div>
-</body>
+<script>if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js?t=1543919443082')
+    .then(function () {console.log('ServiceWorker Register Successfully.')})
+    .catch(function (e) {console.error(e)});
+}
+</script></body>
 </html>
