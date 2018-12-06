@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><link rel=manifest href=/manifest.json>
+    <meta charset="utf-8">
+    
+    <title>Applying Reactive Programing to Existing Batch Application- RXJava2 | Niraj Sonawane</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Today, I will share my experience of migrating our existing Spring batch application to reactive programing model using ReactiveX extensions.The goal is to explain, What is ReactiveX-RXjava2 and dem">
+<meta name="keywords" content="RXjava,ReactiveX,Functional Programming,Reactive Programming,Streams">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Applying Reactive Programing to Existing Batch Application- RXJava2">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/index.html">
+<meta property="og:site_name" content="Niraj Sonawane">
+<meta property="og:description" content="Today, I will share my experience of migrating our existing Spring batch application to reactive programing model using ReactiveX extensions.The goal is to explain, What is ReactiveX-RXjava2 and dem">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://nirajsonawane.github.io/asset/Rx_Logo_S.png">
+<meta property="og:updated_time" content="2018-12-06T13:41:21.934Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Applying Reactive Programing to Existing Batch Application- RXJava2">
+<meta name="twitter:description" content="Today, I will share my experience of migrating our existing Spring batch application to reactive programing model using ReactiveX extensions.The goal is to explain, What is ReactiveX-RXjava2 and dem">
+<meta name="twitter:image" content="https://nirajsonawane.github.io/asset/Rx_Logo_S.png">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-125455524-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Niraj Sonawane</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://www.gravatar.com/avatar/8328f9fc834752ead8a75bf4950fa304" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://www.gravatar.com/avatar/8328f9fc834752ead8a75bf4950fa304?s=128" />
+            <h2 id="name">Niraj Sonawane</h2>
+            <h3 id="title">I am a Java developer, open-source contributor, student and lifelong learner.</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Pune, India</span>
+            <a id="follow" target="_blank" href="https://github.com/nirajsonawane/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                35
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                29
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/nirajsonawane/" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile" target="_blank" title="stack-overflow" class=tooltip>
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Applying Reactive Programing to Existing Batch Application- RXJava2
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/">
+            <time datetime="2018-12-06T05:10:55.000Z" itemprop="datePublished">2018-12-06</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/RXJava-2/">RXJava-2</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Functional-Programming/">Functional Programming</a>, <a class="tag-link" href="/tags/RXjava/">RXjava</a>, <a class="tag-link" href="/tags/Reactive-Programming/">Reactive Programming</a>, <a class="tag-link" href="/tags/ReactiveX/">ReactiveX</a>, <a class="tag-link" href="/tags/Streams/">Streams</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <img src="/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/Reactive-Extensions.png"> 
+<p>Today, I will share my experience of migrating our existing Spring batch application to reactive programing model using <strong>ReactiveX</strong> extensions.<br>The goal is to explain, What is <strong>ReactiveX-RXjava2</strong> and demonstrating Working example.</p>
+<h2 id="What-is-ReactiveX-And-RxJava"><a href="#What-is-ReactiveX-And-RxJava" class="headerlink" title="What is ReactiveX And RxJava"></a>What is ReactiveX And RxJava</h2><p><strong>ReactiveX</strong> Is An API for asynchronous programming with observable streams.ReactiveX is a  combination of the best ideas from the Observer pattern, the Iterator pattern, and functional programming.</p>
+<p><strong>RxJava</strong> is the Java implementation of ReactiveX. RxJava provides Java API for asynchronous programming with observable streams.<br><a href="http://reactivex.io/" target="_blank" rel="noopener">ReactiveX</a></p>
+<h2 id="Why-Reactive-programming"><a href="#Why-Reactive-programming" class="headerlink" title="Why Reactive programming?"></a>Why Reactive programming?</h2><p> For Me Reactive Programming is a development model focus around <em>Asynchronous Data Streams</em>.<br> In Reactive programming, <em>Data streams</em> are the center part of your application. Mesages ,Events, Errors ,Event chains ,call etc  are going to be conveyed As a data stream.<br> <code>Reactive programming provides a simple way of asynchronous programming.</code></p>
+<h2 id="Migration-Story"><a href="#Migration-Story" class="headerlink" title="Migration Story"></a>Migration Story</h2><p>The Batch application was very traditional use case of file processing. Processing includes Multiple complex Steps.<br>To Stimulate Similar processing with less complexity, I have created small <code>Spring-Batch</code> application that process csv file containing <em>FirstName,LastName and Age</em>. Processing includes below Steps.</p>
+<ol>
+<li>Validations - Age Should not be more than 100 years.</li>
+<li>Enrichment 1 - Upper Case First Name.        </li>
+<li>Enrichment 2 - Upper Case Last Name.        </li>
+<li>Segregation  - Based on Age, Categories Person As Teenager, YoungAdult or Senior Citizens.         </li>
+<li>Database Insert- Based on Age Group insert person in associate table.</li>
+</ol>
+<p><a href="https://github.com/nirajsonawane/spring-batch-csv-processor" target="_blank" rel="noopener">The complete source code Spring-Batch Implementation</a><br><a href="https://github.com/nirajsonawane/rxjava2-csvprocessor" target="_blank" rel="noopener">The complete source code RXJava2 Implementation</a></p>
+<h2 id="Let’s-Start-with-RXJava2-Implementation"><a href="#Let’s-Start-with-RXJava2-Implementation" class="headerlink" title="Let’s Start with RXJava2 Implementation"></a>Let’s Start with RXJava2 Implementation</h2><h4 id="Build-blocks-for-RxJava"><a href="#Build-blocks-for-RxJava" class="headerlink" title="Build blocks for RxJava"></a>Build blocks for RxJava</h4><p><a href="http://reactivex.io/documentation/observable.html" target="_blank" rel="noopener">Observables</a> Representing sources of data<br><a href="http://reactivex.io/RxJava/javadoc/rx/Subscriber.html" target="_blank" rel="noopener">Subscribers or observers</a> listening to the observables<br><a href="http://reactivex.io/documentation/operators.html" target="_blank" rel="noopener">Operators</a> Operators create  Observables Or Transform data or operate on an Observable and return an Observable set of methods for modifying and composing the data.</p>
+<h4 id="Step-1-Creating-Observable-on-Input-File"><a href="#Step-1-Creating-Observable-on-Input-File" class="headerlink" title="Step 1 : Creating Observable on Input File"></a>Step 1 : Creating Observable on Input File</h4><p><code>ObServable</code> is Responsible for reading data from file and passing it to Subscriber.There are multiple ways by which we create Observable. For reading data from file we will use <code>defer()</code> operator.<br><strong>The defer()</strong> operator does not create the Observable until the observer subscribes, and create a fresh Observable for each observer.</p>
+<figure class="highlight java"><figcaption><span>Create Observable</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">Observable&lt;Person&gt; observable = Observable.defer(() -&gt; <span class="keyword">new</span> CsvFileObservableSource(filePath))</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CsvFileObservableSource</span> <span class="keyword">implements</span> <span class="title">ObservableSource</span>&lt;<span class="title">Person</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger log = LoggerFactory.getLogger(CsvFileObservableSource.class);</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> String filename;</span><br><span class="line">	CsvFileObservableSource(String filename) &#123;</span><br><span class="line">		<span class="keyword">this</span>.filename = filename; </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(Observer&lt;? <span class="keyword">super</span> Person&gt; observer)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Files.lines(Paths.get(filename)).forEach(inputLine -&gt; &#123;</span><br><span class="line">				String[] split = inputLine.split(<span class="string">","</span>);				</span><br><span class="line">				<span class="comment">//Send data </span></span><br><span class="line">                observer.onNext(    </span><br><span class="line">				Person.builder()</span><br><span class="line">				.firstName(split[<span class="number">0</span>])</span><br><span class="line">				.lastName(split[<span class="number">1</span>])</span><br><span class="line">				.age(Integer.parseInt(split[<span class="number">2</span>]))</span><br><span class="line">				.build());</span><br><span class="line">			&#125;);</span><br><span class="line">			observer.onComplete(); <span class="comment">// No more data to be send </span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			observer.onError(e); <span class="comment">// Some error , send error information to subscriber. </span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Step-2-Subscribe-to-Observable"><a href="#Step-2-Subscribe-to-Observable" class="headerlink" title="Step 2 : Subscribe to  Observable"></a>Step 2 : Subscribe to  Observable</h4><p><code>observable.subscribe(onNext, onError, onComplete);</code> Provide onNext,onError,onComplete consumers<br>The Subscriber will print the values line by line read from file.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">observable.subscribe(</span><br><span class="line">			person -&gt; System.out::println, </span><br><span class="line">			Throwable::printStackTrace, </span><br><span class="line">			() -&gt; System.out::println(<span class="string">"I am Done"</span>);			</span><br><span class="line">		);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Step-3-Add-Processing-logic-using-Operators"><a href="#Step-3-Add-Processing-logic-using-Operators" class="headerlink" title="Step 3 : Add Processing logic using Operators"></a>Step 3 : Add Processing logic using Operators</h3><p>Now Process the elements read from the file using operators like <code>filter</code> &amp; <code>map</code> This is similar to java 8 stream.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Observable&lt;List&lt;Person&gt;&gt; observable = Observable.defer(() -&gt; <span class="keyword">new</span> CsvFileObservableSource(filePath))</span><br><span class="line">				.filter(ValidationProcessor::process)</span><br><span class="line">				.map(FirstNameProcessor::process)</span><br><span class="line">				.map(LastNameProcessor::process)</span><br><span class="line">				.map(AgeProcessor::process)</span><br><span class="line">				.buffer(chunkSize);</span><br></pre></td></tr></table></figure><br><strong>Note</strong> If you observe,<code>Observable</code> is of Type <code>List&lt;Person&gt;</code> instead of <code>&lt;Person&gt;</code> . This is because we want to process data in chunk and not as individual data item. This capability is provided by <code>buffer</code> operator.</p>
+<p><strong>Buffer</strong><br>periodically gather items emitted by an Observable into bundles and emit these bundles rather than emitting the items one at a time.</p>
+<h3 id="Step-4-Group-Person-elements-and-Insert-in-different-Tables"><a href="#Step-4-Group-Person-elements-and-Insert-in-different-Tables" class="headerlink" title="Step 4 : Group Person elements and Insert in different Tables"></a>Step 4 : Group Person elements and Insert in different Tables</h3><p>Now Based on Age, We want to Categories Person As Teenager, YoungAdult or Senior Citizens.<br><strong>GroupBy Operator</strong><br>Divide an Observable into a set of Observables that each emit a different subset of items from the original Observable.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> Observable&lt;GroupedObservable&lt;String, Person&gt;&gt; groupObservable = Observable</span><br><span class="line">				.defer(() -&gt; <span class="keyword">new</span> CsvFileObservableSource(filePath))</span><br><span class="line">				.filter(ValidationProcessor::process)</span><br><span class="line">				.map(FirstNameProcessor::process)</span><br><span class="line">				.map(LastNameProcessor::process)</span><br><span class="line">				.map(AgeProcessor::process)</span><br><span class="line">				.groupBy(Person::getAgeGroup);</span><br><span class="line"></span><br><span class="line">groupObservable.subscribe(s -&gt; &#123;</span><br><span class="line">			<span class="keyword">if</span> (<span class="string">"TEENAGER"</span>.equals(s.getKey())) &#123;</span><br><span class="line">				s.buffer(chunkSize).subscribe(daoServiceImpl::insertTeenagerList);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (<span class="string">"YOUNGADULT"</span>.equals(s.getKey())) &#123;</span><br><span class="line">				s.buffer(chunkSize).subscribe(daoServiceImpl::insertYoungadultList);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (<span class="string">"SENIORCITIZENS"</span>.equals(s.getKey())) &#123;</span><br><span class="line">				s.buffer(chunkSize).subscribe(daoServiceImpl::insertSeniorcitizensList);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;, Throwable::printStackTrace, () -&gt; &#123;</span><br><span class="line">			System.out.println(<span class="string">"File Processing Complited"</span>);</span><br><span class="line">		&#125;);</span><br></pre></td></tr></table></figure><br><a href="https://github.com/nirajsonawane/rxjava2-csvprocessor" target="_blank" rel="noopener">The complete source code RXJava2 Implementation</a></p>
+<p>There are other important aspect like <strong>Error Handling</strong>, <strong>Backpressure</strong> and <strong>Multithreading</strong> are not in scope of this article. I will try to cover them in upcoming articles.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjpc58gs1000430ukbkm5k193" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Spring Batch - Process Multiple Files Parallel</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/asset/Rx_Logo_S.png)" alt="Applying Reactive Programing to Existing Batch Application- RXJava2" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/RXJava-2/">RXJava-2</a></p>
+                            <p class="item-title"><a href="/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" class="title">Applying Reactive Programing to Existing Batch Application- RXJava2</a></p>
+                            <p class="item-date"><time datetime="2018-12-06T05:10:55.000Z" itemprop="datePublished">2018-12-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/wild-flowers-571940_1920.jpg)" alt="Spring Batch - Process Multiple Files Parallel" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Spring-Batch/">Spring-Batch</a></p>
+                            <p class="item-title"><a href="/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" class="title">Spring Batch - Process Multiple Files Parallel</a></p>
+                            <p class="item-date"><time datetime="2018-11-08T11:47:22.000Z" itemprop="datePublished">2018-11-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/10/27/Angular-Material-Tabs-with-Router/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2018/10/27/Angular-Material-Tabs-with-Router/angular.png)" alt="Angular Material Tabs with Router" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/10/27/Angular-Material-Tabs-with-Router/" class="title">Angular Material Tabs with Router</a></p>
+                            <p class="item-date"><time datetime="2018-10-27T04:28:55.000Z" itemprop="datePublished">2018-10-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/09/11/Java-8-Custom-Collector/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/asset/java.png)" alt="Java 8 Custom Collector" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Collector/">Collector</a></p>
+                            <p class="item-title"><a href="/2018/09/11/Java-8-Custom-Collector/" class="title">Java 8 Custom Collector</a></p>
+                            <p class="item-date"><time datetime="2018-09-11T02:52:10.000Z" itemprop="datePublished">2018-09-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Stream/">Stream</a></p>
+                            <p class="item-title"><a href="/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" class="title">Sort Map by Value using Custom Comparator</a></p>
+                            <p class="item-date"><time datetime="2018-09-10T08:33:33.000Z" itemprop="datePublished">2018-09-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RXJava-2/">RXJava-2</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Batch/">Spring-Batch</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular6/" style="font-size: 11.67px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.67px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 18.33px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.33px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 15px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Multithreading/" style="font-size: 16.67px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 15px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 15px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile">StackOverflow</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Niraj Sonawane<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/';
+        
+        this.page.identifier = 'Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-nirajsonawane-github-io-1' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+<script>if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js?t=1544103689134')
+    .then(function () {console.log('ServiceWorker Register Successfully.')})
+    .catch(function (e) {console.error(e)});
+}
+</script></body>
+</html>
