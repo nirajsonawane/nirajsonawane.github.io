@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/about/index.html</loc>
+    
+    <lastmod>2018-12-10T08:20:46.385Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/</loc>
     
-    <lastmod>2018-12-06T15:40:49.050Z</lastmod>
+    <lastmod>2018-12-06T15:45:07.902Z</lastmod>
     
   </url>
   
@@ -145,13 +152,6 @@
     <loc>https://nirajsonawane.github.io/2018/06/15/Volatile/</loc>
     
     <lastmod>2018-06-15T22:24:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://nirajsonawane.github.io/about/index.html</loc>
-    
-    <lastmod>2018-06-15T21:37:58.000Z</lastmod>
     
   </url>
   
