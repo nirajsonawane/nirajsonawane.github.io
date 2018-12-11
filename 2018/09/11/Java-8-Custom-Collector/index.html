@@ -16,7 +16,7 @@
 <meta property="og:description" content="In this Article , we’ll Discuss How we can Create our own Custom Collector in java 8 and above.For this article, We will implement Summary Statistics For BigDecimal number.  Java 8 Summary Statistic">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://nirajsonawane.github.io/asset/java.png">
-<meta property="og:updated_time" content="2018-10-30T07:18:48.000Z">
+<meta property="og:updated_time" content="2018-12-11T15:48:55.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 8 Custom Collector">
 <meta name="twitter:description" content="In this Article , we’ll Discuss How we can Create our own Custom Collector in java 8 and above.For this article, We will implement Summary Statistics For BigDecimal number.  Java 8 Summary Statistic">
@@ -261,6 +261,7 @@ ga('send', 'pageview');
 </ul>
 <h5 id="IntSummaryStatistics-Example"><a href="#IntSummaryStatistics-Example" class="headerlink" title="IntSummaryStatistics Example"></a>IntSummaryStatistics Example</h5><p>In below example we are trying to calculate count, min, max, sum, and average of 1 to 100 Integer.</p>
 <figure class="highlight java"><figcaption><span>Calculate Sum,Min,Max,Count & Average</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">IntSummaryStatistics summaryStatistics = IntStream.range(<span class="number">1</span>, <span class="number">101</span>)</span><br><span class="line">		.summaryStatistics();</span><br><span class="line">		System.out.println(summaryStatistics);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h4 id="implementing-SummaryStatistics-for-Big-Decimal-numbers"><a href="#implementing-SummaryStatistics-for-Big-Decimal-numbers" class="headerlink" title="implementing SummaryStatistics  for Big Decimal numbers"></a>implementing SummaryStatistics  for Big Decimal numbers</h4><p>Java does not provides inbuilt Summary Statistics class for BigDecimal Number. </p>
 <p>Lets try to implement our own BigDecimal SummaryStatistics.</p>
 <p><strong>Step 1 </strong> : Create Collector</p>
@@ -276,7 +277,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="cjpjkl2oh000m68ukfa3p2d0k" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="cjpjx4inr000umguk8d7khlun" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -613,7 +614,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1544537958449')
+  navigator.serviceWorker.register('/sw.js?t=1544543603455')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
