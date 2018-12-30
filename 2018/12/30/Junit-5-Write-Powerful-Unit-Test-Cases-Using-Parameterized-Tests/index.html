@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><link rel=manifest href=/manifest.json>
+    
+        <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/5231242.js"></script>
+    <meta charset="utf-8">
+    
+    <title>Junit 5 : Write Powerful Unit Test Cases Using Parameterized Tests | Niraj Sonawane</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="unsplash-logoWellington Rodrigues JUnit 5Unlike previous versions of JUnit. JUnit 5 is complete rewrite  and has lot of interesting architecture changes. JUnit 5 is not Single project but compose fro">
+<meta name="keywords" content="Unit Testing,JUnit-5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Junit 5 : Write Powerful Unit Test Cases Using Parameterized Tests">
+<meta property="og:url" content="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/index.html">
+<meta property="og:site_name" content="Niraj Sonawane">
+<meta property="og:description" content="unsplash-logoWellington Rodrigues JUnit 5Unlike previous versions of JUnit. JUnit 5 is complete rewrite  and has lot of interesting architecture changes. JUnit 5 is not Single project but compose fro">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://nirajsonawane.github.io/asset/junit5-logo.png">
+<meta property="og:updated_time" content="2018-12-30T12:14:12.541Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Junit 5 : Write Powerful Unit Test Cases Using Parameterized Tests">
+<meta name="twitter:description" content="unsplash-logoWellington Rodrigues JUnit 5Unlike previous versions of JUnit. JUnit 5 is complete rewrite  and has lot of interesting architecture changes. JUnit 5 is not Single project but compose fro">
+<meta name="twitter:image" content="https://nirajsonawane.github.io/asset/junit5-logo.png">
+    
+
+    
+
+    
+        <link rel="icon" href="https://raw.githubusercontent.com/nirajsonawane/portfolio/master/images/icon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-125455524-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Niraj Sonawane</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About Me</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://www.gravatar.com/avatar/8328f9fc834752ead8a75bf4950fa304" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About Me</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://www.gravatar.com/avatar/8328f9fc834752ead8a75bf4950fa304?s=128" />
+            <h2 id="name">Niraj Sonawane</h2>
+            <h3 id="title">I am a Java developer, open-source contributor, student and lifelong learner.</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Pune, India</span>
+            <a id="follow" target="_blank" href="https://nirajsonawane.github.io/portfolio/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                36
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                31
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/nirajsonawane/" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile" target="_blank" title="stack-overflow" class=tooltip>
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Junit 5 : Write Powerful Unit Test Cases Using Parameterized Tests
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/">
+            <time datetime="2018-12-30T08:57:02.000Z" itemprop="datePublished">2018-12-30</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Unit-Testing/">Unit Testing</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/JUnit-5/">JUnit-5</a>, <a class="tag-link" href="/tags/Unit-Testing/">Unit Testing</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <img src="/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/wellington-rodrigues-575521-unsplash.jpg">
+<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@wellingtonrodrs?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Wellington Rodrigues"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Wellington Rodrigues</span></a></p>
+<h2 id="JUnit-5"><a href="#JUnit-5" class="headerlink" title="JUnit 5"></a>JUnit 5</h2><p>Unlike previous versions of JUnit. <strong>JUnit 5</strong> is complete rewrite  and has lot of interesting architecture changes. JUnit 5 is not Single project but compose from three sub-projects: <em>Jupiter, Vintage, and Platform</em>. </p>
+<p><strong>JUnit 5 = JUnit Platform + JUnit Jupiter + JUnit Vintage</strong></p>
+<p>Check <a href="https://junit.org/junit5/docs/current/user-guide/#overview" target="_blank" rel="noopener"> JUnit 5 User Guide For more details</a>. You can find all code samples in on my <a href="https://github.com/nirajsonawane/Junit-5.git" target="_blank" rel="noopener">GitHub Account</a></p>
+<p>In this post We will discuss <strong>Parameterized Tests</strong>  in JUnit 5.</p>
+<h2 id="Parameterized-Tests"><a href="#Parameterized-Tests" class="headerlink" title="Parameterized Tests"></a>Parameterized Tests</h2><p>JUnit 5 Parameterized Test are very powerful. With the help of Parameterized Test We can remove the  duplication in test cases.Parameterized test cases can also help us to cleanup the test code and remove the cluter.<br>As Name suggest <em>Parameterized tests</em> make it possible to run a test multiple times with different arguments. They are declared just like regular <code>@Test</code> methods but use the <code>@ParameterizedTest</code> annotation instead. In addition, you must declare at least one source that will provide the arguments for each invocation and then consume the arguments in the test method.</p>
+<h3 id="Simple-ParameterizedTest"><a href="#Simple-ParameterizedTest" class="headerlink" title="Simple ParameterizedTest"></a>Simple ParameterizedTest</h3><p>The following example demonstrates a parameterized test that uses the <code>@ValueSource</code> annotation to specify a String array as the source of arguments. Test Case will be called 2 times with parameter Hello and World.<br><em>Framework will be responsible for injecting parameter values</em>  </p>
+<figure class="highlight java"><figcaption><span>Simple ParameterizedTest</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@ValueSource</span>(strings = &#123; <span class="string">"Hello"</span>, <span class="string">"World"</span> &#125;)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withSomeValues</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">	System.out.println(word);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Display-Names-For-ParameterizedTest"><a href="#Display-Names-For-ParameterizedTest" class="headerlink" title="Display Names For ParameterizedTest"></a>Display Names For ParameterizedTest</h3><p>JUnit 5 Has added new annotation <code>@DisplayName</code>, Which helps to provides more readable names to test classes and methods.These names will be displayed by test runners and test reporting.</p>
+<figure class="highlight java"><figcaption><span>Display Names</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">   <span class="meta">@DisplayName</span>(<span class="string">"String should not be null"</span>)</span><br><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@ValueSource</span>(strings = &#123; <span class="string">"Hello"</span>, <span class="string">"World"</span> &#125;)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withSomeValues</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">	System.out.println(word);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>But in case Parameterized Test,Sometimes we might need to name test  cases based on arguments name. Junit provides <code>index</code>  and <code>arguments</code> variable for this<br><figure class="highlight java"><figcaption><span>Display Names For ParameterizedTest</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">   <span class="meta">@ParameterizedTest</span>(name = <span class="string">"Null Check Test  #&#123;index&#125; with [&#123;arguments&#125;]"</span>)</span><br><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@ValueSource</span>(strings = &#123; <span class="string">"Hello"</span>, <span class="string">"World"</span> &#125;)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withSomeValues</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">	System.out.println(word);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Sources-of-Arguments"><a href="#Sources-of-Arguments" class="headerlink" title="Sources of Arguments"></a>Sources of Arguments</h3><p> Out of the box, JUnit Jupiter provides number of Argument Source providers.</p>
+<ol>
+<li><code>@ValueSource</code></li>
+<li><code>@EnumSource</code></li>
+<li><code>@MethodSource</code></li>
+<li><code>@CsvSource</code></li>
+<li><code>@CsvFileSource</code> </li>
+<li><code>@ArgumentsSource</code></li>
+</ol>
+<p>Let’s try one by one</p>
+<h5 id="EnumSource"><a href="#EnumSource" class="headerlink" title="@EnumSource"></a>@EnumSource</h5><p><code>@EnumSource</code> provides a convenient way to use Enum constants. The annotation provides an optional names parameter that lets you specify which constants shall be used. If omitted, all constants will be used like in the following example.</p>
+<figure class="highlight java"><figcaption><span>EnumSource</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@ParameterizedTest</span>(name = <span class="string">"withSomeName #&#123;index&#125; with Value [&#123;arguments&#125;]"</span>)</span><br><span class="line">    <span class="meta">@EnumSource</span>(MyTestEnum.class)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">withSomeEnum</span><span class="params">(MyTestEnum myEnum)</span> </span>&#123;</span><br><span class="line">		System.out.println(myEnum);</span><br><span class="line">		assertNotNull(myEnum);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<h5 id="MethodSource"><a href="#MethodSource" class="headerlink" title="@MethodSource"></a>@MethodSource</h5><p><code>@MethodSource</code> allows you to refer to one or more factory methods of the test class or external classes.</p>
+<p><em>Method Source in Same class</em></p>
+<ul>
+<li>Factory methods within the test class must be static.</li>
+<li>Each factory method must generate a stream of arguments.</li>
+</ul>
+<figure class="highlight java"><figcaption><span>MethodSource in Same Class</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@MethodSource</span>(<span class="string">"createWordsWithLength"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withMethodSource</span><span class="params">(String word, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"withMethodSource"</span>);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Stream&lt;Arguments&gt; <span class="title">createWordsWithLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   	<span class="keyword">return</span> Stream.of(Arguments.of(<span class="string">"Hello"</span>, <span class="number">5</span>), Arguments.of(<span class="string">"JUnit 5"</span>, <span class="number">7</span>));</span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><em>Method Source in Other class</em></p>
+<ul>
+<li>Factory methods in external classes must be static.</li>
+<li>Each factory method must generate a stream of arguments.</li>
+<li>Factory methods must not accept any arguments.<figure class="highlight java"><figcaption><span>MethodSource in external classes</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@MethodSource</span>(<span class="string">"com.niraj.MethodSource#stringProvider"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withMethodSource</span><span class="params">(String word, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"withMethodSource"</span>);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Stream&lt;Arguments&gt; <span class="title">createWordsWithLength</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> Stream.of(Arguments.of(<span class="string">"Hello"</span>, <span class="number">5</span>), Arguments.of(<span class="string">"JUnit 5"</span>, <span class="number">7</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="CsvSource"><a href="#CsvSource" class="headerlink" title="@CsvSource"></a>@CsvSource</h5>As name suggest <code>@CsvSource</code> allows you to express argument lists as comma-separated values (i.e., String literals).<figure class="highlight java"><figcaption><span>CsvSource</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@CsvSource</span>(&#123; <span class="string">"Hello, 5"</span>, <span class="string">"World, 5"</span>, <span class="string">"test,4"</span> &#125;)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withCsvSource</span><span class="params">(String word, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">	assertEquals(word.length(), length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="CsvFileSource"><a href="#CsvFileSource" class="headerlink" title="@CsvFileSource"></a>@CsvFileSource</h5>Similar to <code>@CsvSource</code> We can also provide csv values using file from classpath <code>@CsvFileSource</code>.  <figure class="highlight java"><figcaption><span>CsvFileSource</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@CsvFileSource</span>(resources = <span class="string">"/testdata.csv"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withCsvFileSource</span><span class="params">(String word, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">	assertEquals(word.length(), length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="ArgumentsSource"><a href="#ArgumentsSource" class="headerlink" title="ArgumentsSource"></a>ArgumentsSource</h4><p>If any of the above Source provider does not meet your recruitment, Then you can use your custom Argument Source provider. You will need to implement <code>ArgumentsProvider</code> Interface.</p>
+<figure class="highlight java"><figcaption><span>ArgumentsSource</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@ParameterizedTest</span></span><br><span class="line">    <span class="meta">@ArgumentsSource</span>(StringArgumentsProvider.class)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">testWithArgumentsSource</span><span class="params">(String argument)</span> </span>&#123;</span><br><span class="line">        assertNotNull(argument);</span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>StringArgumentsProvider</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringArgumentsProvider</span> <span class="keyword">implements</span> <span class="title">ArgumentsProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Stream&lt;? extends Arguments&gt; provideArguments(ExtensionContext context) &#123;</span><br><span class="line">        <span class="keyword">return</span> Stream.of(<span class="string">"Hello"</span>, <span class="string">"world"</span>).map(Arguments::of);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Argument-Conversion"><a href="#Argument-Conversion" class="headerlink" title="Argument Conversion"></a>Argument Conversion</h3><p> In all above Test cases you might have observed that the arguments are getting converted to method parameter types. In all example arguments  are getting converted to <code>String</code>.<br> Who is converting these arguments ?. What if we change it to <code>int</code> or any other types. What happens if incase we want to use any User Define object ?   </p>
+<p><em>Widening Conversion</em><br>JUnit Jupiter supports Widening Primitive Conversion for arguments supplied to a <code>@ParameterizedTest</code>. For example, a parameterized test annotated with <code>@ValueSource(ints = { 1, 2, 3 })</code> can be declared to accept not only an argument of type int but also an argument of type long, float, or double.</p>
+<p><em>Explicit Conversion</em><br>We Can Specify <code>ArgumentConverter</code> to convert to any user define object. In below example i wanted to convert String “niraj,sonawane” to <code>Person</code> object.  </p>
+<figure class="highlight java"><figcaption><span>ArgumentConverter</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@ParameterizedTest</span></span><br><span class="line">    <span class="meta">@ValueSource</span>(strings =&#123;<span class="string">"niraj,sonawane"</span>&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">withCustomConverter</span><span class="params">(@ConvertWith(PersonConverter.class)</span> Person person) </span>&#123;</span><br><span class="line">		assertEquals(Person.getFirstName(),<span class="string">"niraj"</span>);</span><br><span class="line">		assertEquals(Person.getLastName(),<span class="string">"sonawane"</span>);</span><br><span class="line">	&#125; </span><br><span class="line">    <span class="comment">//Convert class </span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonConverter</span> <span class="keyword">implements</span> <span class="title">ArgumentConverter</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">convert</span><span class="params">(Object source, ParameterContext context)</span> <span class="keyword">throws</span> ArgumentConversionException </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (source <span class="keyword">instanceof</span> String)</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				String[] split = ((String) source).split(<span class="string">","</span>);</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">new</span> Emp(split[<span class="number">0</span>], split[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">			&#125; <span class="keyword">catch</span> (NumberFormatException ex) &#123;</span><br><span class="line">				String message = source + <span class="string">" is no correct string representation of a Emp."</span>;</span><br><span class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> ArgumentConversionException(message, ex);</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> ArgumentConversionException(source + <span class="string">" is no valid point"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjqanvj8a0091p8uky0h884jy" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Applying Reactive Programing to Existing Batch Application- RXJava2</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/junit5-logo.png)" alt="Junit 5 : Write Powerful Unit Test Cases Using Parameterized Tests" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Unit-Testing/">Unit Testing</a></p>
+                            <p class="item-title"><a href="/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" class="title">Junit 5 : Write Powerful Unit Test Cases Using Parameterized Tests</a></p>
+                            <p class="item-date"><time datetime="2018-12-30T08:57:02.000Z" itemprop="datePublished">2018-12-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/Rx_Logo_S.png)" alt="Applying Reactive Programing to Existing Batch Application- RXJava2" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/RXJava-2/">RXJava-2</a></p>
+                            <p class="item-title"><a href="/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" class="title">Applying Reactive Programing to Existing Batch Application- RXJava2</a></p>
+                            <p class="item-date"><time datetime="2018-12-06T05:10:55.000Z" itemprop="datePublished">2018-12-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/wild-flowers-571940_1920.jpg)" alt="Spring Batch - Process Multiple Files Parallel" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Spring-Batch/">Spring-Batch</a></p>
+                            <p class="item-title"><a href="/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" class="title">Spring Batch - Process Multiple Files Parallel</a></p>
+                            <p class="item-date"><time datetime="2018-11-08T11:47:22.000Z" itemprop="datePublished">2018-11-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/10/27/Angular-Material-Tabs-with-Router/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/2018/10/27/Angular-Material-Tabs-with-Router/angular.png)" alt="Angular Material Tabs with Router" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Angular/">Angular</a></p>
+                            <p class="item-title"><a href="/2018/10/27/Angular-Material-Tabs-with-Router/" class="title">Angular Material Tabs with Router</a></p>
+                            <p class="item-date"><time datetime="2018-10-27T04:28:55.000Z" itemprop="datePublished">2018-10-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/09/11/Java-8-Custom-Collector/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/java.png)" alt="Java 8 Custom Collector" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Collector/">Collector</a></p>
+                            <p class="item-title"><a href="/2018/09/11/Java-8-Custom-Collector/" class="title">Java 8 Custom Collector</a></p>
+                            <p class="item-date"><time datetime="2018-09-11T02:52:10.000Z" itemprop="datePublished">2018-09-11</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RXJava-2/">RXJava-2</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Batch/">Spring-Batch</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unit-Testing/">Unit Testing</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUnit-5/">JUnit-5</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Angular6/" style="font-size: 11.67px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.67px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 18.33px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.33px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 15px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Multithreading/" style="font-size: 16.67px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 15px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 15px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile">StackOverflow</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Niraj Sonawane<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/';
+        
+        this.page.identifier = 'Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-nirajsonawane-github-io-1' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+<script>if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js?t=1546172263140')
+    .then(function () {console.log('ServiceWorker Register Successfully.')})
+    .catch(function (e) {console.error(e)});
+}
+</script></body>
+</html>

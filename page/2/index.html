@@ -169,11 +169,11 @@ ga('send', 'pageview');
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                35
+                36
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                29
+                31
                 <span>tags</span>
             </div>
         </div>
@@ -204,6 +204,147 @@ ga('send', 'pageview');
 
             
             <section id="main">
+    <article id="post-Kotlin-Smart-Casts" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/07/30/Kotlin-Smart-Casts/">Kotlin Smart Casts</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2018/07/30/Kotlin-Smart-Casts/">
+            <time datetime="2018-07-30T16:46:36.000Z" itemprop="datePublished">2018-07-30</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Kotlin/">Kotlin</a>, <a class="tag-link" href="/tags/Kotlin-Types/">Kotlin Types</a>, <a class="tag-link" href="/tags/Smart-Casts/">Smart Casts</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>Many times while working we need to check if an object is of certain type at runtime. </p>
+<p>In java we have <code>instanceof</code> operator  to check whether the object is an instance of the specified type.</p>
+<figure class="highlight java"><figcaption><span>instanceof Java Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstanceofExample</span> </span>&#123;	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		MyClass obj=<span class="keyword">new</span> MyClass();  </span><br><span class="line">        System.out.println(obj <span class="keyword">instanceof</span> MyClass);<span class="comment">//true 		</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In Kotlin, You can check whether an object is of a certain type at runtime by using the <code>is</code> operator. </p>
+<figure class="highlight kotlin"><figcaption><span>is operator Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (obj <span class="keyword">is</span> String) &#123;</span><br><span class="line">        print(obj.length)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (obj !<span class="keyword">is</span> String) &#123; <span class="comment">// same as !(obj is String)</span></span><br><span class="line">print(<span class="string">"Not a String"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">print(obj.length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Smart-Casts"><a href="#Smart-Casts" class="headerlink" title="Smart Casts"></a>Smart Casts</h3><p><strong>Kotlin Complier is quite smart and help us to avoid  boilerplate code.</strong></p>
+<p>In many cases we do not need to use explicit cast operators , because the compiler tracks the is -checks and explicit casts for immutable values and inserts (safe) casts automatically when needed:</p>
+<figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">demo</span><span class="params">(x: <span class="type">Any</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (x <span class="keyword">is</span> String) &#123;</span><br><span class="line">    print(x.length) <span class="comment">// x is automatically cast to String</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The compiler is smart enough to know a cast to be safe if a negative check leads to a return:<br><figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (x !<span class="keyword">is</span> String) <span class="keyword">return</span></span><br><span class="line">    print(x.length) <span class="comment">// x is automatically cast to String</span></span><br></pre></td></tr></table></figure></p>
+<p>Such smart casts work for when-expressions and while-loops as well:<br><figure class="highlight kotlin"><figcaption><span>Smart Casts Kotlin Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">when</span> (x) &#123;</span><br><span class="line">     <span class="keyword">is</span> <span class="built_in">Int</span> -&gt; print(x + <span class="number">1</span>)</span><br><span class="line">     <span class="keyword">is</span> String -&gt; print(x.length + <span class="number">1</span>)</span><br><span class="line">     <span class="keyword">is</span> IntArray -&gt; print(x.sum())</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/" data-id="cjqaniohh001up8uk5hrqa5lg" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2018/07/30/Kotlin-Smart-Casts/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Remove-Optional-Empty-null-values-from-list" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -262,7 +403,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/" data-id="cjq7xynkn001s0wuk35m8f8gm" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/21/Remove-Optional-Empty-null-values-from-list/" data-id="cjqaniohb001rp8ukl2r8q8tq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -397,7 +538,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/Exchanger/" data-id="cjq7xynj7000j0wuk539dfr4d" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/Exchanger/" data-id="cjqanioei000np8ukpc1sw0zg" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -538,7 +679,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/BlockingQueue/" data-id="cjq7xynfl00070wukw5aynwqm" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/BlockingQueue/" data-id="cjqaniod7000ap8uktsfjttgk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -677,7 +818,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/18/CyclicBarrier/" data-id="cjq7xynj3000h0wukqxeqws7z" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/18/CyclicBarrier/" data-id="cjqaniodm000jp8uk5y5j2910" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -816,7 +957,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/17/CountDownLatch/" data-id="cjq7xynib000d0wukxq7bj2vn" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/17/CountDownLatch/" data-id="cjqaniodj000hp8ukf8uw5rvh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -952,7 +1093,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/17/Callable-and-Future/" data-id="cjq7xynhm00090wuk9yxktdkw" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/17/Callable-and-Future/" data-id="cjqanio550004p8ukgo6eayq0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1100,7 +1241,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/" data-id="cjq7xynl600280wuklndbgvr0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/ExecutorServiceAndThreadPools/" data-id="cjqanioi70027p8uk8qpei1v1" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1246,7 +1387,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Semaphores/" data-id="cjq7xynkl001r0wuknot2d8is" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Semaphores/" data-id="cjqaniohv0020p8ukcelxleee" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1385,7 +1526,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Wait-Notify-And-Notifyall/" data-id="cjq7xynqc00960wukis8o5dvw" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/06/15/Wait-Notify-And-Notifyall/" data-id="cjqanioiv002mp8ukn88h6953" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1463,142 +1604,6 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-Volatile" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/06/15/Volatile/">Volatile</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/06/15/Volatile/">
-            <time datetime="2018-06-15T08:40:37.000Z" itemprop="datePublished">2018-06-15</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Multithreading/">Multithreading</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Concurrency/">Concurrency</a>, <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Multithreading/">Multithreading</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>This is Fifth Article in Series of  Articles on  <a href="/2018/06/10/Concurrency-1-0/" title="Java 8 Concurrency Tutorial">Java 8 Concurrency Tutorial</a>.</p>
-<p>In this quick article, we’ll focus on a the concept of <code>volatile</code> keyword in the Java language.</p>
-<p>Every read of a <code>volatile</code> variable will be read from the RAM so from the main memory and not from cache. Usually variables are cached for performance reasons.</p>
-<p>Using <code>volatile</code> variables reduces the risk of memory consistency errors, because any write to a volatile variable establishes a happens-before relationship with subsequent reads of that same variable. This means that changes to a volatile variable are always visible to other thread.</p>
-<figure class="highlight java"><figcaption><span>Volatile Keyword Example</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> COUNT = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2018/06/15/Volatile/" data-id="cjq7xynqa00940wuk0rrgafnl" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2018/06/15/Volatile/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2018/06/15/Volatile/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
@@ -1612,6 +1617,27 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/junit5-logo.png)" alt="Junit 5 : Write Powerful Unit Test Cases Using Parameterized Tests" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Unit-Testing/">Unit Testing</a></p>
+                            <p class="item-title"><a href="/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" class="title">Junit 5 : Write Powerful Unit Test Cases Using Parameterized Tests</a></p>
+                            <p class="item-date"><time datetime="2018-12-30T08:57:02.000Z" itemprop="datePublished">2018-12-30</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1697,27 +1723,6 @@ ga('send', 'pageview');
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" class="thumbnail">
-    
-    
-
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Stream/">Stream</a></p>
-                            <p class="item-title"><a href="/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" class="title">Sort Map by Value using Custom Comparator</a></p>
-                            <p class="item-date"><time datetime="2018-09-10T08:33:33.000Z" itemprop="datePublished">2018-09-10</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1727,7 +1732,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RXJava-2/">RXJava-2</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Batch/">Spring-Batch</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RXJava-2/">RXJava-2</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Batch/">Spring-Batch</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unit-Testing/">Unit Testing</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1736,7 +1741,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1745,7 +1750,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUnit-5/">JUnit-5</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1754,7 +1759,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Angular6/" style="font-size: 11.67px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.67px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 18.33px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.33px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 15px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Multithreading/" style="font-size: 16.67px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 15px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 15px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a>
+            <a href="/tags/Angular6/" style="font-size: 11.67px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.67px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 18.33px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.33px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 15px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Multithreading/" style="font-size: 16.67px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 15px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 15px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a>
         </div>
     </div>
 
@@ -1829,7 +1834,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1545995852260')
+  navigator.serviceWorker.register('/sw.js?t=1546172263140')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
