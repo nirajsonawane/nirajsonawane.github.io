@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/</loc>
+    
+    <lastmod>2019-01-21T01:36:11.736Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/</loc>
     
-    <lastmod>2018-12-30T12:14:12.541Z</lastmod>
+    <lastmod>2018-12-30T12:49:58.555Z</lastmod>
     
   </url>
   

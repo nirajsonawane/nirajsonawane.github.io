@@ -169,11 +169,11 @@ ga('send', 'pageview');
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                36
+                37
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                31
+                34
                 <span>tags</span>
             </div>
         </div>
@@ -204,6 +204,174 @@ ga('send', 'pageview');
 
             
             <section id="main">
+    <article id="post-Document-Spring-Boot-RESTful-API-With-Swagger-2-0" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/">Document Spring Boot RESTful API With Swagger-2.0</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/">
+            <time datetime="2019-01-20T08:40:46.000Z" itemprop="datePublished">2019-01-20</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Rest/">Rest</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/Swagger/">Swagger</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/puttipol-waipanya-1243332-unsplash.jpg">
+<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@sawamura126?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Puttipol Waipanya"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Puttipol Waipanya</span></a></p>
+<p>Now Days <strong>Spring Boot</strong> is de facto standard for developing RESTful services.Spring Boot makes it very easy to build RESTful services.<em>In SOAP based web services</em>, you had a <strong>WSDL</strong> which works as documentation for your API. For Rest Services we do not have WSDL so documentation of API becomes more critical.</p>
+<h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h1><p>Swagger 2 is an open source framework used to describe and document RESTful APIs.Swagger Can read your API’s structure and automatically build beautiful and interactive API documentation. Swagger makes documenting your RESTful services easy.<br>Check <a href="https://swagger.io/docs/" target="_blank" rel="noopener"> Docs for all Features</a>.</p>
+<p>The code for this post is available for download <a href="https://github.com/nirajsonawane/SwaggerWithSpringBoot.git" target="_blank" rel="noopener">here</a>.</p>
+<h2 id="Swagger-Spring-Boot"><a href="#Swagger-Spring-Boot" class="headerlink" title="Swagger + Spring Boot"></a>Swagger + Spring Boot</h2><p>Swagger Can easily integrate with Spring Boot. To Integrate Swagger we need to use <a href="https://swagger.io/tools/swagger-ui/" target="_blank" rel="noopener">Swagger UI</a> &amp;  <a href="https://springfox.github.io/springfox/" target="_blank" rel="noopener">SpringFox</a>.</p>
+<figure class="highlight plain"><figcaption><span>Maven Dependency</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Demo-Spring-Boot-RESTful-Application"><a href="#Demo-Spring-Boot-RESTful-Application" class="headerlink" title="Demo Spring Boot RESTful Application"></a>Demo Spring Boot RESTful Application</h2><p>let’s Create documentation for our Demo Spring Boot RESTful Application. Demo Application expose <code>User</code> rest endpoint that allows to perform CURD operations for User.</p>
+<figure class="highlight java"><figcaption><span>User Endpoint</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@GetMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getAllUsers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> userservice.getAllUsers();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(@PathVariable <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> userservice.getUser(id);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@PostMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">addUser</span><span class="params">(@RequestBody User user)</span> </span>&#123;</span><br><span class="line">	userservice.addUser(user);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity(<span class="string">"User Added successfully"</span>, HttpStatus.OK);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@PutMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">updateUser</span><span class="params">(@RequestBody User user)</span> </span>&#123;</span><br><span class="line">	userservice.updateUser(user);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity(<span class="string">"User Updated successfully"</span>, HttpStatus.OK);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@DeleteMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">deleteUser</span><span class="params">(@PathVariable <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">	userservice.deleteUser(id);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity(<span class="string">"User Deleted successfully"</span>, HttpStatus.OK);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Swagger-Configuration"><a href="#Swagger-Configuration" class="headerlink" title="Swagger Configuration"></a>Swagger Configuration</h2><p>We need to create a <code>Docket</code> bean in a Spring Boot configuration to configure Swagger 2. A Springfox Docket instance provides the primary API configuration with sensible defaults and convenience methods for configuration.<br><code>@EnableSwagger2</code> Indicates that Swagger support should be enabled. This should be applied to a Spring java config and should have an accompanying <code>@Configuration</code> annotation. Loads all required beans defined in  <code>@SpringSwaggerConfig</code></p>
+<p>Below is minimum configuration required for Swagger.</p>
+<figure class="highlight java"><figcaption><span>SwaggerConfig</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;                                    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">api</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)  </span><br><span class="line">          .select()                                  </span><br><span class="line">          .apis(RequestHandlerSelectors.any())              </span><br><span class="line">          .paths(PathSelectors.any())                          </span><br><span class="line">          .build();                                           </span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>Now If we run the application and go to <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noopener">http://localhost:8080/swagger-ui.html</a>  documentation will be rendered by Swagger UI.<br><img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/ui.png"></p>
+<h3 id="Update-Swagger-Configuration-for-Customization-ApInfo"><a href="#Update-Swagger-Configuration-for-Customization-ApInfo" class="headerlink" title="Update Swagger Configuration for Customization - ApInfo"></a>Update Swagger Configuration for Customization - ApInfo</h3><figure class="highlight java"><figcaption><span>ApiInfo</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apinfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                .title(<span class="string">"User Management API"</span>)</span><br><span class="line">                .description(<span class="string">"Rest API to Perfrom CURD "</span>)</span><br><span class="line">                .termsOfServiceUrl(<span class="string">"Some Terms of Services URL"</span>)</span><br><span class="line">                .version(<span class="string">"1.0.0"</span>)</span><br><span class="line">                .license(<span class="string">"Some License Info"</span>)</span><br><span class="line">                .licenseUrl(<span class="string">"Some License URL"</span>)</span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">"Niraj Sonawane"</span>, <span class="string">"https://nirajsonawane.github.io/"</span>,<span class="string">"Niraj.Sonawane@gmail.com"</span>))</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Update-Swagger-Configuration-for-Customization-Selecting-Specific-Endpoints"><a href="#Update-Swagger-Configuration-for-Customization-Selecting-Specific-Endpoints" class="headerlink" title="Update Swagger Configuration for Customization - Selecting Specific Endpoints"></a>Update Swagger Configuration for Customization - Selecting Specific Endpoints</h2><p>When we verify the Generated documentation, We see that in <em>Basic Error Controller</em> along with our <em>User Controller</em> and <em>Model</em>.<br>We can Configure Swagger to generated documentation only for certain endpoints using <code>RequestHandlerSelectors</code>.</p>
+<p><em>The Available options for Configurations are</em> </p>
+<ol>
+<li><code>RequestHandlerSelectors.basePackage(basePackage)</code></li>
+<li><code>RequestHandlerSelectors.withClassAnnotation(annotation)</code></li>
+<li><code>RequestHandlerSelectors.withMethodAnnotation(annotation)</code></li>
+</ol>
+<h2 id="Swagger-Annotations-On-Controller-classes"><a href="#Swagger-Annotations-On-Controller-classes" class="headerlink" title="Swagger Annotations On Controller classes"></a>Swagger Annotations On Controller classes</h2><p>Swagger provides annotations that can be applied on Controller classes to provide additional information,<br>We can annotate controllers and their methods and method parameters.</p>
+<ul>
+<li><code>@Api</code> describes the whole controller</li>
+<li><code>@ApiOperation</code> is used for description on a methods level</li>
+<li><code>@ApiResponses</code> is used for description of response codes on a methods level</li>
+<li><code>@ApiParam</code> is used for method parameters</li>
+</ul>
+<figure class="highlight java"><figcaption><span>Swagger Annotations On Controller classes</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</span><br><span class="line"><span class="meta">@ApiOperation</span>(consumes=<span class="string">"application/json"</span>, produces=<span class="string">"application/json"</span>,protocols=<span class="string">"http"</span>, value = <span class="string">"getUser"</span> )</span><br><span class="line"><span class="meta">@ApiResponses</span>(value = &#123;</span><br><span class="line">		<span class="meta">@ApiResponse</span>(code = <span class="number">200</span>, message = <span class="string">"Successfully retrieved User"</span>),</span><br><span class="line">		<span class="meta">@ApiResponse</span>(code = <span class="number">401</span>, message = <span class="string">"The request has not been applied because it lacks valid authentication credentials for the target resource"</span>),</span><br><span class="line">		<span class="meta">@ApiResponse</span>(code = <span class="number">403</span>, message = <span class="string">"The server understood the request but refuses to authorize it"</span>),</span><br><span class="line">		<span class="meta">@ApiResponse</span>(code = <span class="number">404</span>, message = <span class="string">"The resource  not found"</span>)</span><br><span class="line">&#125;)	</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(@ApiParam(<span class="string">"Id of user, Can not be null"</span>)</span> @PathVariable <span class="keyword">int</span> id) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> userservice.getUser(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/method.png">
+<h2 id="Swagger-Annotations-On-Model-classes"><a href="#Swagger-Annotations-On-Model-classes" class="headerlink" title="Swagger Annotations On Model classes"></a>Swagger Annotations On Model classes</h2><p>Swagger Core annotations, Can be used to specify additional information about your model Class.<br>e.g User Class annotated with these annotations can look something like this</p>
+<figure class="highlight java"><figcaption><span>Swagger Annotations On Model classes</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@ApiModel</span>(description = <span class="string">"Class representing User "</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(notes = <span class="string">"Unique  ID for user"</span>, example = <span class="string">"1"</span>, required = <span class="keyword">true</span>, position = <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(notes = <span class="string">"First Name of User"</span>, example = <span class="string">"Niraj"</span>, required = <span class="keyword">true</span>, position = <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">private</span> String firstName;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ApiModelProperty</span>(notes = <span class="string">"Last Name of User"</span>, example = <span class="string">"Sonawane"</span>, required = <span class="keyword">true</span>, position = <span class="number">2</span>)</span><br><span class="line">	<span class="keyword">private</span> String lastName;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ApiModelProperty</span>(notes = <span class="string">"Middle Name of User"</span>, example = <span class="string">"Ashok"</span>, required = <span class="keyword">false</span>, position = <span class="number">3</span>)</span><br><span class="line">	<span class="keyword">private</span> String middleName;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ApiModelProperty</span>(notes = <span class="string">"Age of User"</span>, example = <span class="string">"32"</span>, required = <span class="keyword">true</span>, position = <span class="number">4</span>)</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Swagger-Integration-with-JSR-303-Annotations"><a href="#Swagger-Integration-with-JSR-303-Annotations" class="headerlink" title="Swagger Integration with JSR-303 Annotations"></a>Swagger Integration with JSR-303 Annotations</h2><p><em>JSR 303 Bean Validation</em> is the specification of the Java API for JavaBean validation in Java EE and Java SE. This is very popular mechanism for validation and number of projects are using it.<br><figure class="highlight java"><figcaption><span>JSR 303 Bean Validation</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;	</span><br><span class="line">	<span class="meta">@NotBlank</span></span><br><span class="line">	<span class="meta">@Size</span>(min = <span class="number">2</span>, max = <span class="number">10</span>)    </span><br><span class="line">	<span class="keyword">private</span> String firstName;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@NotBlank</span>	</span><br><span class="line">	<span class="keyword">private</span> String lastName;	</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">private</span> String middleName;</span><br><span class="line">	<span class="meta">@NotNull</span></span><br><span class="line">	<span class="meta">@Min</span>(<span class="number">2</span>)</span><br><span class="line">	<span class="meta">@Max</span>(<span class="number">100</span>)	</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>This is a common practice which is already widely used. Swagger can be easily configured to read these annotations and generate documentation based on such annotations.<br>This makes Swagger very useful as we can utilize what we already have in our project without writing all the constraints manually. Consumers also know what are restrictions on the values  and what they should provide to API and what values to expect. </p>
+<figure class="highlight"><figcaption><span>Add dependency in pom file</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-bean-validators&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Import BeanValidatorPluginsConfiguration</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="meta">@Import</span>(BeanValidatorPluginsConfiguration.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;    </span><br></pre></td></tr></table></figure>
+<p>After Integration Model will look like below in generate documentation.<br><img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/model.png">  </p>
+<p>The code for this post is available for download <a href="https://github.com/nirajsonawane/SwaggerWithSpringBoot.git" target="_blank" rel="noopener">here</a>.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjr4njqib000kjguk01z7eq8m" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -256,9 +424,9 @@ ga('send', 'pageview');
 <h2 id="Parameterized-Tests"><a href="#Parameterized-Tests" class="headerlink" title="Parameterized Tests"></a>Parameterized Tests</h2><p>JUnit 5 Parameterized Test are very powerful. With the help of Parameterized Test We can remove the  duplication in test cases.Parameterized test cases can also help us to cleanup the test code and remove the cluter.<br>As Name suggest <em>Parameterized tests</em> make it possible to run a test multiple times with different arguments. They are declared just like regular <code>@Test</code> methods but use the <code>@ParameterizedTest</code> annotation instead. In addition, you must declare at least one source that will provide the arguments for each invocation and then consume the arguments in the test method.</p>
 <h3 id="Simple-ParameterizedTest"><a href="#Simple-ParameterizedTest" class="headerlink" title="Simple ParameterizedTest"></a>Simple ParameterizedTest</h3><p>The following example demonstrates a parameterized test that uses the <code>@ValueSource</code> annotation to specify a String array as the source of arguments. Test Case will be called 2 times with parameter Hello and World.<br><em>Framework will be responsible for injecting parameter values</em>  </p>
 <figure class="highlight java"><figcaption><span>Simple ParameterizedTest</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@ValueSource</span>(strings = &#123; <span class="string">"Hello"</span>, <span class="string">"World"</span> &#125;)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withSomeValues</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">	System.out.println(word);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Display-Names-For-ParameterizedTest"><a href="#Display-Names-For-ParameterizedTest" class="headerlink" title="Display Names For ParameterizedTest"></a>Display Names For ParameterizedTest</h3><p>JUnit 5 Has added new annotation <code>@DisplayName</code>, Which helps to provides more readable names to test classes and methods.These names will be displayed by test runners and test reporting.</p>
+<h3 id="Display-Names-For-ParameterizedTest"><a href="#Display-Names-For-ParameterizedTest" class="headerlink" title="Display Names For ParameterizedTest"></a>Display Names For ParameterizedTest</h3><p>JUnit 5 has added new annotation <code>@DisplayName</code>, Which helps to provide more readable names to test classes and methods.These names will be displayed by test runners and test reporting.</p>
 <figure class="highlight java"><figcaption><span>Display Names</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">   <span class="meta">@DisplayName</span>(<span class="string">"String should not be null"</span>)</span><br><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@ValueSource</span>(strings = &#123; <span class="string">"Hello"</span>, <span class="string">"World"</span> &#125;)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withSomeValues</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">	System.out.println(word);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>But in case Parameterized Test,Sometimes we might need to name test  cases based on arguments name. Junit provides <code>index</code>  and <code>arguments</code> variable for this<br><figure class="highlight java"><figcaption><span>Display Names For ParameterizedTest</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">   <span class="meta">@ParameterizedTest</span>(name = <span class="string">"Null Check Test  #&#123;index&#125; with [&#123;arguments&#125;]"</span>)</span><br><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@ValueSource</span>(strings = &#123; <span class="string">"Hello"</span>, <span class="string">"World"</span> &#125;)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withSomeValues</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">	System.out.println(word);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>But in case of Parameterized Test,Sometimes we might need to name test cases based on arguments. JUnit 5 provides <code>index</code>  and <code>arguments</code> variable for this<br><figure class="highlight java"><figcaption><span>Display Names For ParameterizedTest</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line">   <span class="meta">@ParameterizedTest</span>(name = <span class="string">"Null Check Test  #&#123;index&#125; with [&#123;arguments&#125;]"</span>)</span><br><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@ValueSource</span>(strings = &#123; <span class="string">"Hello"</span>, <span class="string">"World"</span> &#125;)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withSomeValues</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">	System.out.println(word);</span><br><span class="line">	assertNotNull(word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="Sources-of-Arguments"><a href="#Sources-of-Arguments" class="headerlink" title="Sources of Arguments"></a>Sources of Arguments</h3><p> Out of the box, JUnit Jupiter provides number of Argument Source providers.</p>
 <ol>
 <li><code>@ValueSource</code></li>
@@ -269,9 +437,9 @@ ga('send', 'pageview');
 <li><code>@ArgumentsSource</code></li>
 </ol>
 <p>Let’s try one by one</p>
-<h5 id="EnumSource"><a href="#EnumSource" class="headerlink" title="@EnumSource"></a>@EnumSource</h5><p><code>@EnumSource</code> provides a convenient way to use Enum constants. The annotation provides an optional names parameter that lets you specify which constants shall be used. If omitted, all constants will be used like in the following example.</p>
+<h5 id="EnumSource"><a href="#EnumSource" class="headerlink" title="@EnumSource"></a>@EnumSource</h5><p><code>@EnumSource</code> provides a convenient way to use Enum constants. This annotation provides an optional names parameter that lets you specify which constants shall be used. If omitted, all constants will be used like in the following example.</p>
 <figure class="highlight java"><figcaption><span>EnumSource</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@ParameterizedTest</span>(name = <span class="string">"withSomeName #&#123;index&#125; with Value [&#123;arguments&#125;]"</span>)</span><br><span class="line">    <span class="meta">@EnumSource</span>(MyTestEnum.class)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">withSomeEnum</span><span class="params">(MyTestEnum myEnum)</span> </span>&#123;</span><br><span class="line">		System.out.println(myEnum);</span><br><span class="line">		assertNotNull(myEnum);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
-<h5 id="MethodSource"><a href="#MethodSource" class="headerlink" title="@MethodSource"></a>@MethodSource</h5><p><code>@MethodSource</code> allows you to refer to one or more factory methods of the test class or external classes.</p>
+<h5 id="MethodSource"><a href="#MethodSource" class="headerlink" title="@MethodSource"></a>@MethodSource</h5><p><code>@MethodSource</code> allows you to refer one or more factory methods of the test class or external classes.</p>
 <p><em>Method Source in Same class</em></p>
 <ul>
 <li>Factory methods within the test class must be static.</li>
@@ -287,10 +455,13 @@ ga('send', 'pageview');
 <h5 id="CsvFileSource"><a href="#CsvFileSource" class="headerlink" title="@CsvFileSource"></a>@CsvFileSource</h5>Similar to <code>@CsvSource</code> We can also provide csv values using file from classpath <code>@CsvFileSource</code>.  <figure class="highlight java"><figcaption><span>CsvFileSource</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@ParameterizedTest</span></span><br><span class="line">   <span class="meta">@CsvFileSource</span>(resources = <span class="string">"/testdata.csv"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">void</span> <span class="title">withCsvFileSource</span><span class="params">(String word, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">	assertEquals(word.length(), length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h4 id="ArgumentsSource"><a href="#ArgumentsSource" class="headerlink" title="ArgumentsSource"></a>ArgumentsSource</h4><p>If any of the above Source provider does not meet your recruitment, Then you can use your custom Argument Source provider. You will need to implement <code>ArgumentsProvider</code> Interface.</p>
+<h4 id="ArgumentsSource"><a href="#ArgumentsSource" class="headerlink" title="ArgumentsSource"></a>ArgumentsSource</h4><p>If any of the above Source provider does not meet your requirement, then you can use your custom Argument Source provider. You will need to implement <code>ArgumentsProvider</code> Interface.</p>
 <figure class="highlight java"><figcaption><span>ArgumentsSource</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@ParameterizedTest</span></span><br><span class="line">    <span class="meta">@ArgumentsSource</span>(StringArgumentsProvider.class)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">testWithArgumentsSource</span><span class="params">(String argument)</span> </span>&#123;</span><br><span class="line">        assertNotNull(argument);</span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><figcaption><span>StringArgumentsProvider</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringArgumentsProvider</span> <span class="keyword">implements</span> <span class="title">ArgumentsProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Stream&lt;? extends Arguments&gt; provideArguments(ExtensionContext context) &#123;</span><br><span class="line">        <span class="keyword">return</span> Stream.of(<span class="string">"Hello"</span>, <span class="string">"world"</span>).map(Arguments::of);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Argument-Conversion"><a href="#Argument-Conversion" class="headerlink" title="Argument Conversion"></a>Argument Conversion</h3><p> In all above Test cases you might have observed that the arguments are getting converted to method parameter types. In all example arguments  are getting converted to <code>String</code>.<br> Who is converting these arguments ?. What if we change it to <code>int</code> or any other types. What happens if incase we want to use any User Define object ?   </p>
+<h3 id="Argument-Conversion"><a href="#Argument-Conversion" class="headerlink" title="Argument Conversion"></a>Argument Conversion</h3><p> In all above Test cases you might have observed that the arguments are getting converted to method parameter types. In all examples, arguments  are getting converted to <code>String</code>.</p>
+<p> Who is converting these arguments ?</p>
+<p> What if we change it to <code>int</code> or any other types?</p>
+<p> What happens if incase we want to use any User Defined object ?   </p>
 <p><em>Widening Conversion</em><br>JUnit Jupiter supports Widening Primitive Conversion for arguments supplied to a <code>@ParameterizedTest</code>. For example, a parameterized test annotated with <code>@ValueSource(ints = { 1, 2, 3 })</code> can be declared to accept not only an argument of type int but also an argument of type long, float, or double.</p>
 <p><em>Explicit Conversion</em><br>We Can Specify <code>ArgumentConverter</code> to convert to any user define object. In below example i wanted to convert String “niraj,sonawane” to <code>Person</code> object.  </p>
 <figure class="highlight java"><figcaption><span>ArgumentConverter</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@ParameterizedTest</span></span><br><span class="line">    <span class="meta">@ValueSource</span>(strings =&#123;<span class="string">"niraj,sonawane"</span>&#125;)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">withCustomConverter</span><span class="params">(@ConvertWith(PersonConverter.class)</span> Person person) </span>&#123;</span><br><span class="line">		assertEquals(Person.getFirstName(),<span class="string">"niraj"</span>);</span><br><span class="line">		assertEquals(Person.getLastName(),<span class="string">"sonawane"</span>);</span><br><span class="line">	&#125; </span><br><span class="line">    <span class="comment">//Convert class </span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonConverter</span> <span class="keyword">implements</span> <span class="title">ArgumentConverter</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">convert</span><span class="params">(Object source, ParameterContext context)</span> <span class="keyword">throws</span> ArgumentConversionException </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (source <span class="keyword">instanceof</span> String)</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				String[] split = ((String) source).split(<span class="string">","</span>);</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">new</span> Emp(split[<span class="number">0</span>], split[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">			&#125; <span class="keyword">catch</span> (NumberFormatException ex) &#123;</span><br><span class="line">				String message = source + <span class="string">" is no correct string representation of a Emp."</span>;</span><br><span class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> ArgumentConversionException(message, ex);</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> ArgumentConversionException(source + <span class="string">" is no valid point"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -303,7 +474,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjqanvj8a0091p8uky0h884jy" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjr4njqoz007wjguk21r84z4f" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -441,7 +612,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjqaniocu0007p8ukubcan9oo" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjr4njqhn0006jgukdbhz3tt6" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -587,7 +758,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" data-id="cjqanioic002bp8ukc4geb2j5" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" data-id="cjr4njqmx005ljgukfpbkus43" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -724,7 +895,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="cjqanio4s0002p8uksovmois3" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="cjr4njqhl0004jgukt1lno130" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -866,7 +1037,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="cjqaniojn0030p8uk5upizzon" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="cjr4njqid000mjgukn0k0nm70" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1003,7 +1174,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" data-id="cjqaniohn001xp8uknkl0h9pi" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" data-id="cjr4njqmm005djgukbmyprr9w" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1141,7 +1312,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" data-id="cjqanioi00024p8uk0p74k4gu" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" data-id="cjr4njqms005gjgukctx6qcl7" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1277,7 +1448,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-value/" data-id="cjqanioh0001lp8ukwsls6ng8" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-value/" data-id="cjr4njqm7004yjguk55dlvgn0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1412,7 +1583,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-key/" data-id="cjqaniogw001jp8ukpnzbzebj" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-key/" data-id="cjr4njqkh003ijgukwwjgxgmb" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1490,146 +1661,6 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-Angular-pipes" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/08/05/Angular-pipes/">Angular pipes</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/08/05/Angular-pipes/">
-            <time datetime="2018-08-05T14:33:17.000Z" itemprop="datePublished">2018-08-05</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Angular/">Angular</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Angular6/">Angular6</a>, <a class="tag-link" href="/tags/Pipes/">Pipes</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="Angular-Pipes-are-used-to-transforms-texts"><a href="#Angular-Pipes-are-used-to-transforms-texts" class="headerlink" title="Angular Pipes are used to transforms texts."></a>Angular Pipes are used to transforms texts.</h3><p>A pipe takes in data as input and transforms it to a desired output</p>
-<h4 id="LowerCase-Pipe"><a href="#LowerCase-Pipe" class="headerlink" title="LowerCase Pipe"></a>LowerCase Pipe</h4><p>Transforms text to all lower case. It is used as follows. </p>
-<pre><code>{{value_expression | lowercase }}
-</code></pre><h4 id="UpperCase-Pipe"><a href="#UpperCase-Pipe" class="headerlink" title="UpperCase Pipe"></a>UpperCase Pipe</h4><p>Transforms text to all Upper case. It is used as follows. </p>
-<pre><code>{{ value_expression | uppercase  }} 
-</code></pre><h4 id="TitleCasePipe"><a href="#TitleCasePipe" class="headerlink" title="TitleCasePipe"></a>TitleCasePipe</h4><p>Transforms text to title case. Capitalizes the first letter of each word, and transforms the rest of the word to lower case. Words are delimited by any whitespace character, such as a space, tab, or line-feed character.</p>
-<pre><code>{{ value_expression | titlecase }}
-</code></pre><h4 id="Date-Pipe"><a href="#Date-Pipe" class="headerlink" title="Date Pipe"></a>Date Pipe</h4><p>Converts the Date to human-friendly date</p>
-<h4 id="CurrencyPipe"><a href="#CurrencyPipe" class="headerlink" title="CurrencyPipe"></a>CurrencyPipe</h4><p>Transforms a number to a currency string, formatted according to locale rules that determine group sizing and separator, decimal-point character, and other locale-specific configurations.</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2018/08/05/Angular-pipes/" data-id="cjqaniocy0009p8uk0yczkcz9" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2018/08/05/Angular-pipes/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2018/08/05/Angular-pipes/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1643,6 +1674,27 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/swagger-logo-300x239.png)" alt="Document Spring Boot RESTful API With Swagger-2.0" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a></p>
+                            <p class="item-title"><a href="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" class="title">Document Spring Boot RESTful API With Swagger-2.0</a></p>
+                            <p class="item-date"><time datetime="2019-01-20T08:40:46.000Z" itemprop="datePublished">2019-01-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1728,27 +1780,6 @@ ga('send', 'pageview');
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/09/11/Java-8-Custom-Collector/" class="thumbnail">
-    
-    
-
-    
-        <span style="background-image:url(/asset/java.png)" alt="Java 8 Custom Collector" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Collector/">Collector</a></p>
-                            <p class="item-title"><a href="/2018/09/11/Java-8-Custom-Collector/" class="title">Java 8 Custom Collector</a></p>
-                            <p class="item-date"><time datetime="2018-09-11T02:52:10.000Z" itemprop="datePublished">2018-09-11</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1758,7 +1789,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RXJava-2/">RXJava-2</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Batch/">Spring-Batch</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unit-Testing/">Unit Testing</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RXJava-2/">RXJava-2</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Boot/">Spring Boot</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Batch/">Spring-Batch</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unit-Testing/">Unit Testing</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1767,7 +1798,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1776,7 +1807,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUnit-5/">JUnit-5</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUnit-5/">JUnit-5</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">29</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rest/">Rest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1785,7 +1816,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Angular6/" style="font-size: 11.67px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.67px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 18.33px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.33px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 15px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Multithreading/" style="font-size: 16.67px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 15px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 15px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a>
+            <a href="/tags/Angular6/" style="font-size: 11.67px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.67px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 16.67px;">Concurrency</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 18.33px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.33px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 15px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Multithreading/" style="font-size: 16.67px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 15px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 10px;">Spring Boot</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 15px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a>
         </div>
     </div>
 
@@ -1814,7 +1845,7 @@ ga('send', 'pageview');
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2018 Niraj Sonawane<br>
+            &copy; 2019 Niraj Sonawane<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
@@ -1860,7 +1891,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1546172263140')
+  navigator.serviceWorker.register('/sw.js?t=1548035681743')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
