@@ -282,7 +282,7 @@ ga('send', 'pageview');
 <h2 id="Swagger-Integration-with-JSR-303-Annotations"><a href="#Swagger-Integration-with-JSR-303-Annotations" class="headerlink" title="Swagger Integration with JSR-303 Annotations"></a>Swagger Integration with JSR-303 Annotations</h2><p><em>JSR 303 Bean Validation</em> is the specification of the Java API for JavaBean validation in Java EE and Java SE. This is very popular mechanism for validation and number of projects are using it.<br><figure class="highlight java"><figcaption><span>JSR 303 Bean Validation</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;	</span><br><span class="line">	<span class="meta">@NotBlank</span></span><br><span class="line">	<span class="meta">@Size</span>(min = <span class="number">2</span>, max = <span class="number">10</span>)    </span><br><span class="line">	<span class="keyword">private</span> String firstName;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@NotBlank</span>	</span><br><span class="line">	<span class="keyword">private</span> String lastName;	</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">private</span> String middleName;</span><br><span class="line">	<span class="meta">@NotNull</span></span><br><span class="line">	<span class="meta">@Min</span>(<span class="number">2</span>)</span><br><span class="line">	<span class="meta">@Max</span>(<span class="number">100</span>)	</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>This is a common practice which is already widely used. Swagger can be easily configured to read these annotations and generate documentation based on such annotations.<br>This makes Swagger very useful as we can utilize what we already have in our project without writing all the constraints manually. Consumers also know what are restrictions on the values  and what they should provide to API and what values to expect. </p>
 <figure class="highlight"><figcaption><span>Add dependency in pom file</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-bean-validators&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><figcaption><span>Import BeanValidatorPluginsConfiguration</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="meta">@Import</span>(BeanValidatorPluginsConfiguration.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;    </span><br></pre></td></tr></table></figure>
-<p>After Integration Model will look like below in generate documentation.<br><img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/model.png">  </p>
+<p>After Integration Model will look like below in generated documentation.<br><img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/model.png">  </p>
 <p>The code for this post is available for download <a href="https://github.com/nirajsonawane/SwaggerWithSpringBoot.git" target="_blank" rel="noopener">here</a>.</p>
 
         
@@ -294,7 +294,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjr4njqib000kjguk01z7eq8m" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjr5tzpwr00ahd4uk5ijjllgg" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -474,7 +474,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjr4njqoz007wjguk21r84z4f" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjr5tzpxc00aid4uk25bmh218" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -612,7 +612,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjr4njqhn0006jgukdbhz3tt6" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjr5tzoi30006d4ukd2hd10ja" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -758,7 +758,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" data-id="cjr4njqmx005ljgukfpbkus43" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" data-id="cjr5tzoxv0025d4ukgz0u0i4q" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -895,7 +895,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="cjr4njqhl0004jgukt1lno130" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="cjr5tzofp0001d4uk6x5cro0o" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1037,7 +1037,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="cjr4njqid000mjgukn0k0nm70" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="cjr5tzorp000yd4ukh95a80us" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1174,7 +1174,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" data-id="cjr4njqmm005djgukbmyprr9w" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" data-id="cjr5tzox1001zd4ukx0h9nnr4" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1312,7 +1312,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" data-id="cjr4njqms005gjgukctx6qcl7" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" data-id="cjr5tzoxf0022d4uke5ftnrfj" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1448,7 +1448,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-value/" data-id="cjr4njqm7004yjguk55dlvgn0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-value/" data-id="cjr5tzovg001od4uk08zn91ml" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1583,7 +1583,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-key/" data-id="cjr4njqkh003ijgukwwjgxgmb" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-key/" data-id="cjr5tzov5001md4ukhk5u6n8x" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1891,7 +1891,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1548035681743')
+  navigator.serviceWorker.register('/sw.js?t=1548132485734')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }

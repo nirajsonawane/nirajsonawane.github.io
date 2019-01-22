@@ -30,9 +30,9 @@ var precacheUrls = [];
 
   precacheUrls.push('/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/');
 
-  precacheUrls.push('/2018/05/20/Java-Process-Builder/');
+  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-key/');
 
-  precacheUrls.push('/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/');
+  precacheUrls.push('/2018/10/27/Angular-Material-Tabs-with-Router/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};

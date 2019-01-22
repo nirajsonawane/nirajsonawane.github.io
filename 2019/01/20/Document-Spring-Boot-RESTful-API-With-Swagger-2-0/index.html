@@ -16,7 +16,7 @@
 <meta property="og:description" content="unsplash-logoPuttipol Waipanya Now Days Spring Boot is de facto standard for developing RESTful services.Spring Boot makes it very easy to build RESTful services.In SOAP based web services, you had a">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://nirajsonawane.github.io/asset/swagger-logo-300x239.png">
-<meta property="og:updated_time" content="2019-01-21T01:36:11.736Z">
+<meta property="og:updated_time" content="2019-01-21T04:28:44.663Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Document Spring Boot RESTful API With Swagger-2.0">
 <meta name="twitter:description" content="unsplash-logoPuttipol Waipanya Now Days Spring Boot is de facto standard for developing RESTful services.Spring Boot makes it very easy to build RESTful services.In SOAP based web services, you had a">
@@ -288,7 +288,7 @@ ga('send', 'pageview');
 <h2 id="Swagger-Integration-with-JSR-303-Annotations"><a href="#Swagger-Integration-with-JSR-303-Annotations" class="headerlink" title="Swagger Integration with JSR-303 Annotations"></a>Swagger Integration with JSR-303 Annotations</h2><p><em>JSR 303 Bean Validation</em> is the specification of the Java API for JavaBean validation in Java EE and Java SE. This is very popular mechanism for validation and number of projects are using it.<br><figure class="highlight java"><figcaption><span>JSR 303 Bean Validation</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;	</span><br><span class="line">	<span class="meta">@NotBlank</span></span><br><span class="line">	<span class="meta">@Size</span>(min = <span class="number">2</span>, max = <span class="number">10</span>)    </span><br><span class="line">	<span class="keyword">private</span> String firstName;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@NotBlank</span>	</span><br><span class="line">	<span class="keyword">private</span> String lastName;	</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">private</span> String middleName;</span><br><span class="line">	<span class="meta">@NotNull</span></span><br><span class="line">	<span class="meta">@Min</span>(<span class="number">2</span>)</span><br><span class="line">	<span class="meta">@Max</span>(<span class="number">100</span>)	</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>This is a common practice which is already widely used. Swagger can be easily configured to read these annotations and generate documentation based on such annotations.<br>This makes Swagger very useful as we can utilize what we already have in our project without writing all the constraints manually. Consumers also know what are restrictions on the values  and what they should provide to API and what values to expect. </p>
 <figure class="highlight"><figcaption><span>Add dependency in pom file</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-bean-validators&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><figcaption><span>Import BeanValidatorPluginsConfiguration</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="meta">@Import</span>(BeanValidatorPluginsConfiguration.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;    </span><br></pre></td></tr></table></figure>
-<p>After Integration Model will look like below in generate documentation.<br><img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/model.png">  </p>
+<p>After Integration Model will look like below in generated documentation.<br><img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/model.png">  </p>
 <p>The code for this post is available for download <a href="https://github.com/nirajsonawane/SwaggerWithSpringBoot.git" target="_blank" rel="noopener">here</a>.</p>
 
         
@@ -300,7 +300,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjr4njqib000kjguk01z7eq8m" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjr5tzpwr00ahd4uk5ijjllgg" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -628,7 +628,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1548035681743')
+  navigator.serviceWorker.register('/sw.js?t=1548132485734')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
