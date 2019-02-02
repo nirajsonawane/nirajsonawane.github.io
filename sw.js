@@ -24,15 +24,15 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/05/24/Java-8-Read-File-With-try-with-resources/');
+  precacheUrls.push('/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/');
+
+  precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
+
+  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-value/');
+
+  precacheUrls.push('/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/');
 
   precacheUrls.push('/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/');
-
-  precacheUrls.push('/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/');
-
-  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-key/');
-
-  precacheUrls.push('/2018/10/27/Angular-Material-Tabs-with-Router/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
