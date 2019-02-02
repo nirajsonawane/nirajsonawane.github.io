@@ -24,11 +24,11 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/');
+  precacheUrls.push('/2018/05/20/Java-Process-Builder/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
-  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-value/');
+  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-key/');
 
   precacheUrls.push('/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/');
 
