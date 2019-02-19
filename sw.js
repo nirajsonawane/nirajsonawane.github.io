@@ -24,15 +24,15 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/05/20/Java-Process-Builder/');
+  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-key/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
-  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-key/');
+  precacheUrls.push('/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/');
 
-  precacheUrls.push('/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/');
+  precacheUrls.push('/2018/06/10/Join-Method/');
 
-  precacheUrls.push('/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/');
+  precacheUrls.push('/2018/10/27/Angular-Material-Tabs-with-Router/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
