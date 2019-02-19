@@ -260,6 +260,7 @@ ga('send', 'pageview');
 <p><em>Before Cloud Config</em><br><img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/beforeCloudConfig.jpg"></p>
 <h4 id="Our-Task-is-to-externalize-the-Configurations-in-Git-repository-using-Spring-Cloud"><a href="#Our-Task-is-to-externalize-the-Configurations-in-Git-repository-using-Spring-Cloud" class="headerlink" title="Our Task is to externalize the Configurations in Git repository using Spring Cloud"></a>Our Task is to externalize the Configurations in Git repository using Spring Cloud</h4><p><em>After Cloud Config</em><br><img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/After.jpg"></p>
 <img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/spring-cloud.png">
+<p><a href="https://www.freepik.com/free-photos-vectors/infographic" target="_blank" rel="noopener">Infographic vector created by freepik - www.freepik.com</a></p>
 <h4 id="1-Spring-Cloud-Config-Server"><a href="#1-Spring-Cloud-Config-Server" class="headerlink" title="1 Spring Cloud Config Server"></a>1 Spring Cloud Config Server</h4><p>Config Server acts as a sort of intermediary between our Spring applications and a typically version-controlled repository of configuration files. All microservices access properties files using config server.<br>We need to add  <strong><code>&lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</code></strong> dependency. And need to use <code>@EnableConfigServer</code> annotation.<br><figure class="highlight java"><figcaption><span>Config Server</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudConfigServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	 SpringApplication.run(SpringCloudConfigServerApplication.class, args);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h5 id="Connecting-Config-Server-to-version-controlled-repository"><a href="#Connecting-Config-Server-to-version-controlled-repository" class="headerlink" title="Connecting Config Server to version-controlled repository"></a>Connecting Config Server to version-controlled repository</h5><p>Spring Cloud Config Server supports Git,SVN, JDBC (relational database)  etc as a backend for configuration properties.The default implementation of EnvironmentRepository uses a <strong>Git backend</strong>. For this POC will use git.We can also use File System based backend for configuration properties using native profile.<br><figure class="highlight java"><figcaption><span>Config Server application.properties</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=spring-cloud-config-server</span><br><span class="line">server.port=<span class="number">8888</span></span><br><span class="line">spring.cloud.config.server.git.uri=https:<span class="comment">//github.com/nirajsonawane/Spring-Cloud-Config-Server-Demo-Config-Repo.git</span></span><br></pre></td></tr></table></figure><br>To Provide path of file based git system  <code>file://${user.home}/config-repo</code>.</p>
 <p>Run the config server and you should be able to access properties of customer-service at <a href="http://localhost:8888/customer-service/default" target="_blank" rel="noopener">http://localhost:8888/customer-service/default</a><br>Similarly Account service properties will be available at <a href="http://localhost:8888/account-service/default" target="_blank" rel="noopener">http://localhost:8888/account-service/default</a>  </p>
@@ -295,7 +296,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="cjs9lx2qp000zkkukfxqv1ekq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="cjsb9mtba00ahawukdmu041lo" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -454,7 +455,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/" data-id="cjs9lx32j0098kkuk0hgzfrco" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/" data-id="cjsb9mtdo00b6awukhqv4l4ql" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -622,7 +623,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjs9lx30e008tkkukj8kje6l3" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjsb9mtbc00aiawuka2cf76l3" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -802,7 +803,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjs9lx30g008ukkukaey9ec77" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjsb9mtbh00akawukatq0jx0k" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -940,7 +941,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjs9lx2md0005kkukukaz7gua" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjsb9mt3s0006awuk5tv6grua" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1086,7 +1087,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" data-id="cjs9lx2v8002wkkukbrtykf7i" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" data-id="cjsb9mt6b0025awukg85po3lj" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1223,7 +1224,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="cjs9lx2lh0001kkuk7kqcvjmc" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="cjsb9mt3i0003awuka9f4yiwn" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1365,7 +1366,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="cjs9lx2s2001ekkukkectqvp2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="cjsb9mt55000yawukxdasrpwz" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1502,7 +1503,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" data-id="cjs9lx2v0002okkuktm9pz4b3" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" data-id="cjsb9mt66001zawuk865xl5gz" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1640,7 +1641,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" data-id="cjs9lx2v5002skkuk0v2kf5xb" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" data-id="cjsb9mt680022awukkjktlbui" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1948,7 +1949,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1550549884647')
+  navigator.serviceWorker.register('/sw.js?t=1550550331350')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }

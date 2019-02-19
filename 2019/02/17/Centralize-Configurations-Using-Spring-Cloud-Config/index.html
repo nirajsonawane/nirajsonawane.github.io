@@ -16,7 +16,7 @@
 <meta property="og:description" content="unsplash-logoAsh Edmonds In This post we will Create Small POC for Spring Cloud Config and will use different Key Features of Spring Cloud Config. The code for this post is available for download her">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://nirajsonawane.github.io/asset/icon-spring-cloud.svg">
-<meta property="og:updated_time" content="2019-02-19T04:17:03.083Z">
+<meta property="og:updated_time" content="2019-02-19T04:22:14.229Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Centralize Configurations Using Spring Cloud Config">
 <meta name="twitter:description" content="unsplash-logoAsh Edmonds In This post we will Create Small POC for Spring Cloud Config and will use different Key Features of Spring Cloud Config. The code for this post is available for download her">
@@ -266,6 +266,7 @@ ga('send', 'pageview');
 <p><em>Before Cloud Config</em><br><img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/beforeCloudConfig.jpg"></p>
 <h4 id="Our-Task-is-to-externalize-the-Configurations-in-Git-repository-using-Spring-Cloud"><a href="#Our-Task-is-to-externalize-the-Configurations-in-Git-repository-using-Spring-Cloud" class="headerlink" title="Our Task is to externalize the Configurations in Git repository using Spring Cloud"></a>Our Task is to externalize the Configurations in Git repository using Spring Cloud</h4><p><em>After Cloud Config</em><br><img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/After.jpg"></p>
 <img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/spring-cloud.png">
+<p><a href="https://www.freepik.com/free-photos-vectors/infographic" target="_blank" rel="noopener">Infographic vector created by freepik - www.freepik.com</a></p>
 <h4 id="1-Spring-Cloud-Config-Server"><a href="#1-Spring-Cloud-Config-Server" class="headerlink" title="1 Spring Cloud Config Server"></a>1 Spring Cloud Config Server</h4><p>Config Server acts as a sort of intermediary between our Spring applications and a typically version-controlled repository of configuration files. All microservices access properties files using config server.<br>We need to add  <strong><code>&lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</code></strong> dependency. And need to use <code>@EnableConfigServer</code> annotation.<br><figure class="highlight java"><figcaption><span>Config Server</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudConfigServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	 SpringApplication.run(SpringCloudConfigServerApplication.class, args);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h5 id="Connecting-Config-Server-to-version-controlled-repository"><a href="#Connecting-Config-Server-to-version-controlled-repository" class="headerlink" title="Connecting Config Server to version-controlled repository"></a>Connecting Config Server to version-controlled repository</h5><p>Spring Cloud Config Server supports Git,SVN, JDBC (relational database)  etc as a backend for configuration properties.The default implementation of EnvironmentRepository uses a <strong>Git backend</strong>. For this POC will use git.We can also use File System based backend for configuration properties using native profile.<br><figure class="highlight java"><figcaption><span>Config Server application.properties</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=spring-cloud-config-server</span><br><span class="line">server.port=<span class="number">8888</span></span><br><span class="line">spring.cloud.config.server.git.uri=https:<span class="comment">//github.com/nirajsonawane/Spring-Cloud-Config-Server-Demo-Config-Repo.git</span></span><br></pre></td></tr></table></figure><br>To Provide path of file based git system  <code>file://${user.home}/config-repo</code>.</p>
 <p>Run the config server and you should be able to access properties of customer-service at <a href="http://localhost:8888/customer-service/default" target="_blank" rel="noopener">http://localhost:8888/customer-service/default</a><br>Similarly Account service properties will be available at <a href="http://localhost:8888/account-service/default" target="_blank" rel="noopener">http://localhost:8888/account-service/default</a>  </p>
@@ -301,7 +302,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="cjs9lx2qp000zkkukfxqv1ekq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="cjsb9mtba00ahawukdmu041lo" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -629,7 +630,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1550549884647')
+  navigator.serviceWorker.register('/sw.js?t=1550550331350')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
