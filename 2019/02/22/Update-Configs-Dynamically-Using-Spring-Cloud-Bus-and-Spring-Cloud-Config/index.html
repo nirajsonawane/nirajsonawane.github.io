@@ -5,20 +5,20 @@
         <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/5231242.js"></script>
     <meta charset="utf-8">
     
-    <title>Update Configs Dynamically Using Spring Cloud Bus and Spring Cloud Config | Niraj Sonawane</title>
+    <title>Update Config Dynamically Using Spring Cloud Bus and Spring Cloud Config | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="In The previous post  Centralize Configurations Using Spring Cloud Config We Setup config Server and Centralized The Configuration properties in github.In This post, We Will Check different options a">
 <meta name="keywords" content="Spring Boot,Spring Cloud,Microservice,Cloud Bus,Cloud Config">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Update Configs Dynamically Using Spring Cloud Bus and Spring Cloud Config">
+<meta property="og:title" content="Update Config Dynamically Using Spring Cloud Bus and Spring Cloud Config">
 <meta property="og:url" content="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
 <meta property="og:description" content="In The previous post  Centralize Configurations Using Spring Cloud Config We Setup config Server and Centralized The Configuration properties in github.In This post, We Will Check different options a">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://nirajsonawane.github.io/asset/icon-spring-cloud.svg">
-<meta property="og:updated_time" content="2019-02-23T09:27:13.279Z">
+<meta property="og:updated_time" content="2019-02-23T09:34:57.533Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Update Configs Dynamically Using Spring Cloud Bus and Spring Cloud Config">
+<meta name="twitter:title" content="Update Config Dynamically Using Spring Cloud Bus and Spring Cloud Config">
 <meta name="twitter:description" content="In The previous post  Centralize Configurations Using Spring Cloud Config We Setup config Server and Centralized The Configuration properties in github.In This post, We Will Check different options a">
 <meta name="twitter:image" content="https://nirajsonawane.github.io/asset/icon-spring-cloud.svg">
     
@@ -218,7 +218,7 @@ ga('send', 'pageview');
                 
     
         <h1 class="article-title" itemprop="name">
-            Update Configs Dynamically Using Spring Cloud Bus and Spring Cloud Config
+            Update Config Dynamically Using Spring Cloud Bus and Spring Cloud Config
         </h1>
     
 
@@ -254,11 +254,9 @@ ga('send', 'pageview');
         
             
             <img src="/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/Spring-Cloud.jpg">
-<p>In The previous post  <a href="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" title="Centralize Configurations Using Spring Cloud Config">Centralize Configurations Using Spring Cloud Config</a> We Setup config Server and Centralized The Configuration properties in github.<br>In This post, We Will Check different options available to update Config properties in Client applications without restarting Them.   </p>
-<p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Config-Cloud-Bus-Demo" target="_blank" rel="noopener">here</a>.</strong></p>
+<p>In The previous post  <a href="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" title="Centralize Configurations Using Spring Cloud Config">Centralize Configurations Using Spring Cloud Config</a> We Setup config Server and Centralized The Configuration properties in github.<br>In This post, We Will Check different options available to update Config properties in Client applications without restarting Them.<br><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Config-Cloud-Bus-Demo" target="_blank" rel="noopener">here</a>.</strong></p>
 <h3 id="1-Restart-Endpoint-Of-Spring-Actuator-Endpoint"><a href="#1-Restart-Endpoint-Of-Spring-Actuator-Endpoint" class="headerlink" title="1 Restart Endpoint Of Spring Actuator Endpoint"></a>1 Restart Endpoint Of Spring Actuator Endpoint</h3><p>The Simplest way to reload the application config without manually restarting it is Using Spring Boot Actuator Restart Endpoint.But this is not the best way to update the config. </p>
-<h3 id="2-Refresh-Endpoint-RefreshScope-amp-ConfigurationProperties"><a href="#2-Refresh-Endpoint-RefreshScope-amp-ConfigurationProperties" class="headerlink" title="2 Refresh Endpoint- @RefreshScope &amp; @ConfigurationProperties"></a>2 Refresh Endpoint- @RefreshScope &amp; @ConfigurationProperties</h3><p>Spring allows beans to be refreshed dynamically at runtime using <code>@RefreshScope</code>. The Bean That are using <code>@Value</code> to read properties are need to be annotated with <code>@RefreshScope</code>. The Properties loaded by <code>@ConfigurationProperties</code> are automatically reloaded as <code>@ConfigurationProperties</code> are by default <code>@RefreshScope</code><br>To Reload the bean annotated with <code>@RefreshScope</code>  Run below post request.<br><code>$ curl localhost:8090/actuator/refresh -d {} -H &quot;Content-Type: application/json&quot;</code></p>
-<p><strong>Problem</strong><br><blockquote><p>But Again This method has Problem, In a real microservice environment, there will be a large number of independent application services. And It is not practical for the user to manually trigger the refresh event for all the related services whenever a property is changed.<strong>Spring Bus Provide Solution For this</strong></p>
+<h3 id="2-Refresh-Endpoint-RefreshScope-amp-ConfigurationProperties"><a href="#2-Refresh-Endpoint-RefreshScope-amp-ConfigurationProperties" class="headerlink" title="2 Refresh Endpoint- @RefreshScope &amp; @ConfigurationProperties"></a>2 Refresh Endpoint- @RefreshScope &amp; @ConfigurationProperties</h3><p>Spring allows beans to be refreshed dynamically at runtime using <code>@RefreshScope</code>. The Bean That are using <code>@Value</code> to read properties are need to be annotated with <code>@RefreshScope</code>. The Properties loaded by <code>@ConfigurationProperties</code> are automatically reloaded as <code>@ConfigurationProperties</code> are by default <code>@RefreshScope</code><br>To Reload the bean annotated with <code>@RefreshScope</code>  Run below post request.<br><code>$ curl localhost:8090/actuator/refresh -d {} -H &quot;Content-Type: application/json&quot;</code><br><strong>Problem</strong><br><blockquote><p>But Again This method has Problem, In a real microservice environment, there will be a large number of independent application services. And It is not practical for the user to manually trigger the refresh event for all the related services whenever a property is changed.<strong>Spring Bus Provide Solution For this</strong></p>
 </blockquote></p>
 <h3 id="3-Spring-Cloud-Bus"><a href="#3-Spring-Cloud-Bus" class="headerlink" title="3 Spring Cloud Bus"></a>3 Spring Cloud Bus</h3><p>Spring Cloud Bus links nodes of a distributed system with a lightweight message broker. This can then be used to broadcast state changes, The configuration changes are publised as events to all connected nodes.  For the POC We will be using AMQP broker as the transport.</p>
 <p><strong>Our targeted architecture will look like below</strong><br><img src="/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/cloud-bus.jpg">    </p>
@@ -298,7 +296,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" data-id="cjsfqg13t00288sukhg41hh3y" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" data-id="cjshagh2i002cqouky8d868gx" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -416,7 +414,7 @@ ga('send', 'pageview');
     
 
     
-        <span style="background-image:url(/asset/icon-spring-cloud.svg)" alt="Update Configs Dynamically Using Spring Cloud Bus and Spring Cloud Config" class="thumbnail-image"></span>
+        <span style="background-image:url(/asset/icon-spring-cloud.svg)" alt="Update Config Dynamically Using Spring Cloud Bus and Spring Cloud Config" class="thumbnail-image"></span>
     
 </a>
 
@@ -424,7 +422,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Spring-Cloud/">Spring Cloud</a></p>
-                            <p class="item-title"><a href="/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" class="title">Update Configs Dynamically Using Spring Cloud Bus and Spring Cloud Config</a></p>
+                            <p class="item-title"><a href="/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" class="title">Update Config Dynamically Using Spring Cloud Bus and Spring Cloud Config</a></p>
                             <p class="item-date"><time datetime="2019-02-22T07:26:19.000Z" itemprop="datePublished">2019-02-22</time></p>
                         </div>
                     </li>
@@ -626,7 +624,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1550914090807')
+  navigator.serviceWorker.register('/sw.js?t=1550914512300')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }

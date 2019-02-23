@@ -24,7 +24,7 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/06/10/Join-Method/');
+  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-key/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
@@ -32,7 +32,7 @@ var precacheUrls = [];
 
   precacheUrls.push('/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/');
 
-  precacheUrls.push('/2018/06/15/ExecutorServiceAndThreadPools/');
+  precacheUrls.push('/2018/06/10/Join-Method/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
