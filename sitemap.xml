@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/</loc>
+    
+    <lastmod>2019-03-22T17:38:04.103Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/</loc>
     
-    <lastmod>2019-03-22T06:30:07.044Z</lastmod>
+    <lastmod>2019-03-22T06:38:40.882Z</lastmod>
     
   </url>
   
@@ -247,14 +254,14 @@
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
+    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
+    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     
