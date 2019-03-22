@@ -24,15 +24,15 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-key/');
+  precacheUrls.push('/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/');
 
-  precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
-
-  precacheUrls.push('/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/');
-
-  precacheUrls.push('/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/');
+  precacheUrls.push('/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/');
 
   precacheUrls.push('/2018/06/10/Join-Method/');
+
+  precacheUrls.push('/2018/08/05/Angular-pipes/');
+
+  precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
