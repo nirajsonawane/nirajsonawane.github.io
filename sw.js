@@ -24,7 +24,7 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/09/09/Java-Stream-Sort-map-by-value/');
+  precacheUrls.push('/2018/06/18/CyclicBarrier/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
