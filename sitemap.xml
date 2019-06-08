@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/</loc>
+    
+    <lastmod>2019-06-08T12:06:08.945Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/about/index.html</loc>
+    
+    <lastmod>2019-06-08T05:38:21.420Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/</loc>
     
     <lastmod>2019-05-01T17:10:10.857Z</lastmod>
@@ -40,13 +54,6 @@
     <loc>https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/</loc>
     
     <lastmod>2019-02-02T11:44:09.017Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://nirajsonawane.github.io/about/index.html</loc>
-    
-    <lastmod>2019-01-22T04:49:48.323Z</lastmod>
     
   </url>
   
@@ -261,14 +268,14 @@
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
+    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
+    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     
