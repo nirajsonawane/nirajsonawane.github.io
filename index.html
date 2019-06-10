@@ -253,7 +253,7 @@ ga('send', 'pageview');
 <p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Boot-Admin-demo" target="_blank" rel="noopener">here</a>.</strong></p>
 <h3 id="Setting-Up-Spring-Boot-Admin-Server"><a href="#Setting-Up-Spring-Boot-Admin-Server" class="headerlink" title="Setting Up Spring Boot Admin Server"></a>Setting Up Spring Boot Admin Server</h3><p>To Add admin server in project we need to add below spring boot starter dependancy    </p>
 <figure class="highlight"><figcaption><span>spring boot admin starter server</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;de.codecentric&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-admin-starter-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>Add <code>@EnableAdminServer</code> on Main Application.<br><figure class="highlight java"><figcaption><span>Admin Main Class</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableAdminServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringBootAdminServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(SpringBootAdminServerApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>No if we Start the application, the admin UI should be available<br><img src="/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/admin1.png"></p>
+<p>Add <code>@EnableAdminServer</code> on Main Application.<br><figure class="highlight java"><figcaption><span>Admin Main Class</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableAdminServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringBootAdminServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(SpringBootAdminServerApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>Now if we Start the application, the admin UI should be available<br><img src="/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/admin1.png"></p>
 <h3 id="Register-clients-with-admin-Server"><a href="#Register-clients-with-admin-Server" class="headerlink" title="Register clients with admin Server"></a>Register clients with admin Server</h3><p>Each application that wants to register has to include the Spring Boot Admin Client dependancy.<br><figure class="highlight"><figcaption><span>Client</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;de.codecentric&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-admin-starter-client&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
 <p>And add <strong>Admin.client</strong> url in <code>application.properties</code><br><code>spring.boot.admin.client.url=http://localhost:8080/</code><br>Spring Boot Admin will use <code>spring.application.name</code> property to display the name of application.<br> <video width="700" height="700" controls autoplay><br>  <source src="/asset/1.webm" type="video/webm"><br>Your browser does not support the video tag.<br></video><br> Our application is registered on Admin Consol, <strong>But apart for Status no other information is available</strong></p>
 <h3 id="Magic-of-Spring-Boot-Actuator-and-Spring-Boot-Admin-Server"><a href="#Magic-of-Spring-Boot-Actuator-and-Spring-Boot-Admin-Server" class="headerlink" title="Magic of Spring Boot Actuator and  Spring Boot Admin Server"></a>Magic of Spring Boot Actuator and  Spring Boot Admin Server</h3><p> Spring Boot Admin depends on Actuators endpoints to provide information. let’s enable Actuator endpoints.<br> put below in client application.<br> <code>management.endpoints.web.exposure.include=*</code><br> <strong>Note</strong>, Expose only needed endpoints.<br> <video width="700" height="700" controls autoplay><br>  <source src="/asset/admin2.webm" type="video/webm"><br>Your browser does not support the video tag.<br></video> </p>
@@ -275,7 +275,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" data-id="cjwn3fiw6001x3cuk8qmeyx4o" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" data-id="cjwpspcxy002340uki3jq31mi" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -424,7 +424,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/" data-id="cjwn3fj2x00bg3cukuw6gsr33" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/" data-id="cjwpspd3b00az40ukcxpbgm0y" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -569,7 +569,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/" data-id="cjwn3fiwh002d3cuk6fg0dk6b" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/" data-id="cjwpspcyh002t40uk8jatd1yp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -718,7 +718,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/" data-id="cjwn3fiw800203cuk5aqwf6ck" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/" data-id="cjwpspcy0002740ukp7l8tu1w" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -882,7 +882,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" data-id="cjwn3fiwl002h3cuk3i2gfybe" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" data-id="cjwpspcyc002n40ukp15n4hxs" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1052,7 +1052,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="cjwn3fj2m00b93cuktkongr8m" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="cjwpspd3500at40ukubukfsgg" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1211,7 +1211,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/" data-id="cjwn3fj6c00c13cuk53xdj3qi" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/" data-id="cjwpspd6r00bk40ukuw5c81g0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1379,7 +1379,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjwn3fj2p00bb3cukim7rv1r2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="cjwpspd3700au40ukxjwtx1y1" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1559,7 +1559,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjwn3fj2u00bd3cuk4wnq8r2d" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="cjwpspd3900aw40ukwohig92s" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1697,7 +1697,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjwn3fiu900053cuk4gfh89yo" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="cjwpspcvv000840ukwfqgi60n" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -2005,7 +2005,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1559995658886')
+  navigator.serviceWorker.register('/sw.js?t=1560136230020')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }

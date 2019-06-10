@@ -32,7 +32,7 @@ var precacheUrls = [];
 
   precacheUrls.push('/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/');
 
-  precacheUrls.push('/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/');
+  precacheUrls.push('/2019/03/22/Spring-Cloud-Netflix-Ribbon/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
