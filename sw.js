@@ -30,9 +30,9 @@ var precacheUrls = [];
 
   precacheUrls.push('/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/');
 
-  precacheUrls.push('/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/');
+  precacheUrls.push('/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/');
 
-  precacheUrls.push('/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/');
+  precacheUrls.push('/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
