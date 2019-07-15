@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://nirajsonawane.github.io/about/index.html</loc>
+    <loc>https://nirajsonawane.github.io/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/</loc>
     
-    <lastmod>2019-07-14T19:27:25.264Z</lastmod>
+    <lastmod>2019-07-15T02:02:56.032Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/</loc>
+    <loc>https://nirajsonawane.github.io/about/index.html</loc>
     
-    <lastmod>2019-07-14T19:21:59.948Z</lastmod>
+    <lastmod>2019-07-14T19:27:25.264Z</lastmod>
     
   </url>
   
@@ -275,14 +275,14 @@
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
+    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
+    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     
