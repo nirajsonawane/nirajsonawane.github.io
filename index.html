@@ -169,11 +169,11 @@ ga('send', 'pageview');
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                46
+                47
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                45
+                47
                 <span>tags</span>
             </div>
         </div>
@@ -204,6 +204,150 @@ ga('send', 'pageview');
 
             
             <section id="main">
+    <article id="post-Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/">Creating Custom Spring Boot Starter To Implement Cross-Cutting Concerns</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/">
+            <time datetime="2019-10-21T10:59:52.000Z" itemprop="datePublished">2019-10-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/AOP/">AOP</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/Spring-Boot-Starter/">Spring Boot Starter</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>Now days Spring Boot has become de facto standard for numerous Web enterprise developments. Spring Boot helps to improve developer’s productivity by implementing lot of cross-cutting concerns as <strong>Starter Projects</strong>. We Just add these dependancy in out projects or configure few properties and <strong>Spring Boot does the magic for us by doing autoconfiguration.</strong> The starters projects automatically configure lof of stuff for us. This helps us to get started more quickly.<br>However, With a lof magic happing in background, it’s very Important to know How thinks works.    </p>
+<p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-boot-starter.git" target="_blank" rel="noopener">here</a>.</strong></p>
+<h3 id="How-Spring-Boot’s-Starter-Works"><a href="#How-Spring-Boot’s-Starter-Works" class="headerlink" title="How Spring Boot’s Starter Works"></a>How Spring Boot’s Starter Works</h3><p>On Startup, Spring Boot checks for <code>spring.factories</code> file. This file is located in the META-INF directory.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">ns.aop.LogMethodExecutionTimeAutoConfiguration                           </span><br></pre></td></tr></table></figure><br>All the classes with <code>@Configuration</code> should list under <code>EnableAutoConfiguration</code> key in the <code>spring.factories</code> file.<br>Spring Will create Beans Based on <code>configuration</code> and <code>Conditions</code> defined in Configurations files. We will see this in detail with example.     </p>
+<h3 id="Let’s-Create-Library-That-logs-Method-Execution-Time"><a href="#Let’s-Create-Library-That-logs-Method-Execution-Time" class="headerlink" title="Let’s Create Library That logs Method Execution Time"></a>Let’s Create Library That logs Method Execution Time</h3><blockquote><p>lets imagine, We want to log the method execution time for few methods in our project. We should be able to enable/disable this feature based on some property.</p>
+</blockquote>
+<h4 id="Creating-Our-Custom-Spring-Boot-Start-Project"><a href="#Creating-Our-Custom-Spring-Boot-Start-Project" class="headerlink" title="Creating Our Custom Spring Boot Start Project"></a>Creating Our Custom Spring Boot Start Project</h4><p><strong>Create Spring Boot Project with Below dependencies.</strong><br><figure class="highlight xml"><figcaption><span>Pom File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring.boot.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-autoconfigure<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-aop<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>		</span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span>                       </span><br></pre></td></tr></table></figure><br><code>spring-boot-dependencies</code> allows us to use any Spring dependency.<br><code>spring-boot-autoconfigure</code> for using autoconfigure feature<br><code>spring-boot-configuration-processor</code> to generate metadata for our configuration properties. IDEs can give us autocomplete. </p>
+<h4 id="Use-AOP-to-log-method-execution-time"><a href="#Use-AOP-to-log-method-execution-time" class="headerlink" title="Use AOP to log method execution time"></a>Use AOP to log method execution time</h4><p>Create simple annotation <code>LogMethodExecutionTime</code> to be used on method and aspect to log time.  </p>
+<figure class="highlight java"><figcaption><span>Annotation & Aspect</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> LogMethodExecutionTime &#123;</span><br><span class="line">&#125;     </span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogMethodExecutionTimeAspect</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"@annotation(LogMethodExecutionTime)"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">logExecutionTime</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">final</span> Object proceed = joinPoint.proceed();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">long</span> executionTime = System.currentTimeMillis() - start;</span><br><span class="line">        log.info(joinPoint.getSignature() + <span class="string">" executed in "</span> + executionTime + <span class="string">"ms"</span>);</span><br><span class="line">        <span class="keyword">return</span> proceed;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Creating-Our-Own-Autoconfiguration"><a href="#Creating-Our-Own-Autoconfiguration" class="headerlink" title="Creating Our Own Autoconfiguration"></a>Creating Our Own Autoconfiguration</h4><p>We want to control the method Method Execution Time logging to be enable based on certain properties. Spring provides lot of <code>@Conditional</code> annotations.Based on different conditions we con control Configurations of starter projects. For this example we can use <code>ConditionalOnProperty</code>.<br>our starter will be activated only if <code>logging.api.enabled</code> property is present and has value <code>true</code><br><figure class="highlight java"><figcaption><span>Configuration For our Starter</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty</span>(name = <span class="string">"logging.api.enabled"</span>, havingValue = <span class="string">"true"</span>, matchIfMissing = <span class="keyword">true</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogMethodExecutionTimeAutoConfiguration</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span>  LogMethodExecutionTimeAspect <span class="title">getLogMethodExecutionTimeAspect</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  <span class="keyword">new</span> LogMethodExecutionTimeAspect();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>   </p>
+<h4 id="spring-factories-File"><a href="#spring-factories-File" class="headerlink" title="spring.factories File"></a>spring.factories File</h4><p>We need to create special file called as <code>spring.factories</code>. Our custom starter to be pick by Spring boot, we have to create spring.factories. This file should be placed within the src/main/resources/META-INF folder. This file has list of all classes annotated with <code>@Configuration</code>.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.boot.autoconfigure.EnableAutoConfiguration=\</span><br><span class="line">ns.aop.LogMethodExecutionTimeAutoConfiguration                           </span><br></pre></td></tr></table></figure></p>
+<p><strong>Note Naming Convention</strong><br>You should make sure to provide a proper namespace for your starter. Do not start your module names with spring-boot, even if you use a different Maven groupId.<br>As a rule of thumb, you should name a combined module after the starter. For example, assume that you are creating a starter for “acme” and that you name the auto-configure module acme-spring-boot-autoconfigure and the starter acme-spring-boot-starter. If you only have one module that combines the two, name it acme-spring-boot-starter.</p>
+<h4 id="Using-the-custom-starter"><a href="#Using-the-custom-starter" class="headerlink" title="Using the custom starter"></a>Using the custom starter</h4><p>Let’s create a sample Spring Boot application <code>client</code> to use our custom starter.<br><figure class="highlight java"><figcaption><span>Client</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;ns&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;method-execution-time-logging-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// define below property </span></span><br><span class="line">logging.api.enabled=<span class="keyword">true</span></span><br><span class="line"><span class="comment">//Main Class</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(ClientApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="function">ApplicationRunner <span class="title">init</span><span class="params">(TestClass testClass)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (ApplicationArguments args) -&gt;  dataSetup(testClass);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dataSetup</span><span class="params">(TestClass testClass)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">		testClass.run();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Test Class</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClass</span> </span>&#123;    </span><br><span class="line">    <span class="meta">@LogMethodExecutionTime</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-boot-starter.git" target="_blank" rel="noopener">here</a>.</strong></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" data-id="ck20b6frm000gjwukcvzu1gns" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -277,7 +421,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" data-id="ck10wtq1d001uvkuk0pw02esp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" data-id="ck20b6fto001yjwukrh9i68wk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -446,7 +590,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" data-id="ck10wtq8000b7vkuku8va4y79" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" data-id="ck20b6g2900b2jwukqv59v1vr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -595,7 +739,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" data-id="ck10wtq1w002evkuk6v39owow" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" data-id="ck20b6fu5002hjwukqd2kr5z5" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -744,7 +888,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/" data-id="ck10wtq7y00b4vkukvlbtmu5v" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/" data-id="ck20b6g1000awjwukgiv753hf" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -889,7 +1033,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/" data-id="ck10wtq1y002ivkuks43mp4qr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/" data-id="ck20b6fuf002sjwukr0s8s0x6" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1038,7 +1182,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/" data-id="ck10wtq1m0024vkuklax5ot19" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/" data-id="ck20b6ftx0028jwuk3mmcywxr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1202,7 +1346,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" data-id="ck10wtq2c002yvkukeeg6rbib" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" data-id="ck20b6fuk002zjwukncplnj54" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1372,7 +1516,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="ck10wtq7s00ayvkukwp4ordeu" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="ck20b6g0v00asjwukcq7ggkrr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1531,7 +1675,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/" data-id="ck10wtqak00bxvkukxbwtixta" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/" data-id="ck20b6g4j00bsjwukim3s24zq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1609,174 +1753,6 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-Document-Spring-Boot-RESTful-API-With-Swagger-2-0" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/">Document Spring Boot RESTful API With Swagger-2.0</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/">
-            <time datetime="2019-01-20T08:40:46.000Z" itemprop="datePublished">2019-01-20</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Rest/">Rest</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/Swagger/">Swagger</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/puttipol-waipanya-1243332-unsplash.jpg">
-<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@sawamura126?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Puttipol Waipanya"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Puttipol Waipanya</span></a></p>
-<p>Now Days <strong>Spring Boot</strong> is de facto standard for developing RESTful services.Spring Boot makes it very easy to build RESTful services.<em>In SOAP based web services</em>, you had a <strong>WSDL</strong> which works as documentation for your API. For Rest Services we do not have WSDL so documentation of API becomes more critical.</p>
-<h1 id="Swagger"><a href="#Swagger" class="headerlink" title="Swagger"></a>Swagger</h1><p>Swagger 2 is an open source framework used to describe and document RESTful APIs.Swagger Can read your API’s structure and automatically build beautiful and interactive API documentation. Swagger makes documenting your RESTful services easy.<br>Check <a href="https://swagger.io/docs/" target="_blank" rel="noopener"> Docs for all Features</a>.</p>
-<p>The code for this post is available for download <a href="https://github.com/nirajsonawane/SwaggerWithSpringBoot.git" target="_blank" rel="noopener">here</a>.</p>
-<h2 id="Swagger-Spring-Boot"><a href="#Swagger-Spring-Boot" class="headerlink" title="Swagger + Spring Boot"></a>Swagger + Spring Boot</h2><p>Swagger Can easily integrate with Spring Boot. To Integrate Swagger we need to use <a href="https://swagger.io/tools/swagger-ui/" target="_blank" rel="noopener">Swagger UI</a> &amp;  <a href="https://springfox.github.io/springfox/" target="_blank" rel="noopener">SpringFox</a>.</p>
-<figure class="highlight plain"><figcaption><span>Maven Dependency</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="Demo-Spring-Boot-RESTful-Application"><a href="#Demo-Spring-Boot-RESTful-Application" class="headerlink" title="Demo Spring Boot RESTful Application"></a>Demo Spring Boot RESTful Application</h2><p>let’s Create documentation for our Demo Spring Boot RESTful Application. Demo Application expose <code>User</code> rest endpoint that allows to perform CURD operations for User.</p>
-<figure class="highlight java"><figcaption><span>User Endpoint</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@GetMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getAllUsers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> userservice.getAllUsers();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(@PathVariable <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> userservice.getUser(id);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@PostMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">addUser</span><span class="params">(@RequestBody User user)</span> </span>&#123;</span><br><span class="line">	userservice.addUser(user);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity(<span class="string">"User Added successfully"</span>, HttpStatus.OK);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@PutMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">updateUser</span><span class="params">(@RequestBody User user)</span> </span>&#123;</span><br><span class="line">	userservice.updateUser(user);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity(<span class="string">"User Updated successfully"</span>, HttpStatus.OK);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@DeleteMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">deleteUser</span><span class="params">(@PathVariable <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">	userservice.deleteUser(id);</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity(<span class="string">"User Deleted successfully"</span>, HttpStatus.OK);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="Swagger-Configuration"><a href="#Swagger-Configuration" class="headerlink" title="Swagger Configuration"></a>Swagger Configuration</h2><p>We need to create a <code>Docket</code> bean in a Spring Boot configuration to configure Swagger 2. A Springfox Docket instance provides the primary API configuration with sensible defaults and convenience methods for configuration.<br><code>@EnableSwagger2</code> Indicates that Swagger support should be enabled. This should be applied to a Spring java config and should have an accompanying <code>@Configuration</code> annotation. Loads all required beans defined in  <code>@SpringSwaggerConfig</code></p>
-<p>Below is minimum configuration required for Swagger.</p>
-<figure class="highlight java"><figcaption><span>SwaggerConfig</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;                                    </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">api</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)  </span><br><span class="line">          .select()                                  </span><br><span class="line">          .apis(RequestHandlerSelectors.any())              </span><br><span class="line">          .paths(PathSelectors.any())                          </span><br><span class="line">          .build();                                           </span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>Now If we run the application and go to <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noopener">http://localhost:8080/swagger-ui.html</a>  documentation will be rendered by Swagger UI.<br><img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/ui.png"></p>
-<h3 id="Update-Swagger-Configuration-for-Customization-ApInfo"><a href="#Update-Swagger-Configuration-for-Customization-ApInfo" class="headerlink" title="Update Swagger Configuration for Customization - ApInfo"></a>Update Swagger Configuration for Customization - ApInfo</h3><figure class="highlight java"><figcaption><span>ApiInfo</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apinfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                .title(<span class="string">"User Management API"</span>)</span><br><span class="line">                .description(<span class="string">"Rest API to Perfrom CURD "</span>)</span><br><span class="line">                .termsOfServiceUrl(<span class="string">"Some Terms of Services URL"</span>)</span><br><span class="line">                .version(<span class="string">"1.0.0"</span>)</span><br><span class="line">                .license(<span class="string">"Some License Info"</span>)</span><br><span class="line">                .licenseUrl(<span class="string">"Some License URL"</span>)</span><br><span class="line">                .contact(<span class="keyword">new</span> Contact(<span class="string">"Niraj Sonawane"</span>, <span class="string">"https://nirajsonawane.github.io/"</span>,<span class="string">"Niraj.Sonawane@gmail.com"</span>))</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Update-Swagger-Configuration-for-Customization-Selecting-Specific-Endpoints"><a href="#Update-Swagger-Configuration-for-Customization-Selecting-Specific-Endpoints" class="headerlink" title="Update Swagger Configuration for Customization - Selecting Specific Endpoints"></a>Update Swagger Configuration for Customization - Selecting Specific Endpoints</h2><p>When we verify the Generated documentation, We see that in <em>Basic Error Controller</em> along with our <em>User Controller</em> and <em>Model</em>.<br>We can Configure Swagger to generated documentation only for certain endpoints using <code>RequestHandlerSelectors</code>.</p>
-<p><em>The Available options for Configurations are</em> </p>
-<ol>
-<li><code>RequestHandlerSelectors.basePackage(basePackage)</code></li>
-<li><code>RequestHandlerSelectors.withClassAnnotation(annotation)</code></li>
-<li><code>RequestHandlerSelectors.withMethodAnnotation(annotation)</code></li>
-</ol>
-<h2 id="Swagger-Annotations-On-Controller-classes"><a href="#Swagger-Annotations-On-Controller-classes" class="headerlink" title="Swagger Annotations On Controller classes"></a>Swagger Annotations On Controller classes</h2><p>Swagger provides annotations that can be applied on Controller classes to provide additional information,<br>We can annotate controllers and their methods and method parameters.</p>
-<ul>
-<li><code>@Api</code> describes the whole controller</li>
-<li><code>@ApiOperation</code> is used for description on a methods level</li>
-<li><code>@ApiResponses</code> is used for description of response codes on a methods level</li>
-<li><code>@ApiParam</code> is used for method parameters</li>
-</ul>
-<figure class="highlight java"><figcaption><span>Swagger Annotations On Controller classes</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</span><br><span class="line"><span class="meta">@ApiOperation</span>(consumes=<span class="string">"application/json"</span>, produces=<span class="string">"application/json"</span>,protocols=<span class="string">"http"</span>, value = <span class="string">"getUser"</span> )</span><br><span class="line"><span class="meta">@ApiResponses</span>(value = &#123;</span><br><span class="line">		<span class="meta">@ApiResponse</span>(code = <span class="number">200</span>, message = <span class="string">"Successfully retrieved User"</span>),</span><br><span class="line">		<span class="meta">@ApiResponse</span>(code = <span class="number">401</span>, message = <span class="string">"The request has not been applied because it lacks valid authentication credentials for the target resource"</span>),</span><br><span class="line">		<span class="meta">@ApiResponse</span>(code = <span class="number">403</span>, message = <span class="string">"The server understood the request but refuses to authorize it"</span>),</span><br><span class="line">		<span class="meta">@ApiResponse</span>(code = <span class="number">404</span>, message = <span class="string">"The resource  not found"</span>)</span><br><span class="line">&#125;)	</span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">(@ApiParam(<span class="string">"Id of user, Can not be null"</span>)</span> @PathVariable <span class="keyword">int</span> id) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> userservice.getUser(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/method.png">
-<h2 id="Swagger-Annotations-On-Model-classes"><a href="#Swagger-Annotations-On-Model-classes" class="headerlink" title="Swagger Annotations On Model classes"></a>Swagger Annotations On Model classes</h2><p>Swagger Core annotations, Can be used to specify additional information about your model Class.<br>e.g User Class annotated with these annotations can look something like this</p>
-<figure class="highlight java"><figcaption><span>Swagger Annotations On Model classes</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@ApiModel</span>(description = <span class="string">"Class representing User "</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(notes = <span class="string">"Unique  ID for user"</span>, example = <span class="string">"1"</span>, required = <span class="keyword">true</span>, position = <span class="number">0</span>)</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(notes = <span class="string">"First Name of User"</span>, example = <span class="string">"Niraj"</span>, required = <span class="keyword">true</span>, position = <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">private</span> String firstName;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ApiModelProperty</span>(notes = <span class="string">"Last Name of User"</span>, example = <span class="string">"Sonawane"</span>, required = <span class="keyword">true</span>, position = <span class="number">2</span>)</span><br><span class="line">	<span class="keyword">private</span> String lastName;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ApiModelProperty</span>(notes = <span class="string">"Middle Name of User"</span>, example = <span class="string">"Ashok"</span>, required = <span class="keyword">false</span>, position = <span class="number">3</span>)</span><br><span class="line">	<span class="keyword">private</span> String middleName;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ApiModelProperty</span>(notes = <span class="string">"Age of User"</span>, example = <span class="string">"32"</span>, required = <span class="keyword">true</span>, position = <span class="number">4</span>)</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Swagger-Integration-with-JSR-303-Annotations"><a href="#Swagger-Integration-with-JSR-303-Annotations" class="headerlink" title="Swagger Integration with JSR-303 Annotations"></a>Swagger Integration with JSR-303 Annotations</h2><p><em>JSR 303 Bean Validation</em> is the specification of the Java API for JavaBean validation in Java EE and Java SE. This is very popular mechanism for validation and number of projects are using it.<br><figure class="highlight java"><figcaption><span>JSR 303 Bean Validation</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> id;	</span><br><span class="line">	<span class="meta">@NotBlank</span></span><br><span class="line">	<span class="meta">@Size</span>(min = <span class="number">2</span>, max = <span class="number">10</span>)    </span><br><span class="line">	<span class="keyword">private</span> String firstName;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@NotBlank</span>	</span><br><span class="line">	<span class="keyword">private</span> String lastName;	</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">private</span> String middleName;</span><br><span class="line">	<span class="meta">@NotNull</span></span><br><span class="line">	<span class="meta">@Min</span>(<span class="number">2</span>)</span><br><span class="line">	<span class="meta">@Max</span>(<span class="number">100</span>)	</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>This is a common practice which is already widely used. Swagger can be easily configured to read these annotations and generate documentation based on such annotations.<br>This makes Swagger very useful as we can utilize what we already have in our project without writing all the constraints manually. Consumers also know what are restrictions on the values  and what they should provide to API and what values to expect. </p>
-<figure class="highlight"><figcaption><span>Add dependency in pom file</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springfox-bean-validators&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.9.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><figcaption><span>Import BeanValidatorPluginsConfiguration</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="meta">@Import</span>(BeanValidatorPluginsConfiguration.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;    </span><br></pre></td></tr></table></figure>
-<p>After Integration Model will look like below in generated documentation.<br><img src="/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/model.png">  </p>
-<p>The code for this post is available for download <a href="https://github.com/nirajsonawane/SwaggerWithSpringBoot.git" target="_blank" rel="noopener">here</a>.</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="ck10wtq7t00azvkukjvc0nues" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1790,6 +1766,27 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/icon-spring-cloud.svg)" alt="Creating Custom Spring Boot Starter To Implement Cross-Cutting Concerns" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a></p>
+                            <p class="item-title"><a href="/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" class="title">Creating Custom Spring Boot Starter To Implement Cross-Cutting Concerns</a></p>
+                            <p class="item-date"><time datetime="2019-10-21T10:59:52.000Z" itemprop="datePublished">2019-10-21</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1875,27 +1872,6 @@ ga('send', 'pageview');
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/03/22/Spring-Cloud-Netflix-Ribbon/" class="thumbnail">
-    
-    
-
-    
-        <span style="background-image:url(/asset/icon-spring-cloud.svg)" alt="Spring Cloud Netflix Ribbon" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Spring-Cloud/">Spring Cloud</a></p>
-                            <p class="item-title"><a href="/2019/03/22/Spring-Cloud-Netflix-Ribbon/" class="title">Spring Cloud Netflix Ribbon</a></p>
-                            <p class="item-date"><time datetime="2019-03-22T16:15:52.000Z" itemprop="datePublished">2019-03-22</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1905,7 +1881,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RXJava-2/">RXJava-2</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Boot/">Spring Boot</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Batch/">Spring-Batch</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unit-Testing/">Unit Testing</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Angular/">Angular</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/Java-Process-Builder/">Java Process Builder</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/">Java-8</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Collector/">Collector</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/">File</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/1-0-Read-File-Line-by-Line/">1.0 -Read File Line by Line</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/2-0-Read-File-As-A-Stream/">2.0 -Read File As A Stream</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/3-0-Read-File-As-Single-String/">3.0 -Read File As Single String</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/4-0-Read-File-Using-Buffered-Reader/">4.0 -Read File Using Buffered Reader</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/5-0-Read-File-With-try-with-resources/">5.0 -Read File With try-with-resources</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/File/6-0-List-All-Files-in-Directory/">6.0 - List All Files in Directory</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/">Stream</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Java-8/Stream/Filter/">Filter</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Multithreading/">Multithreading</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RXJava-2/">RXJava-2</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Boot/">Spring Boot</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Cloud/">Spring Cloud</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring-Batch/">Spring-Batch</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unit-Testing/">Unit Testing</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1914,7 +1890,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1923,7 +1899,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/">AWS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Bus/">Cloud Bus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Config/">Cloud Config</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/">Eureka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUnit-5/">JUnit-5</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/">JWT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microservice/">Microservice</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenFeign/">OpenFeign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rest/">Rest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">8</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot-Admin/">Spring Boot Admin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Security/">Spring Security</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/">AWS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Bus/">Cloud Bus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Config/">Cloud Config</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/">Eureka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUnit-5/">JUnit-5</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/">JWT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microservice/">Microservice</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenFeign/">OpenFeign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rest/">Rest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">9</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot-Admin/">Spring Boot Admin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot-Starter/">Spring Boot Starter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Security/">Spring Security</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1932,7 +1908,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.43px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.43px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 18.57px;">Concurrency</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 12.86px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 12.86px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 15.71px;">Microservice</a> <a href="/tags/Multithreading/" style="font-size: 18.57px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 12.86px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 17.14px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Cloud/" style="font-size: 14.29px;">Spring Cloud</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 12.86px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.43px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.43px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 18.57px;">Concurrency</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 12.86px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 12.86px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 15.71px;">Microservice</a> <a href="/tags/Multithreading/" style="font-size: 18.57px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 12.86px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 17.14px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 14.29px;">Spring Cloud</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 12.86px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a>
         </div>
     </div>
 
@@ -2011,7 +1987,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1569515197094')
+  navigator.serviceWorker.register('/sw.js?t=1571662398591')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
