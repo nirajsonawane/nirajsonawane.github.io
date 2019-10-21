@@ -24,13 +24,13 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/07/30/Kotlin-Smart-Casts/');
+  precacheUrls.push('/2018/06/10/Join-Method/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
-  precacheUrls.push('/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/');
-
   precacheUrls.push('/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/');
+
+  precacheUrls.push('/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/');
 
   precacheUrls.push('/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/');
 
