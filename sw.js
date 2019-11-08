@@ -24,7 +24,7 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/06/10/Join-Method/');
+  precacheUrls.push('/2018/07/30/Kotlin-Smart-Casts/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
