@@ -7,19 +7,19 @@
     
     <title>Spring Boot + Mongodb + Docker Compose | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="unsplash-logoGabriel BarlettaIn this post we will discuss how to use Docker Compose to define and run multi-container Docker applications. PrerequisitesTo Follow along this post basic knowledge of Do">
+    <meta name="description" content="unsplash-logoGabriel BarlettaIn this post we will discuss how to use Docker Compose to define and run multi-container Docker applications.The code for this post is available on my Github account here">
 <meta name="keywords" content="Spring Boot,Mongodb,Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot + Mongodb + Docker Compose">
 <meta property="og:url" content="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="unsplash-logoGabriel BarlettaIn this post we will discuss how to use Docker Compose to define and run multi-container Docker applications. PrerequisitesTo Follow along this post basic knowledge of Do">
+<meta property="og:description" content="unsplash-logoGabriel BarlettaIn this post we will discuss how to use Docker Compose to define and run multi-container Docker applications.The code for this post is available on my Github account here">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://nirajsonawane.github.io/asset/docker-compose-logo.png">
-<meta property="og:updated_time" content="2019-12-19T21:04:47.452Z">
+<meta property="og:updated_time" content="2019-12-19T21:10:33.157Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot + Mongodb + Docker Compose">
-<meta name="twitter:description" content="unsplash-logoGabriel BarlettaIn this post we will discuss how to use Docker Compose to define and run multi-container Docker applications. PrerequisitesTo Follow along this post basic knowledge of Do">
+<meta name="twitter:description" content="unsplash-logoGabriel BarlettaIn this post we will discuss how to use Docker Compose to define and run multi-container Docker applications.The code for this post is available on my Github account here">
 <meta name="twitter:image" content="https://nirajsonawane.github.io/asset/docker-compose-logo.png">
     
 
@@ -249,7 +249,7 @@ ga('send', 'pageview');
         
             
             <img src="/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/gabriel.jpg">
-<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@gabebarletta?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Gabriel Barletta"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Gabriel Barletta</span></a><br>In this post we will discuss how to use <em>Docker Compose</em> to define and run multi-container Docker applications.</p>
+<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@gabebarletta?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Gabriel Barletta"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Gabriel Barletta</span></a><br>In this post we will discuss how to use <em>Docker Compose</em> to define and run multi-container Docker applications.<br><strong>The code for this post is available on my Github account <a href="https://github.com/nirajsonawane/spring-boot-mongodb-docker-compose-.git" target="_blank" rel="noopener">here</a></strong></p>
 <p><strong>Prerequisites</strong><br>To Follow along this post basic knowledge of Docker, Container &amp; Spring Boot is Needed. docker and docker-compose should be install on your system. </p>
 <p><strong>Docker Compose</strong><br>Docker Compose is a tool for defining and running multi-container Docker applications. We define and configure all the services used in application in single file called as “docker-compose.yml” More details about docker compose can be found in <a href="https://docs.docker.com/compose/" target="_blank" rel="noopener">documentation</a>. Docker compose helps and reduces lot of overhead of managing apps that has dependancy on multiple containers.<br>Docker compose significantly improves productivity as we can run complete application stack using single command. Docker compose runs all the containers on a single host by default. </p>
 <p><strong>Docker Compose in Action</strong><br>I will create simple hypothetical application that will expose rest endpoint to manage fruit information. Application is build using two containers. I will use docker compose to run this multi-container application.<br><img src="/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/docker.png"></p>
@@ -286,7 +286,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="ck47h3u9e002j08uk4jfxj8s8" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="ck4d7yya4002je4ukgtxmztli" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -434,7 +434,7 @@ ga('send', 'pageview');
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a></p>
                             <p class="item-title"><a href="/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" class="title">Creating Custom Spring Boot Starter To Implement Cross-Cutting Concerns</a></p>
-                            <p class="item-date"><time datetime="2019-10-21T07:29:52.000Z" itemprop="datePublished">2019-10-21</time></p>
+                            <p class="item-date"><time datetime="2019-10-21T13:29:52.000Z" itemprop="datePublished">2019-10-21</time></p>
                         </div>
                     </li>
                 
@@ -455,7 +455,7 @@ ga('send', 'pageview');
                         <div class="item-inner">
                             <p class="item-category"></p>
                             <p class="item-title"><a href="/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" class="title">My AWS Solutions Architect Associate Certification Preparation Guide</a></p>
-                            <p class="item-date"><time datetime="2019-09-12T22:53:58.000Z" itemprop="datePublished">2019-09-13</time></p>
+                            <p class="item-date"><time datetime="2019-09-13T04:53:58.000Z" itemprop="datePublished">2019-09-13</time></p>
                         </div>
                     </li>
                 
@@ -476,7 +476,7 @@ ga('send', 'pageview');
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a></p>
                             <p class="item-title"><a href="/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" class="title">Securing Spring Boot Microservices Using JWT Token</a></p>
-                            <p class="item-date"><time datetime="2019-07-14T11:36:35.000Z" itemprop="datePublished">2019-07-14</time></p>
+                            <p class="item-date"><time datetime="2019-07-14T17:36:35.000Z" itemprop="datePublished">2019-07-14</time></p>
                         </div>
                     </li>
                 
@@ -497,7 +497,7 @@ ga('send', 'pageview');
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Spring-Cloud/">Spring Cloud</a></p>
                             <p class="item-title"><a href="/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" class="title">Setup Monitoring System for your Spring Boot applications Using Spring Boot Admin</a></p>
-                            <p class="item-date"><time datetime="2019-06-08T02:13:22.000Z" itemprop="datePublished">2019-06-08</time></p>
+                            <p class="item-date"><time datetime="2019-06-08T08:13:22.000Z" itemprop="datePublished">2019-06-08</time></p>
                         </div>
                     </li>
                 
@@ -618,7 +618,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1576789570541')
+  navigator.serviceWorker.register('/sw.js?t=1576789858927')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
