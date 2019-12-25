@@ -169,7 +169,7 @@ ga('send', 'pageview');
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                48
+                49
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -204,6 +204,176 @@ ga('send', 'pageview');
 
             
             <section id="main">
+    <article id="post-Centralize-Configurations-Using-Spring-Cloud-Config" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/">Centralize Configurations Using Spring Cloud Config</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/">
+            <time datetime="2019-02-17T19:26:15.000Z" itemprop="datePublished">2019-02-17</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fas fa-folder"></i>
+        <a class="article-category-link" href="/categories/Spring-Cloud/">Spring Cloud</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Microservice/">Microservice</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/Spring-Cloud/">Spring Cloud</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/ash-edmonds-510566-unsplash.jpg">
+<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@badashproducts?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Ash Edmonds"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Ash Edmonds</span></a></p>
+<p>In This post we will Create Small POC for <strong>Spring Cloud Config</strong> and will use different Key Features of Spring Cloud Config.</p>
+<p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Config-Server-Demo.git" target="_blank" rel="noopener">here</a>.</strong> <strong>And Config files <a href="https://github.com/nirajsonawane/Spring-Cloud-Config-Server-Demo-Config-Repo.git" target="_blank" rel="noopener">here</a></strong></p>
+<p><strong>Problem</strong><br>In a typical Microservices Architecture, We have Number of Small,Independent Services working together. Each service will have it’s own configurations in property files &amp; we have multiple instances of each service. Now if we think about different environments like Development, Staging, and Prod etc It makes things more complicated. </p>
+<p>Each time if we need to change the configuration of a microservice, we need go to the corresponding project, change its configuration and then restart the application for the change to take effect.<br><strong>Managing These Configurations for multiple services across different environments becomes very critical</strong><br><em>Spring Cloud Config provide Solutions to all these problems</em></p>
+<h3 id="What-Is-Spring-Cloud-Config"><a href="#What-Is-Spring-Cloud-Config" class="headerlink" title="What Is Spring Cloud Config ?"></a>What Is Spring Cloud Config ?</h3><p>Spring Cloud Config provides server-side and client-side support for <strong>Externalized Configuration</strong> in a distributed system. With the Config Server, you have a central place to manage external properties for applications across all environments. The default implementation of the server storage backend uses git, so it easily supports labelled versions of configuration environments as well as being accessible to a wide range of tooling for managing the content. It is easy to add alternative implementations and plug them in with Spring configuration.</p>
+<h3 id="POC-Application"><a href="#POC-Application" class="headerlink" title="POC Application"></a>POC Application</h3><p>Assume we have Small Application which includes two microservices Customer &amp; Account. Customer service accepts email id of user and identifies if the user is Premium user or not. <strong>If the email id contains some keyword, then we will consider that customer as Premium Customer</strong>. At present we have defined the keyword in <code>application.properties</code><br>e.g<br>For DEV - customer-service.emailtype=gmail.com<br>For QA -  customer-service.emailtype=github.com<br>For DEV - customer-service.emailtype=microsoft.com</p>
+<p>If I run <a href="http://localhost:8080/customer/niraj.sonawane@gmail.com" target="_blank" rel="noopener">http://localhost:8080/customer/niraj.sonawane@gmail.com</a> in dev environment, I should get response as <strong>Premium Account</strong>. </p>
+<figure class="highlight java"><figcaption><span>Before Cloud Config</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// Simple RestController which check if email has keyword or not.  </span></span><br><span class="line"><span class="meta">@RestController</span> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerProfileController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CustomerServiceConfigurations customerServiceConfigurations;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/customer/&#123;email&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCustomerDetails</span><span class="params">(@PathVariable String email)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (email.contains(customerServiceConfigurations.getEmailtype())) &#123;</span><br><span class="line">	    	<span class="keyword">return</span> <span class="string">"Premium  Account"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"Free Account"</span>;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Configuration Class For loading configs from application.properties.</span></span><br><span class="line"><span class="comment">//All properties starting with customer-service will be loaded in this class.  </span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(<span class="string">"customer-service"</span>)</span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerServiceConfigurations</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> String emailtype;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//application.properties has below properties.</span></span><br><span class="line">customer-service.emailtype=gmail.com</span><br></pre></td></tr></table></figure>
+<p><em>Before Cloud Config</em><br><img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/beforeCloudConfig.jpg"></p>
+<h4 id="Our-Task-is-to-externalize-the-Configurations-in-Git-repository-using-Spring-Cloud"><a href="#Our-Task-is-to-externalize-the-Configurations-in-Git-repository-using-Spring-Cloud" class="headerlink" title="Our Task is to externalize the Configurations in Git repository using Spring Cloud"></a>Our Task is to externalize the Configurations in Git repository using Spring Cloud</h4><p><em>After Cloud Config</em><br><img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/After.jpg"></p>
+<img src="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/spring-cloud.png">
+<p><a href="https://www.freepik.com/free-photos-vectors/infographic" target="_blank" rel="noopener">Infographic vector created by freepik - www.freepik.com</a></p>
+<h4 id="1-Spring-Cloud-Config-Server"><a href="#1-Spring-Cloud-Config-Server" class="headerlink" title="1 Spring Cloud Config Server"></a>1 Spring Cloud Config Server</h4><p>Config Server acts as a sort of intermediary between our Spring applications and a typically version-controlled repository of configuration files. All microservices access properties files using config server.<br>We need to add  <strong><code>&lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</code></strong> dependency. And need to use <code>@EnableConfigServer</code> annotation.<br><figure class="highlight java"><figcaption><span>Config Server</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudConfigServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	 SpringApplication.run(SpringCloudConfigServerApplication.class, args);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="Connecting-Config-Server-to-version-controlled-repository"><a href="#Connecting-Config-Server-to-version-controlled-repository" class="headerlink" title="Connecting Config Server to version-controlled repository"></a>Connecting Config Server to version-controlled repository</h5><p>Spring Cloud Config Server supports Git,SVN, JDBC (relational database)  etc as a backend for configuration properties.The default implementation of EnvironmentRepository uses a <strong>Git backend</strong>. For this POC will use git.We can also use File System based backend for configuration properties using native profile.<br><figure class="highlight java"><figcaption><span>Config Server application.properties</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=spring-cloud-config-server</span><br><span class="line">server.port=<span class="number">8888</span></span><br><span class="line">spring.cloud.config.server.git.uri=https:<span class="comment">//github.com/nirajsonawane/Spring-Cloud-Config-Server-Demo-Config-Repo.git</span></span><br></pre></td></tr></table></figure><br>To Provide path of file based git system  <code>file://${user.home}/config-repo</code>.</p>
+<p>Run the config server and you should be able to access properties of customer-service at <a href="http://localhost:8888/customer-service/default" target="_blank" rel="noopener">http://localhost:8888/customer-service/default</a><br>Similarly Account service properties will be available at <a href="http://localhost:8888/account-service/default" target="_blank" rel="noopener">http://localhost:8888/account-service/default</a>  </p>
+<h4 id="2-Config-Client-Configurations"><a href="#2-Config-Client-Configurations" class="headerlink" title="2 Config Client Configurations"></a>2 Config Client Configurations</h4><p>To access Configurations through  Config Server,Client applications needs to add<br><strong><code>spring-cloud-starter-config</code></strong> dependency.<br>The properties to configure the Config Client must necessarily be read in before the rest of the application’s configuration is read from the Config Server, during the bootstrap phase. </p>
+<p>Configure the Config server related properties in <strong>bootstrap.properties</strong><br><figure class="highlight java"><figcaption><span>bootstrap.properties</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=customer-service</span><br><span class="line">spring.cloud.config.uri=http:<span class="comment">//localhost:8888/</span></span><br></pre></td></tr></table></figure><br>Now If we Start our Customer service, It will start accessing properties files from our config server. In logs we can verity this.<br><code>[  restartedMain] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888/</code><br>And If we run <a href="http://localhost:8080/customer/niraj.sonawane@gmail.com" target="_blank" rel="noopener">http://localhost:8080/customer/niraj.sonawane@gmail.com</a> I should get response as <strong>Premium Account</strong>. (Will access Default Profile)</p>
+<h4 id="3-Managing-Profiles-Environment-Specific-properties"><a href="#3-Managing-Profiles-Environment-Specific-properties" class="headerlink" title="3 Managing Profiles, Environment  Specific properties"></a>3 Managing Profiles, Environment  Specific properties</h4><p>To manage environment specific properties, i.e. profiles add profile specific properties in repository. For customer-service we will add below files in our git repository.</p>
+<ul>
+<li>customer-service-dev.properties</li>
+<li>customer-service-prod.properties</li>
+<li>customer-service-qa.properties</li>
+</ul>
+<p>To set any specific profile we can use <code>spring.profiles.active</code> parameter in bootstrap.properties or using command line argument <code>-Dspring-boot.run.profiles</code></p>
+<p><em>Precedence rules for profiles are also the same as in a regular Spring Boot application</em>: Active profiles take precedence over defaults, and, if there are multiple profiles, the last one wins (similar to adding entries to a Map).</p>
+<h4 id="4-RefreshScope"><a href="#4-RefreshScope" class="headerlink" title="4 RefreshScope"></a>4 RefreshScope</h4><p>Until Now, We have Solved the problem of Centralizing the properties and managing different profiles. Now We will focus on how to update properties at run time <strong>without application Restart</strong>.     </p>
+<p>By default, the configuration values are read on the client’s startup, and not again. We can force a bean to refresh its configuration - to pull updated values from the Config Server - by annotating the Classes that are refering with the Spring Cloud Config <code>@RefreshScope</code> and then by triggering a refresh event.<br>There are other options are also available, I will cover them in next Post.</p>
+<h4 id="5-Useful-Properties-and-Other-Key-Features"><a href="#5-Useful-Properties-and-Other-Key-Features" class="headerlink" title="5 Useful Properties and Other Key Features"></a>5 Useful Properties and Other Key Features</h4><ul>
+<li>if client cannot connect to the Config Serve  then use <code>spring.cloud.config.fail-fast=true</code> for fail fast.</li>
+<li>Config Client can Retry if it is not able to connect, use <code>spring.cloud.config.retry.*</code></li>
+<li>SSL certificate can be disabled by setting the <code>git.skipSslValidation</code> property to true (default is false).</li>
+<li>Timeout Can be set on Config server to read properties from git, Use <code>git.timeout</code> property</li>
+<li>Multiple Repositories can be used by using Pattern Matching </li>
+<li>Config Server supports the Encryption and Decryption of properties using JCE </li>
+<li>Config Server supports <code>DiscoveryClient</code> implementation such as <code>Eureka Service Discovery</code> Config Server register with the Discovery Service.</li>
+</ul>
+<p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Config-Server-Demo.git" target="_blank" rel="noopener">here</a>.</strong> <strong>And Config files <a href="https://github.com/nirajsonawane/Spring-Cloud-Config-Server-Demo-Config-Repo.git" target="_blank" rel="noopener">here</a></strong></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" data-id="ck4lgd1rc00bz60ukikjk4mvt" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Write-Clean-asynchronous-code-with-CompletableFuture-Java-8" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -285,7 +455,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/" data-id="ck4d7yykg00cxe4uklt4n2ute" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/" data-id="ck4lgd1vc00cy60ukdym3aq6h" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -453,7 +623,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="ck4d7yyh300c0e4uk43v14d1d" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/01/20/Document-Spring-Boot-RESTful-API-With-Swagger-2-0/" data-id="ck4lgd1rg00c160uk4cmsqk0m" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -633,7 +803,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="ck4d7yyh500c2e4uke1xsid0j" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/30/Junit-5-Write-Powerful-Unit-Test-Cases-Using-Parameterized-Tests/" data-id="ck4lgd1rk00c360ukkympvwei" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -771,7 +941,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="ck4d7yy7h0003e4uku2u9jvff" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/" data-id="ck4lgd1i5000560uk56rksryb" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -917,7 +1087,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" data-id="ck4d7yya0002fe4ukmw413olx" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/11/08/Spring-Batch-Process-Multiple-Files-Parallel/" data-id="ck4lgd1kw002h60ukdzfvfmde" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1054,7 +1224,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="ck4d7yy790001e4ukfptwo3fb" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/10/27/Angular-Material-Tabs-with-Router/" data-id="ck4lgd1ho000060ukazl02fce" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1196,7 +1366,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="ck4d7yy8q000we4ukk7cuyonp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/11/Java-8-Custom-Collector/" data-id="ck4lgd1j9000w60uk551riw4a" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1333,7 +1503,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" data-id="ck4d7yy9x002de4uk0utx64zi" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-Value-using-Custom-Comparator/" data-id="ck4lgd1ko002a60ukypuwz4jq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1471,7 +1641,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" data-id="ck4d7yya2002ie4ukikhuaayr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/09/10/Sort-Map-by-key-using-Custom-Comparator/" data-id="ck4lgd1kr002d60uk7oknlyut" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1549,142 +1719,6 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-Java-Stream-Sort-map-by-value" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/09/09/Java-Stream-Sort-map-by-value/">Java Stream - Sort map by value</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2018/09/09/Java-Stream-Sort-map-by-value/">
-            <time datetime="2018-09-09T20:55:43.000Z" itemprop="datePublished">2018-09-09</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Java-8/">Java-8</a><i class="fas fa-angle-right"></i><a class="article-category-link" href="/categories/Java-8/Stream/">Stream</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/Java-8/">Java-8</a>, <a class="tag-link" href="/tags/Map/">Map</a>, <a class="tag-link" href="/tags/Sorting/">Sorting</a>, <a class="tag-link" href="/tags/Stream/">Stream</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>In this Article , we’ll Discuss How we can <strong>Sort map by Value</strong> in java 8.</p>
-<p>We want to sort below Map by Value<br><figure class="highlight java"><figcaption><span>Sort map by Value</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">	map.put(<span class="string">"Niraj"</span>, <span class="number">6</span>);</span><br><span class="line">	map.put(<span class="string">"Rahul"</span>, <span class="number">43</span>);</span><br><span class="line">	map.put(<span class="string">"Ram"</span>, <span class="number">44</span>);</span><br><span class="line">	map.put(<span class="string">"Sham"</span>, <span class="number">33</span>);</span><br><span class="line">	map.put(<span class="string">"Pratik"</span>, <span class="number">5</span>);</span><br><span class="line">	map.put(<span class="string">"Ashok"</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure></p>
-<p>Map Sorting using <code>comparingByValue</code> in Ascending order<br><figure class="highlight java"><figcaption><span>Sort map by Value Ascending order</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Integer&gt; sortedMapByValueAscending </span><br><span class="line">          =  map.entrySet().stream()</span><br><span class="line">            .sorted(Map.Entry.comparingByValue())</span><br><span class="line">            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -&gt; e1,LinkedHashMap::<span class="keyword">new</span>));</span><br></pre></td></tr></table></figure></p>
-<p>Map Sorting using <code>comparingByValue</code> in Descending order. For Descending order you need to use <code>reversed()</code><br><figure class="highlight java"><figcaption><span>Sort map by Value Descending order</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Integer&gt; sortedMapByValueDescending</span><br><span class="line">            = map.entrySet().stream()</span><br><span class="line">              .sorted(Map.Entry.&lt;String,Integer&gt;comparingByValue().reversed())															</span><br><span class="line">               .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -&gt; e1 ,LinkedHashMap::<span class="keyword">new</span>));</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://github.com/nirajsonawane/java-stream-examples" target="_blank" rel="noopener">Source Code Github Link </a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-value/" data-id="ck4d7yy9b001oe4ukyxu2xc6f" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-value/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2018/09/09/Java-Stream-Sort-map-by-value/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
@@ -1698,6 +1732,27 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/testcontainers.png)" alt="Testcontainers With Spring Boot For Integration Testing" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" class="title">Testcontainers With Spring Boot For Integration Testing</a></p>
+                            <p class="item-date"><time datetime="2019-12-25T15:25:48.000Z" itemprop="datePublished">2019-12-25</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1783,27 +1838,6 @@ ga('send', 'pageview');
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" class="thumbnail">
-    
-    
-
-    
-        <span style="background-image:url(/asset/logo-spring-boot-admin.png)" alt="Setup Monitoring System for your Spring Boot applications Using Spring Boot Admin" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Spring-Cloud/">Spring Cloud</a></p>
-                            <p class="item-title"><a href="/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" class="title">Setup Monitoring System for your Spring Boot applications Using Spring Boot Admin</a></p>
-                            <p class="item-date"><time datetime="2019-06-08T08:13:22.000Z" itemprop="datePublished">2019-06-08</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1822,7 +1856,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1919,7 +1953,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1576789858927')
+  navigator.serviceWorker.register('/sw.js?t=1577302664981')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
