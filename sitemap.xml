@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/</loc>
+    
+    <lastmod>2020-01-03T21:15:08.623Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/</loc>
+    
+    <lastmod>2020-01-03T20:56:13.454Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/</loc>
     
     <lastmod>2019-12-25T19:39:56.130Z</lastmod>

@@ -169,11 +169,11 @@ ga('send', 'pageview');
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                49
+                51
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                51
+                53
                 <span>tags</span>
             </div>
         </div>
@@ -204,6 +204,298 @@ ga('send', 'pageview');
 
             
             <section id="main">
+    <article id="post-Part-2-Process-and-Transform-Flux-Mono" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/">Project Reactor [Part 2]  Exploring Operators in Flux &amp; Mono</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/">
+            <time datetime="2020-01-01T15:17:37.000Z" itemprop="datePublished">2020-01-01</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Project-Reactor/">Project Reactor</a>, <a class="tag-link" href="/tags/Reactive-Programming/">Reactive Programming</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/WebFlux/">WebFlux</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <img src="/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/daniil.jpg">
+<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@betagamma?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Daniil Silantev"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Daniil Silantev</span></a></p>
+<p>This  is the second article on a series of <code>Project Reactor</code>. In previous <a href="">article</a> we discussed basic of Flux an Mono. In this second article, I’ll show you how  to use Operators to modified and transform flux. We’ll do this through examples.</p>
+<h3 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h3><p>This is similar to java 8 stream filter. It takes predicates, the elements which satisfies predicate condition will be pass thro.<br><figure class="highlight java"><figcaption><span>Filtering</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testFilteringFlux</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>).log();</span><br><span class="line">    Flux&lt;Integer&gt; filter = fluxFromJust.filter(i -&gt; i % <span class="number">2</span> == <span class="number">0</span>);<span class="comment">//filter the even numbers only</span></span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(filter)</span><br><span class="line">            .expectNext(<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>)</span><br><span class="line">            .verifyComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Distinct"><a href="#Distinct" class="headerlink" title="Distinct"></a>Distinct</h3><p>it filter out duplicates.<br><figure class="highlight java"><figcaption><span>Distinct</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">distinct</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>).log();</span><br><span class="line">    Flux&lt;Integer&gt; distinct = fluxFromJust.distinct();</span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(distinct)</span><br><span class="line">            .expectNext(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .verifyComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="takeWhile"><a href="#takeWhile" class="headerlink" title="takeWhile"></a>takeWhile</h3><p>Consumes values from flux until predicate returns TRUE for the values<br><figure class="highlight java"><figcaption><span>takeWhile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeWhile</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>).log();</span><br><span class="line">    Flux&lt;Integer&gt; takeWhile = fluxFromJust.takeWhile(i -&gt; i &lt;=<span class="number">5</span>);</span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(takeWhile)</span><br><span class="line">            .expectNext(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .verifyComplete();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="skipWhile"><a href="#skipWhile" class="headerlink" title="skipWhile"></a>skipWhile</h3><p>Skips elements until predicate returns TRUE for the values<br><figure class="highlight java"><figcaption><span>skipWhile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">skipWhile</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>).log();</span><br><span class="line">     Flux&lt;Integer&gt; takeWhile = fluxFromJust.skipWhile(i -&gt; i &lt;=<span class="number">5</span>);</span><br><span class="line">     StepVerifier</span><br><span class="line">             .create(takeWhile)</span><br><span class="line">             .expectNext(<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>)</span><br><span class="line">             .verifyComplete();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="map"><a href="#map" class="headerlink" title="map"></a>map</h3><p>Map operation is similar to java 8 stream map operation. Map operation is use for transforming element from one Type to another.<br><figure class="highlight java"><figcaption><span>Convert String Flux To Integer Flux</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMapOperationFlux</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     Flux&lt;String&gt; fluxFromJust = Flux.just(<span class="string">"RandomString"</span>, <span class="string">"SecondString"</span>,<span class="string">"XCDFRG"</span>).log();</span><br><span class="line">     Flux&lt;Integer&gt; filter = fluxFromJust.map(i-&gt; i.length());</span><br><span class="line">     StepVerifier</span><br><span class="line">             .create(filter)</span><br><span class="line">             .expectNext(<span class="number">12</span>,<span class="number">12</span>,<span class="number">6</span>)</span><br><span class="line">             .verifyComplete();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h3><p>FlatMap Transform the elements emitted by this Flux asynchronously into Publishers, then flatten these inner publishers into a single Flux through merging, which allow them to interleave.<br><figure class="highlight java"><figcaption><span>FlatMap</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testFlatMapFlux</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">      Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>).log();</span><br><span class="line">      Flux&lt;Integer&gt; integerFlux = fluxFromJust</span><br><span class="line">              .flatMap(i -&gt; getSomeFlux(i));<span class="comment">//getSomeFlux returns flux of range ,</span></span><br><span class="line">                                              <span class="comment">// then we do flatMap on all Flux to convert them in to single Flux</span></span><br><span class="line"></span><br><span class="line">      StepVerifier</span><br><span class="line">              .create(integerFlux)</span><br><span class="line">              .expectNextCount(<span class="number">30</span>)</span><br><span class="line">              .verifyComplete();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">private</span> Flux&lt;Integer&gt; <span class="title">getSomeFlux</span><span class="params">(Integer i)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> Flux.range(i,<span class="number">10</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h3><p>Keep information about the order in which source values were received by indexing them with a 0-based incrementing long<br><figure class="highlight java"><figcaption><span>index</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">void</span> <span class="title">maintainIndex</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">      Flux&lt;Tuple2&lt;Long, String&gt;&gt; index = Flux</span><br><span class="line">              .just(<span class="string">"First"</span>, <span class="string">"Second"</span>, <span class="string">"Third"</span>)</span><br><span class="line">              .index();</span><br><span class="line">  StepVerifier.create(index)</span><br><span class="line">              .expectNext(Tuples.of(<span class="number">0L</span>,<span class="string">"First"</span>))</span><br><span class="line">              .expectNext(Tuples.of(<span class="number">1L</span>,<span class="string">"Second"</span>))</span><br><span class="line">              .expectNext(Tuples.of(<span class="number">2L</span>,<span class="string">"Third"</span>))</span><br><span class="line">              .verifyComplete();</span><br><span class="line"></span><br><span class="line">  &#125;  </span><br></pre></td></tr></table></figure></p>
+<h3 id="flatMapMany"><a href="#flatMapMany" class="headerlink" title="flatMapMany"></a>flatMapMany</h3><p>This operator is very useful if you want to convert mono to flux.flatMapMany transforms the signals emitted by this Mono into signal-specific Publishers, then forward the applicable Publisher’s emissions into the returned Flux.<br><figure class="highlight java"><figcaption><span>flatMapMany</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flatMapManyTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Mono&lt;List&lt;Integer&gt;&gt; just = Mono.just(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>));</span><br><span class="line">        Flux&lt;Integer&gt; integerFlux = just.flatMapMany(it -&gt; Flux.fromIterable(it));</span><br><span class="line">        StepVerifier</span><br><span class="line">                .create(integerFlux)</span><br><span class="line">                .expectNext(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">                .verifyComplete();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="startWith"><a href="#startWith" class="headerlink" title="startWith"></a>startWith</h3><figure class="highlight java"><figcaption><span>startWith</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">startWith</span><span class="params">()</span></span>&#123;</span><br><span class="line">       Flux&lt;Integer&gt; just = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">       Flux&lt;Integer&gt; integerFlux = just.startWith(<span class="number">0</span>);</span><br><span class="line">       StepVerifier.create(integerFlux)</span><br><span class="line">               .expectNext(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">               .verifyComplete();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="concatWith"><a href="#concatWith" class="headerlink" title="concatWith"></a>concatWith</h3><p>The concatWith method does <strong>concatenation</strong> of two flux <strong>sequentially</strong> subscribing to the first flux  then waits for completion and then subscribes to the next.<br><figure class="highlight java"><figcaption><span>concatWith</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">concatWith</span><span class="params">()</span></span>&#123;</span><br><span class="line">      Flux&lt;Integer&gt; just = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">      Flux&lt;Integer&gt; integerFlux = just.concatWith(Flux.just(<span class="number">4</span>,<span class="number">5</span>));</span><br><span class="line">      StepVerifier.create(integerFlux)</span><br><span class="line">              .expectNext(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">              .verifyComplete();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h3><p>Merge data from Publisher sequences contained in an array / vararg into an interleaved merged sequence. Unlike concat, sources are subscribed to eagerly.<br><figure class="highlight java"><figcaption><span>Merge</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">zip</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      Flux&lt;Integer&gt; firsFlux = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>).delayElements(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">      Flux&lt;Integer&gt; secondFlux = Flux.just(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>).delayElements(Duration.ofSeconds(<span class="number">1</span>));</span><br><span class="line">      firsFlux.mergeWith(secondFlux)</span><br><span class="line">              .subscribe(System.out::println);</span><br><span class="line">      <span class="comment">//This will print numbers received from firsFlux and secondFlux in random order  </span></span><br><span class="line">      TimeUnit.SECONDS.sleep(<span class="number">11</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="CollectList"><a href="#CollectList" class="headerlink" title="CollectList"></a>CollectList</h3><p>Collect all elements emitted by this Flux into a List that is emitted by the resulting Mono when this sequence completes.</p>
+<figure class="highlight java"><figcaption><span>CollectList</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">CollectList</span><span class="params">()</span></span>&#123;</span><br><span class="line">      Mono&lt;List&lt;Integer&gt;&gt; listMono = Flux</span><br><span class="line">              .just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">              .collectList();</span><br><span class="line">      StepVerifier.create(listMono)</span><br><span class="line">              .expectNext(Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>))</span><br><span class="line">              .verifyComplete();</span><br><span class="line">  &#125;    </span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>CollectSortedList</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">CollectSortedListList</span><span class="params">()</span></span>&#123;</span><br><span class="line">      Mono&lt;List&lt;Integer&gt;&gt; listMono = Flux</span><br><span class="line">              .just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>,<span class="number">9</span>,<span class="number">8</span>)</span><br><span class="line">              .collectSortedList();</span><br><span class="line">      StepVerifier.create(listMono)</span><br><span class="line">              .expectNext(Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">9</span>))</span><br><span class="line">              .verifyComplete();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h3><p>Zip multiple sources together, that is to say wait for all the sources to emit one element and combine these elements once into an output value (constructed by the provided combinator). The operator will continue doing so until any of the sources completes. Errors will immediately be forwarded. This “Step-Merge” processing is especially useful in Scatter-Gather scenarios.</p>
+<figure class="highlight java"><figcaption><span>Zip</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">zip</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     Flux&lt;Integer&gt; firsFlux = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">     Flux&lt;Integer&gt; secondFlux = Flux.just(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>);</span><br><span class="line">     Flux&lt;Integer&gt; zip = Flux.zip(firsFlux, secondFlux, (num1, num2) -&gt; num1 + num2);</span><br><span class="line">     StepVerifier</span><br><span class="line">             .create(zip)</span><br><span class="line">             .expectNext(<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>)</span><br><span class="line">             .verifyComplete();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="buffer"><a href="#buffer" class="headerlink" title="buffer"></a>buffer</h3><p>Collect all incoming values into a single List buffer that will be emitted by the returned Flux once this Flux completes.<br><figure class="highlight java"><figcaption><span>buffer</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bufferTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Flux&lt;List&lt;Integer&gt;&gt; buffer = Flux</span><br><span class="line">              .just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line">              .buffer(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">      StepVerifier</span><br><span class="line">              .create(buffer)</span><br><span class="line">              .expectNext(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">              .expectNext(Arrays.asList(<span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line">              .expectNext(Arrays.asList(<span class="number">5</span>, <span class="number">6</span>))</span><br><span class="line">              .expectNext(Arrays.asList(<span class="number">7</span>))</span><br><span class="line">              .verifyComplete();</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>You can check all available operators <a href="https://projectreactor.io/docs/core/release/reference/#which-operator" target="_blank" rel="noopener">here</a></p>
+<p>It the next article, I’ll show you how to handel errors while processing data in Mono and Flux.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="ck4vg2s8c001z4gukvs21bxtp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-Project-Reactor-Playing-With-Flux-Mono" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/">Project Reactor [Part 1] - Playing With Flux &amp; Mono</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/">
+            <time datetime="2019-12-28T15:11:27.000Z" itemprop="datePublished">2019-12-28</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Project-Reactor/">Project Reactor</a>, <a class="tag-link" href="/tags/Reactive-Programming/">Reactive Programming</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/WebFlux/">WebFlux</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <img src="/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/daniil.jpg">
+<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@betagamma?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Daniil Silantev"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Daniil Silantev</span></a></p>
+<h3 id="What-is-Reactor"><a href="#What-is-Reactor" class="headerlink" title="What is Reactor"></a>What is Reactor</h3><p><a href="https://projectreactor.io/" target="_blank" rel="noopener">Project Reactor</a> implements the reactive programming model.It implements the Reactive Streams Specification  a standard for building reactive applications.<br>reactor integrates directly with the Java 8 functional APIs, notably CompletableFuture, Stream, and Duration. It offers composable asynchronous sequence APIs — <strong>Flux (for [N] elements) and Mono (for [0|1] elements).</strong></p>
+<h3 id="Key-Components-of-Reactive-Manifesto-and-Reactive-Streams-Specification"><a href="#Key-Components-of-Reactive-Manifesto-and-Reactive-Streams-Specification" class="headerlink" title="Key Components of Reactive Manifesto and Reactive Streams Specification"></a>Key Components of Reactive Manifesto and Reactive Streams Specification</h3><p><a href="https://www.reactive-streams.org/" target="_blank" rel="noopener">Reactive Streams</a> is an initiative to provide a standard for asynchronous stream processing with non-blocking back pressure. This encompasses efforts aimed at runtime environments (JVM and JavaScript) as well as network protocols. Reactive Specification are based on <a href="https://www.reactivemanifesto.org/" target="_blank" rel="noopener">Reactive Manifesto</a></p>
+<p>Reactive Specifications defines below key Contracts<br><strong>Publisher</strong>: Representing sources of data also called as Observables.<br><strong>Subscriber</strong>: Listening to the Publisher. Subscriber subscribes to publisher<br><strong>Subscription</strong>: Publisher will create a subscription for every Subscriber which will try to subscribe to it.<br><strong>Processor</strong>: A processor can be used as a publisher as well as subscriber. Processors are used for data transformation. these are set of methods for modifying and composing the data.</p>
+<h4 id="Objective-Of-this-post"><a href="#Objective-Of-this-post" class="headerlink" title="Objective Of this post"></a>Objective Of this post</h4><p>Objective of these series of post is to show, How to use <code>Flux</code> &amp; <code>Mono</code>. How to subscribe to them for consuming data. Different operation that we can perform on data while consuming data. I will be using <strong>Spring Webflux</strong> which internally used <strong>Project Reactor</strong>  </p>
+<p>Let get started, We need <code>spring-boot-starter-webflux</code> to get started.Project rector also provides very handy library <code>reactor-test</code> for unit testing.   </p>
+<figure class="highlight xml"><figcaption><span>Pom File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-webflux<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.projectreactor<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>reactor-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scop</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="Creating-Flux-and-Mono"><a href="#Creating-Flux-and-Mono" class="headerlink" title="Creating Flux and Mono"></a>Creating Flux and Mono</h5><p><strong>Flux</strong> A Reactive Streams Publisher with rx operators that emits 0 to N elements, and then completes(successfully or with an error).</p>
+<figure class="highlight java"><figcaption><span>Few Example of creating Flux</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);<span class="comment">//Create a Flux that emits the provided elements and then completes.</span></span><br><span class="line">Flux&lt;Integer&gt; integerFlux = Flux.fromIterable(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>));<span class="comment">//Create a Flux that emits the items contained in the provided Iterable.</span></span><br><span class="line">Flux.fromStream(Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>).stream());<span class="comment">//Create a Flux that emits the items contained in the provided Stream.</span></span><br><span class="line">Integer[] num2 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">Flux&lt;Integer&gt; integerFluxFromArray = Flux.fromArray(num2);<span class="comment">//Create a Flux that emits the items contained in the provided array.</span></span><br><span class="line">Flux.generate(&lt;Consumer&gt;) ;<span class="comment">//Programmatically create a Flux by generating signals one-by-one via a consumer callback. </span></span><br><span class="line">Flux.Creare(&lt;Consumer&gt;); <span class="comment">//Programmatically create a Flux with the capability of emitting multiple elements in a synchronous or asynchronous manner through the FluxSink API.</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Mono</strong> A Reactive Streams Publisher with basic rx operators that completes successfully by emitting an element, or with an error.</p>
+<figure class="highlight java"><figcaption><span>Few Examples of creating Mono</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Mono&lt;Integer&gt; just = Mono.just(<span class="number">1</span>);<span class="comment">//</span></span><br><span class="line">Mono&lt;Object&gt; empty = Mono.empty();<span class="comment">//</span></span><br><span class="line">Mono.create(); <span class="comment">//Create a Mono that completes without emitting any item.</span></span><br><span class="line">Mono.from(&lt;Publisher&gt;)<span class="comment">//Expose the specified Publisher with the Mono API, and ensure it will emit 0 or 1 item.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//there are multiple options available for creating mono from Callable,CompletionStage,CompletableFuture etc </span></span><br><span class="line">Mono.fromCallable() </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Flux-amp-Mono-are-lazy"><a href="#Flux-amp-Mono-are-lazy" class="headerlink" title="Flux &amp; Mono are lazy"></a>Flux &amp; Mono are lazy</h4><p>Lazy in context of reactive programming  means, No Matter how many operation you do on the stream, They won’t be executed until you consume it. Flux &amp; Mono start emitting values only when subscriber is attached.</p>
+<h5 id="Creating-Subscriber-and-consuming-values"><a href="#Creating-Subscriber-and-consuming-values" class="headerlink" title="Creating Subscriber and consuming values"></a>Creating Subscriber and consuming values</h5><p>Subscriber has multiple overloaded methods, let’s check few of them.</p>
+<p>Subscriber with <code>onNext</code><br><figure class="highlight java"><figcaption><span>Subscriber with consumer (onNext)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">fluxFromJust.subscribe(i-&gt;System.out.println(i));<span class="comment">//It will print number 1,2,3</span></span><br></pre></td></tr></table></figure></p>
+<p>Subscriber with <code>onNext</code> &amp; <code>onError</code>. OnError will be get call in case of error.<br>Flux has one handy <code>concatWith</code> which we can use to concat error<br><figure class="highlight java"><figcaption><span>Subscriber with consumer and error handler (onError)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Flux&lt;Integer&gt; fluxFromJust = </span><br><span class="line">        Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">             .concatWith(Flux.error( <span class="keyword">new</span> RuntimeException(<span class="string">"Test Exception"</span>));</span><br><span class="line">        fluxFromJust.subscribe(</span><br><span class="line">                i-&gt;System.out.println(i),<span class="comment">// onNext</span></span><br><span class="line">                e-&gt;System.out.println(<span class="string">"In Error Block "</span> + e.getMessage()) <span class="comment">//onError</span></span><br><span class="line">        );</span><br></pre></td></tr></table></figure><br>Subscriber with <code>onNext</code>, <code>onError</code> and <code>onComplete</code>. On Successful completion onComplete method get’s called<br><figure class="highlight java"><figcaption><span>Subscriber with consumer, error handler and onComplete</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Flux&lt;Integer&gt; fluxFromJust = </span><br><span class="line">        Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">             .concatWith(Flux.error( <span class="keyword">new</span> RuntimeException(<span class="string">"Test Exception"</span>));</span><br><span class="line">        fluxFromJust.subscribe(</span><br><span class="line">                i-&gt;System.out.println(i),<span class="comment">//Will Print 1,2,3 //onNext</span></span><br><span class="line">                e-&gt;System.out.println(<span class="string">"In Error Block "</span> + e.getMessage())<span class="comment">//OnError</span></span><br><span class="line">                ()-&gt; System.out.println(<span class="string">"Process Completed"</span>) <span class="comment">//OnComplete</span></span><br><span class="line">        );</span><br></pre></td></tr></table></figure></p>
+<p>To Log the activities on Flux / Mono. We can use log method and it will start logging all events.<br><figure class="highlight java"><figcaption><span>Log Events</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Flux&lt;Integer&gt; fluxFromJust = </span><br><span class="line">        Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">            .log()             </span><br></pre></td></tr></table></figure></p>
+<h3 id="Lets-write-some-Unit-test-using-reactor-test"><a href="#Lets-write-some-Unit-test-using-reactor-test" class="headerlink" title="Lets write some Unit test using reactor-test"></a>Lets write some Unit test using reactor-test</h3><p><code>StepVerifier</code> can be use like below to validate the expectations<br><figure class="highlight java"><figcaption><span>StepVerifier</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCreateFluxAndSubscribe</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).log();</span><br><span class="line">        StepVerifier</span><br><span class="line">                .create(fluxFromJust)</span><br><span class="line">                .expectNext(<span class="number">1</span>)</span><br><span class="line">                .expectNext(<span class="number">2</span>)</span><br><span class="line">                .expectNext(<span class="number">3</span>)</span><br><span class="line">                .verifyComplete();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>IF You want to verify only count then we can use <code>expectNextCount</code><br><figure class="highlight java"><figcaption><span>StepVerifier</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCreateFluxAndSubscribeVerifyCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).log();</span><br><span class="line">        StepVerifier</span><br><span class="line">                .create(fluxFromJust)</span><br><span class="line">                .expectNextCount(<span class="number">3</span>)</span><br><span class="line">                .verifyComplete();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><br>To Assert on Error<br><figure class="highlight java"><figcaption><span>StepVerifier</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCreateFluxAndSubscribeVerifyError</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">       Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>).concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)));</span><br><span class="line">       StepVerifier</span><br><span class="line">               .create(fluxFromJust)</span><br><span class="line">               .expectNextCount(<span class="number">1</span>)</span><br><span class="line">               .verifyError(RuntimeException.class);</span><br><span class="line">   &#125; </span><br></pre></td></tr></table></figure><br>It the next article, I’ll show you how to process and transform data in Mono and Flux.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" data-id="ck4vg2sf800cg4guke6r8vr9r" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Testcontainers-With-Spring-Boot-For-Integration-Testing" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -274,7 +566,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" data-id="ck4lpd4j60000gsuk9colh6xi" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" data-id="ck4vg2s91002s4gukwo7f7dc4" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -429,7 +721,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="ck4lpcfez002i6kukqn1kealh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="ck4vg2s8v002m4guk55upn8y5" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -573,7 +865,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" data-id="ck4lpcfcw000f6kuk22jlgq3w" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" data-id="ck4vg2s71000g4gukodfv48ns" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -724,7 +1016,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" data-id="ck4lpcfed001u6kukik3gs28s" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" data-id="ck4vg2s8a001x4gukul0v521q" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -893,7 +1185,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" data-id="ck4lpcfl800c56kukaqinv1ry" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" data-id="ck4vg2sfb00ci4guky8tjflwg" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1042,7 +1334,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" data-id="ck4lpcfem00246kukgkvld384" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" data-id="ck4vg2s8j00284gukvz6wzr9s" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1191,7 +1483,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/" data-id="ck4lpcflb00c76kukxp89bp2l" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/" data-id="ck4vg2sff00cl4gukx9kqbf24" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1336,7 +1628,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/" data-id="ck4lpcff2002l6kukymavme09" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/" data-id="ck4vg2s8x002n4gukuspdebkw" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1414,321 +1706,8 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/">Simplifying Microservices Communication Using Spring Cloud OpenFeign</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/">
-            <time datetime="2019-03-21T18:06:41.000Z" itemprop="datePublished">2019-03-21</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Spring-Cloud/">Spring Cloud</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Microservice/">Microservice</a>, <a class="tag-link" href="/tags/OpenFeign/">OpenFeign</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/Spring-Cloud/">Spring Cloud</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <img src="/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/pavan-trikutam-1660-unsplash.jpg">
-<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@ptrikutam?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Pavan Trikutam"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Pavan Trikutam</span></a></p>
-<h3 id="What-is-Feign"><a href="#What-is-Feign" class="headerlink" title="What is Feign?"></a>What is Feign?</h3><p>Feign is a Java to HTTP client binder. Feign Simpliffyes the HTTP API Clients using declarative way.<br>Feign is a library for creating REST API clients in a declarative way. it makes writing web service clients easier. Developers can use declarative annotations to call rest servicese instead of  writing repetitive boilerplate code.  </p>
-<p><strong>Spring Cloud OpenFeign</strong> provides OpenFeign integrations for Spring Boot apps through autoconfiguration and binding to the Spring Environment and other Spring programming model idioms</p>
-<p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Feign-Demo" target="_blank" rel="noopener">here</a>.</strong></p>
-<p><strong>Demo Application</strong><br>We Have Simple User Service that provides crud operations for Users. We will write client to call these rest endpoints.     </p>
-<h3 id="Why-Feign"><a href="#Why-Feign" class="headerlink" title="Why Feign?"></a>Why Feign?</h3><p>Without Feign, In Spring Boot Applications We will be using <code>RestTemplate</code> to call User service. We need to write code somewhat similar to below. </p>
-<figure class="highlight java"><figcaption><span>HTTP Client Using RestTemplate</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">getAllUsers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Calling User Service using Feign Client!!"</span>);</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        ResponseEntity&lt;List&lt;User&gt;&gt; response = restTemplate.exchange(</span><br><span class="line">                <span class="string">"http://localhost:8080/user/"</span>,</span><br><span class="line">                HttpMethod.GET,</span><br><span class="line">                <span class="keyword">null</span>,</span><br><span class="line">                <span class="keyword">new</span> ParameterizedTypeReference&lt;List&lt;User&gt;&gt;() &#123;</span><br><span class="line">                &#125;);</span><br><span class="line">        List&lt;User&gt; users = response.getBody();</span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUserById</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id) </span>&#123;</span><br><span class="line">        Map&lt;String, String&gt; uriParams = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">        uriParams.put(<span class="string">"id"</span>, String.valueOf(id));</span><br><span class="line">        URI uri = UriComponentsBuilder</span><br><span class="line">                .fromUriString(<span class="string">"http://localhost:8080/user/&#123;id&#125;"</span>)</span><br><span class="line">                .buildAndExpand(uriParams)</span><br><span class="line">                .toUri();</span><br><span class="line">        System.out.println(uri);</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        User forEntity = restTemplate.getForObject(uri, User.class);</span><br><span class="line">        <span class="keyword">return</span> forEntity;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">addUser</span><span class="params">(@RequestBody User user)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Add user"</span>);</span><br><span class="line">        System.out.println(user.toString());</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        HttpEntity&lt;User&gt; request = <span class="keyword">new</span> HttpEntity&lt;&gt;(user);</span><br><span class="line">        ResponseEntity exchange = restTemplate</span><br><span class="line">                .exchange(<span class="string">"http://localhost:8080/user/"</span>, HttpMethod.POST, request, String.class);</span><br><span class="line">        <span class="keyword">return</span> exchange;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@DeleteMapping</span>(<span class="string">"&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">deleteUser</span><span class="params">(@PathVariable <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"delete user"</span>);</span><br><span class="line">        Map&lt;String, String&gt; params = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">        params.put(<span class="string">"id"</span>, String.valueOf(id));</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        restTemplate.delete(<span class="string">"http://localhost:8080/user/&#123;id&#125;"</span>, params);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity(<span class="string">"User Deleted successfully"</span>, HttpStatus.OK);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure> 
-<blockquote><p>From above code we can easily figure out that most of the code is repetitive and has nothing to do the business logic. Let’s Simplify Above code using Spring Cloud OpenFeign. </p>
-</blockquote>
-<h3 id="Getting-Started-With-Spring-Cloud-OpenFeign"><a href="#Getting-Started-With-Spring-Cloud-OpenFeign" class="headerlink" title="Getting Started With Spring Cloud OpenFeign"></a>Getting Started With Spring Cloud OpenFeign</h3><p>To include Feign in project We need to use artifact id  <code>spring-cloud-starter-openfeign</code><br><figure class="highlight"><figcaption><span>openfeign Maven</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure> </p>
-<p><strong>EnableFeignClients</strong><br><figure class="highlight java"><figcaption><span>EnableFeignClients</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudFeignClientDemoApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(SpringCloudFeignClientDemoApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Creating Feign Client With Sensible Defaults.<br><figure class="highlight java"><figcaption><span>FeignClient</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"User"</span>, url = <span class="string">"http://localhost:8080"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET, value = <span class="string">"/user"</span>)</span><br><span class="line">    <span class="function">List&lt;User&gt; <span class="title">getAllUsers</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET, value = <span class="string">"/user/&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function">User <span class="title">getUser</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.DELETE, value = <span class="string">"/user/&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function">ResponseEntity <span class="title">deleteUser</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.POST, value = <span class="string">"/user/"</span>)</span><br><span class="line">    <span class="function">ResponseEntity <span class="title">addUser</span><span class="params">(@RequestBody User user)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.PUT, value = <span class="string">"/user/"</span>)</span><br><span class="line">    <span class="function">ResponseEntity <span class="title">updateUser</span><span class="params">(User user)</span></span>;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>The above code is self explanatory. At minimal we just have to specify <code>name = &quot;User&quot;</code>  is an arbitrary client name and url.<br>If we compare our <code>UserClient</code> with the code that we have written using <code>RestTemplate</code>, It’s visible that without writing any code specific to calling HTTP Service our UserClient supports all operations. <code>Feign</code> is doing magic under the hood. </p>
-<h3 id="Overriding-Feign-default-properties"><a href="#Overriding-Feign-default-properties" class="headerlink" title="Overriding Feign default properties"></a>Overriding Feign default properties</h3><p>We Can provide custom configuration class to Overriding default properties.<br>e.g. let say we want to Log the headers, body, and metadata for both requests and responses.<br>lets Create UserClientConfig class to setup log level.<br><figure class="highlight java"><figcaption><span>UserClientConfig</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserClientConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    Logger.<span class="function">Level <span class="title">feignLoggerLevel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Logger.Level.HEADERS;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Update UserClient To use this config class.<br> <figure class="highlight java"><figcaption><span>Updated FeignClient</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"User"</span>, url = <span class="string">"http://localhost:8080"</span>,configuration=UserClientConfig.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>Note</strong> : Feign gets integrated with <strong>Hystrix, Ribbon and Eureka</strong> quite easily. I will cover that in separate Post.   </p>
-<p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Feign-Demo" target="_blank" rel="noopener">here</a>.</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/" data-id="ck4lpcfeo00276kuk42y3sp8m" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/">Update Config Dynamically Using Spring Cloud Bus and Spring Cloud Config</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/">
-            <time datetime="2019-02-22T10:56:19.000Z" itemprop="datePublished">2019-02-22</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Spring-Cloud/">Spring Cloud</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Cloud-Bus/">Cloud Bus</a>, <a class="tag-link" href="/tags/Cloud-Config/">Cloud Config</a>, <a class="tag-link" href="/tags/Microservice/">Microservice</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/Spring-Cloud/">Spring Cloud</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <img src="/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/Spring-Cloud.jpg">
-<p>In The previous post  <a href="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" title="Centralize Configurations Using Spring Cloud Config">Centralize Configurations Using Spring Cloud Config</a> We Setup config Server and Centralized The Configuration properties in github.<br>In This post, We Will Check different options available to update Config properties in Client applications without restarting Them.<br><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Config-Cloud-Bus-Demo" target="_blank" rel="noopener">here</a>.</strong></p>
-<h3 id="1-Restart-Endpoint-Of-Spring-Actuator-Endpoint"><a href="#1-Restart-Endpoint-Of-Spring-Actuator-Endpoint" class="headerlink" title="1 Restart Endpoint Of Spring Actuator Endpoint"></a>1 Restart Endpoint Of Spring Actuator Endpoint</h3><p>The Simplest way to reload the application config without manually restarting it is Using Spring Boot Actuator Restart Endpoint.But this is not the best way to update the config. </p>
-<h3 id="2-Refresh-Endpoint-RefreshScope-amp-ConfigurationProperties"><a href="#2-Refresh-Endpoint-RefreshScope-amp-ConfigurationProperties" class="headerlink" title="2 Refresh Endpoint- @RefreshScope &amp; @ConfigurationProperties"></a>2 Refresh Endpoint- @RefreshScope &amp; @ConfigurationProperties</h3><p>Spring allows beans to be refreshed dynamically at runtime using <code>@RefreshScope</code>. The Bean That are using <code>@Value</code> to read properties are need to be annotated with <code>@RefreshScope</code>. The Properties loaded by <code>@ConfigurationProperties</code> are automatically reloaded as <code>@ConfigurationProperties</code> are by default <code>@RefreshScope</code><br>To Reload the bean annotated with <code>@RefreshScope</code>  Run below post request.<br><code>$ curl localhost:8090/actuator/refresh -d {} -H &quot;Content-Type: application/json&quot;</code><br><strong>Problem</strong><br><blockquote><p>But Again This method has Problem, In a real microservice environment, there will be a large number of independent application services. And It is not practical for the user to manually trigger the refresh event for all the related services whenever a property is changed.<strong>Spring Bus Provide Solution For this</strong></p>
-</blockquote></p>
-<h3 id="3-Spring-Cloud-Bus"><a href="#3-Spring-Cloud-Bus" class="headerlink" title="3 Spring Cloud Bus"></a>3 Spring Cloud Bus</h3><p>Spring Cloud Bus links nodes of a distributed system with a lightweight message broker. This can then be used to broadcast state changes, The configuration changes are publised as events to all connected nodes.  For the POC We will be using AMQP broker as the transport.</p>
-<p><strong>Our targeted architecture will look like below</strong><br><img src="/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/cloud-bus.jpg">    </p>
-<p>Lets update the System we build in The previous post  <a href="/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/" title="Centralize Configurations Using Spring Cloud Config">Centralize Configurations Using Spring Cloud Config</a></p>
-<h4 id="Setup-RabbitMQ-with-Docker"><a href="#Setup-RabbitMQ-with-Docker" class="headerlink" title="Setup RabbitMQ with Docker"></a>Setup RabbitMQ with Docker</h4><p>We will run RabbitMQ as a docker image. <a href="https://www.docker.com/get-started" target="_blank" rel="noopener">Install Docker</a> Then Run below command to install rabbitmq<br><code>docker pull rabbitmq:3-management</code></p>
-<p>To Run RabbitMQ use below command<br><code>docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management</code><br>Verify MQ is running. <a href="http://192.168.99.100:15672/#/" target="_blank" rel="noopener">http://192.168.99.100:15672/#/</a> (Check What IP was generated for You). Default User name and password is guest/guest.</p>
-<figure class="highlight"><figcaption><span>Add Cloud-bus to All Clients</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">      &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>Connect to MQ Bus</strong><br><figure class="highlight java"><figcaption><span>Add Properties related to MQ</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.rabbitmq.host=<span class="number">192.168</span>.99.100</span><br><span class="line">spring.rabbitmq.port=<span class="number">5672</span></span><br><span class="line">spring.rabbitmq.username=guest</span><br><span class="line">spring.rabbitmq.password=guest</span><br></pre></td></tr></table></figure></p>
-<p><strong>Let’s Test Our Changes</strong></p>
-<ol>
-<li>Start Config Server</li>
-<li>Start Multiple Instances of Customer Service.Start Customer Service on 8090,8091,8092 </li>
-<li>Verify Config Properties <a href="http://localhost:8888/customer-service/dev" target="_blank" rel="noopener">http://localhost:8888/customer-service/dev</a> </li>
-<li>Dev is configured as customer having gmail account as <em>Premium</em> Account.</li>
-<li>Check for <a href="http://localhost:8090/customer/niraj.sonawane@gmail.com" target="_blank" rel="noopener">http://localhost:8090/customer/niraj.sonawane@gmail.com</a> We should get response as <em>Premium</em> account. Similar for 8091,8092 </li>
-<li>Update Config properties in Github and push Changes</li>
-<li>Verify Updated Config Properties <a href="http://localhost:8888/customer-service/dev" target="_blank" rel="noopener">http://localhost:8888/customer-service/dev</a> </li>
-<li>Now Check for <a href="http://localhost:8090/customer/niraj.sonawane@gmail.com" target="_blank" rel="noopener">http://localhost:8090/customer/niraj.sonawane@gmail.com</a> We should get response as <em>Premium</em> account. Similar for 8091,8092. (As we have not yet refreshed anything)  </li>
-<li>Send Bus Refresh request on 8090, <a href="http://localhost:8090/actuator/bus-refresh" target="_blank" rel="noopener">http://localhost:8090/actuator/bus-refresh</a></li>
-<li>Now Check for <a href="http://localhost:8090/customer/niraj.sonawane@gmail.com" target="_blank" rel="noopener">http://localhost:8090/customer/niraj.sonawane@gmail.com</a> We should get response as <em>Free Account</em></li>
-<li><p>Also Changes will be reflected for other services,Now Check for <a href="http://localhost:8091/customer/niraj.sonawane@gmail.com" target="_blank" rel="noopener">http://localhost:8091/customer/niraj.sonawane@gmail.com</a> &amp; <a href="http://localhost:8092/customer/niraj.sonawane@gmail.com" target="_blank" rel="noopener">http://localhost:8092/customer/niraj.sonawane@gmail.com</a> </p>
-</li>
-<li><p>We have Send Bus refresh event only for 8090 <strong>But Still Changes are reflected on all nodes. Bus Will take responsibility of Sending refresh event</strong>    </p>
-</li>
-</ol>
-<h3 id="4-Github-Webhook"><a href="#4-Github-Webhook" class="headerlink" title="4 Github Webhook"></a>4 Github Webhook</h3><p>Github Providers notification Event when changes are made in repository through a webhook. Github uses a POST to the webhook with a JSON body containing a list of commits and a header set to push.<br>Tu use Webhooks We Need to add <strong>spring-cloud-config-monitor</strong> dependency And Activate  <strong>/monitor endpoint</strong></p>
-<p><strong>To Add Webhooks</strong> Go to Your ConfigRepo-&gt;Settings-Webhooks. Note, You need Public Domain name for this to work.</p>
-<p><strong>The code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Config-Cloud-Bus-Demo" target="_blank" rel="noopener">here</a>.</strong></p>
-<p><strong><a href="https://cloud.spring.io/spring-cloud-config/multi/multi_spring-cloud-config.html" target="_blank" rel="noopener">Reference</a>.</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/" data-id="ck4lpcff7002p6kuknljadp6h" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/02/22/Update-Configs-Dynamically-Using-Spring-Cloud-Bus-and-Spring-Cloud-Config/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -1740,6 +1719,48 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/logo.png)" alt="Project Reactor [Part 2]  Exploring Operators in Flux &amp; Mono" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" class="title">Project Reactor [Part 2]  Exploring Operators in Flux &amp; Mono</a></p>
+                            <p class="item-date"><time datetime="2020-01-01T15:17:37.000Z" itemprop="datePublished">2020-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/logo.png)" alt="Project Reactor [Part 1] - Playing With Flux &amp; Mono" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" class="title">Project Reactor [Part 1] - Playing With Flux &amp; Mono</a></p>
+                            <p class="item-date"><time datetime="2019-12-28T15:11:27.000Z" itemprop="datePublished">2019-12-28</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1804,48 +1825,6 @@ ga('send', 'pageview');
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" class="thumbnail">
-    
-    
-
-    
-        <span style="background-image:url(/asset/aws.png)" alt="My AWS Solutions Architect Associate Certification Preparation Guide" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" class="title">My AWS Solutions Architect Associate Certification Preparation Guide</a></p>
-                            <p class="item-date"><time datetime="2019-09-13T04:53:58.000Z" itemprop="datePublished">2019-09-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" class="thumbnail">
-    
-    
-
-    
-        <span style="background-image:url(/asset/pic_logo.svg)" alt="Securing Spring Boot Microservices Using JWT Token" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Spring-Boot/">Spring Boot</a></p>
-                            <p class="item-title"><a href="/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" class="title">Securing Spring Boot Microservices Using JWT Token</a></p>
-                            <p class="item-date"><time datetime="2019-07-14T17:36:35.000Z" itemprop="datePublished">2019-07-14</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1864,7 +1843,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1873,7 +1852,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/">AWS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Bus/">Cloud Bus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Config/">Cloud Config</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/">Eureka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUnit-5/">JUnit-5</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/">JWT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microservice/">Microservice</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/">Mongodb</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenFeign/">OpenFeign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rest/">Rest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot-Admin/">Spring Boot Admin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot-Starter/">Spring Boot Starter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Security/">Spring Security</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/containers/">containers</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/testcontainers/">testcontainers</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOP/">AOP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AWS/">AWS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Angular6/">Angular6</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Bigdecimal/">Bigdecimal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Bus/">Cloud Bus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cloud-Config/">Cloud Config</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Collector/">Collector</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Comparator/">Comparator</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Concurrency/">Concurrency</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Eureka/">Eureka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Filter/">Filter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JUnit-5/">JUnit-5</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/">JWT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-8/">Java-8</a><span class="tag-list-count">30</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java-9/">Java-9</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin-Types/">Kotlin Types</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Map/">Map</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Material/">Material</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Microservice/">Microservice</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mongodb/">Mongodb</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Multithreading/">Multithreading</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Navigation/">Navigation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenFeign/">OpenFeign</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Optional/">Optional</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pipes/">Pipes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project-Reactor/">Project Reactor</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RXjava/">RXjava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive-Programming/">Reactive Programming</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReactiveX/">ReactiveX</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Rest/">Rest</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ribbon/">Ribbon</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Routing/">Routing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Smart-Casts/">Smart Casts</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sorting/">Sorting</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/">Spring</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot-Admin/">Spring Boot Admin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot-Starter/">Spring Boot Starter</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Security/">Spring Security</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Batch/">Spring-Batch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stream/">Stream</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Streams/">Streams</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Summary-Statistics/">Summary Statistics</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swagger/">Swagger</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unit-Testing/">Unit Testing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebFlux/">WebFlux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/containers/">containers</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/testcontainers/">testcontainers</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1882,7 +1861,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.43px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.43px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 18.57px;">Concurrency</a> <a href="/tags/Docker/" style="font-size: 11.43px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 12.86px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 12.86px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 15.71px;">Microservice</a> <a href="/tags/Mongodb/" style="font-size: 11.43px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 18.57px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 10px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 12.86px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 17.14px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 14.29px;">Spring Cloud</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 12.86px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.25px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.25px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 18.75px;">Concurrency</a> <a href="/tags/Docker/" style="font-size: 11.25px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.75px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Map/" style="font-size: 13.75px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 16.25px;">Microservice</a> <a href="/tags/Mongodb/" style="font-size: 11.25px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 18.75px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/Project-Reactor/" style="font-size: 11.25px;">Project Reactor</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/Reactive-Programming/" style="font-size: 12.5px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 13.75px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 17.5px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 13.75px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/WebFlux/" style="font-size: 11.25px;">WebFlux</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
         </div>
     </div>
 
@@ -1915,7 +1894,7 @@ ga('send', 'pageview');
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2019 Niraj Sonawane<br>
+            &copy; 2020 Niraj Sonawane<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
@@ -1961,7 +1940,7 @@ ga('send', 'pageview');
 
     </div>
 <script>if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=1577302802653')
+  navigator.serviceWorker.register('/sw.js?t=1578086130053')
     .then(function () {console.log('ServiceWorker Register Successfully.')})
     .catch(function (e) {console.error(e)});
 }
