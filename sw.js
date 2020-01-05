@@ -24,7 +24,7 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/');
+  precacheUrls.push('/2020/01/04/Project-Reactor-Part-3-Error-Handling/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
