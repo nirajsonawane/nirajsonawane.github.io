@@ -24,15 +24,15 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2020/01/04/Project-Reactor-Part-3-Error-Handling/');
+  precacheUrls.push('/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
   precacheUrls.push('/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/');
 
-  precacheUrls.push('/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/');
-
   precacheUrls.push('/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/');
+
+  precacheUrls.push('/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
