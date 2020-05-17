@@ -24,15 +24,15 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/');
+  precacheUrls.push('/2018/06/21/Remove-Optional-Empty-null-values-from-list/');
 
   precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
 
   precacheUrls.push('/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/');
 
-  precacheUrls.push('/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/');
-
   precacheUrls.push('/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/');
+
+  precacheUrls.push('/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
