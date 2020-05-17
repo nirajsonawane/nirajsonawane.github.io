@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/</loc>
+    
+    <lastmod>2020-05-17T21:48:37.863Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/</loc>
     
     <lastmod>2020-05-17T21:37:52.026Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/</loc>
     
     <lastmod>2020-05-04T20:30:58.061Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/</loc>
-    
-    <lastmod>2020-04-26T18:39:18.888Z</lastmod>
     
   </url>
   
@@ -345,14 +345,14 @@
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
+    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
+    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     

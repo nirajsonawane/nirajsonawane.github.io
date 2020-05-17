@@ -32,7 +32,7 @@ var precacheUrls = [];
 
   precacheUrls.push('/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/');
 
-  precacheUrls.push('/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/');
+  precacheUrls.push('/2020/01/04/Project-Reactor-Part-3-Error-Handling/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
