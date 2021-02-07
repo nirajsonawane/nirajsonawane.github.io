@@ -26,13 +26,13 @@ var precacheUrls = [];
 
   precacheUrls.push('/2018/10/27/Angular-Material-Tabs-with-Router/');
 
-  precacheUrls.push('/2018/08/05/Angular-pipes/');
-
-  precacheUrls.push('/2018/06/17/Callable-and-Future/');
-
   precacheUrls.push('/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/');
 
-  precacheUrls.push('/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/');
+  precacheUrls.push('/2018/08/05/Angular-pipes/');
+
+  precacheUrls.push('/2018/06/18/BlockingQueue/');
+
+  precacheUrls.push('/2018/06/17/Callable-and-Future/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
