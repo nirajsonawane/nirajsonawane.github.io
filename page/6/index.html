@@ -266,7 +266,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/" data-id="ckkvem4z5000pook0vlf0083c" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/05/23/Java-8-Read-File-Using-Buffered-Reader/" data-id="ckkveti2v000pwyk0rjwo3k6x" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -400,7 +400,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/05/22/Java-8-Read-File-As-Single-String/" data-id="ckkvem4z4000nook0ywuixjls" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/05/22/Java-8-Read-File-As-Single-String/" data-id="ckkveti2u000mwyk0dqsejfuh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -536,7 +536,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/05/21/Java-8-Read-File-As-A-Stream/" data-id="ckkvem4z4000mook0z9jzidou" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/05/21/Java-8-Read-File-As-A-Stream/" data-id="ckkveti2v000nwyk0brhwqu7d" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -672,7 +672,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/" data-id="ckkvem4z4000oook09xhaidty" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/05/20/Java-8-Read-File-Line-By-Line/" data-id="ckkveti2v000owyk0n9bxje3a" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -794,13 +794,12 @@ ga('send', 'pageview');
         
             
             <p>The <code>ProcessBuilder</code> class is used to create separate operating system processes. There are many scenarios, Where we need to launch separate operating system processes form java program.   </p>
-<p>Before JDK 5.0, We need to use the exec() method of the java.lang.Runtime class to start new process.</p>
-<p>JDK 5.0 has added ProcessBuilder to Start new OS process.</p>
+<p>Before JDK 5.0, We need to use the exec() method of the java.lang.Runtime class to start new process.JDK 5.0 has added ProcessBuilder to Start new OS process.</p>
 <h3 id="Note"><a href="#Note" class="headerlink" title="Note:"></a>Note:</h3><p><code>ProcessBuilder</code> is not synchronized. If multiple threads access a ProcessBuilder instance concurrently, and at least one of the threads modifies one of the attributes structurally, it must be synchronized externally.</p>
 <p>Starting a new process which uses the default working directory and the environment is easy:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Process p = <span class="keyword">new</span> ProcessBuilder(<span class="string">"myCommand"</span>, <span class="string">"myArg"</span>).start();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>The ProcessBuilder class defines two constructors, such as:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ProcessBuilder(List&lt;String&gt; command);</span><br><span class="line"><span class="comment">//Constructs a process builder with the specified operating system program and arguments.</span></span><br><span class="line"></span><br><span class="line">ProcessBuilder(String... command);</span><br><span class="line"><span class="comment">//Constructs a process builder with the specified operating system program and arguments</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="ProcessBuilder-Examples"><a href="#ProcessBuilder-Examples" class="headerlink" title="ProcessBuilder Examples."></a>ProcessBuilder Examples.</h3><h2 id="1-Run-External-bat-file-sh-file"><a href="#1-Run-External-bat-file-sh-file" class="headerlink" title="1:Run External bat file/sh file."></a>1:Run External bat file/sh file.</h2><p>In this example, We will try to run demo.bat file. The demo.bat file is at src/ root location.<br>The out put of process builder will be printed on consol.</p>
+<h3 id="ProcessBuilder-Examples"><a href="#ProcessBuilder-Examples" class="headerlink" title="ProcessBuilder Examples."></a>ProcessBuilder Examples.</h3><h2 id="1-Run-External-bat-file-sh-file"><a href="#1-Run-External-bat-file-sh-file" class="headerlink" title="1:Run External bat file/sh file."></a>1:Run External bat file/sh file.</h2><p>In this example, we will try to run demo.bat file. The demo.bat file is at src/ root location.<br>The out put of process builder will be printed on consol.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessBuilderExample</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"ProcessBuilderExample.Start!!"</span>);</span><br><span class="line">			<span class="keyword">final</span> File batchFile = <span class="keyword">new</span> File(<span class="string">"src\\demo.bat"</span>);</span><br><span class="line">			ProcessBuilder processBuilder = <span class="keyword">new</span> ProcessBuilder(batchFile.getAbsolutePath());</span><br><span class="line"></span><br><span class="line">			Process process = processBuilder.start();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">int</span> resposneCode = process.waitFor();</span><br><span class="line">			<span class="keyword">if</span> (resposneCode == <span class="number">0</span>) &#123;</span><br><span class="line">				System.out.println(<span class="string">"Process executed successfully"</span>);</span><br><span class="line">				InputStream inputStream = process.getInputStream();</span><br><span class="line">				String result = readInputStreamData(inputStream);</span><br><span class="line">				System.out.println(result);</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">readInputStreamData</span><span class="params">(InputStream input)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> (BufferedReader buffer = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(input))) &#123;</span><br><span class="line">			<span class="keyword">return</span> buffer.lines()</span><br><span class="line">					.collect(Collectors.joining(<span class="string">"\n"</span>));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><figcaption><span>demo.bat File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;Hello World&quot;</span><br></pre></td></tr></table></figure>
         
@@ -812,7 +811,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/" data-id="ckkvem4z6000rook0ygaj8bc3" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2018/05/20/Java-Process-Builder/" data-id="ckkveti2w000rwyk0qo79eh1c" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
