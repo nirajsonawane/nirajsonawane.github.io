@@ -24,15 +24,15 @@ var precacheUrls = [];
 
   precacheUrls.push('/');
 
-  precacheUrls.push('/2018/06/21/Remove-Optional-Empty-null-values-from-list/');
+  precacheUrls.push('/2018/10/27/Angular-Material-Tabs-with-Router/');
 
-  precacheUrls.push('/2019/01/27/Write-Clean-asynchronous-code-with-CompletableFuture-Java-8/');
+  precacheUrls.push('/2018/08/05/Angular-pipes/');
 
-  precacheUrls.push('/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/');
+  precacheUrls.push('/2018/06/17/Callable-and-Future/');
 
-  precacheUrls.push('/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/');
+  precacheUrls.push('/2018/12/06/Applying-Reactive-Programing-to-Existing-Batch-Application-RXJava2/');
 
-  precacheUrls.push('/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/');
+  precacheUrls.push('/2019/02/17/Centralize-Configurations-Using-Spring-Cloud-Config/');
 
 toolbox.precache(precacheUrls);
 toolbox.options = {"networkTimeoutSeconds":5};
