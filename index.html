@@ -218,7 +218,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/">Consumer Driven Contract Testing Using Spring Cloud Contract</a>
+            <a class="article-title" href="/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/">Consumer Driven Contract Test Using Spring Cloud Contract</a>
         </h1>
     
 
@@ -255,7 +255,7 @@ ga('send', 'pageview');
 <h3 id="Contract-Testing"><a href="#Contract-Testing" class="headerlink" title="Contract Testing"></a>Contract Testing</h3><p>Contract test are set of automated test, That verifies two separate services are adhering to predefine contracts and are compatible with each other.<br>Aim of contract test is to make sure that, Contract are always kept up to date and each service ( Provider &amp; Consumer) can be tested independently.</p>
 <h3 id="Consumer-Driven-Contract-test"><a href="#Consumer-Driven-Contract-test" class="headerlink" title="Consumer Driven Contract test"></a>Consumer Driven Contract test</h3><p>In consumer driven contract testing, Consumers are responsible for providing the contract details. In this strategy consumers of API are at the heart of API design process.In consumer driven API design process providers are forced to complete their consumer obligations. Frameworks like pact and Spring Cloud Contracts provides set of tools to implement Consumer Driven Contract test.</p>
 <h3 id="Spring-Cloud-Contract"><a href="#Spring-Cloud-Contract" class="headerlink" title="Spring Cloud Contract"></a>Spring Cloud Contract</h3><p>Spring Cloud Contract provides set of tool for implementing Consumer Driven Contract test for Spring based applications. It has two major component Contract Verifier for Producers &amp; Stub Runner for consumer</p>
-<h3 id="Sample-application"><a href="#Sample-application" class="headerlink" title="Sample application"></a>Sample application</h3><p>Lets write some contract test. Assume we got an requirement from <strong>Consumer application Service-A</strong>  for status API for <strong>Provider  application Service-B</strong>, Which will provide Current Status of user.</p>
+<h3 id="Sample-application"><a href="#Sample-application" class="headerlink" title="Sample application"></a>Sample application</h3><p>Let’s write some contract test. Assume we got an requirement from <strong>Consumer application Service-A</strong>  for status API for <strong>Provider  application Service-B</strong>, Which will provide Current Status of user.</p>
 <p>In consumer driven contract strategy, as consumer of service, consumers need to define what exactly they want from producer in the form of written contracts. You can provide contract in groovy or yaml format</p>
 <h4 id="Provider-Service-B"><a href="#Provider-Service-B" class="headerlink" title="Provider : Service-B"></a>Provider : Service-B</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.cloud.contract.spec.Contract</span><br><span class="line">Contract.make &#123;</span><br><span class="line">    description <span class="string">"should return user status"</span></span><br><span class="line"></span><br><span class="line">    request &#123;</span><br><span class="line">        url <span class="string">"/status"</span></span><br><span class="line">        method GET()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    response &#123;</span><br><span class="line">        status OK()</span><br><span class="line">        headers &#123;</span><br><span class="line">            contentType applicationJson()</span><br><span class="line">        &#125;</span><br><span class="line">        body (</span><br><span class="line"><span class="symbol">                id:</span> <span class="number">1</span>,</span><br><span class="line"><span class="symbol">                status:</span> <span class="string">"CREATED"</span></span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight kotlin"><figcaption><span>Implement Contract</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserStatusController</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> userStatusService: UserStatusService) &#123;</span><br><span class="line">    <span class="meta">@GetMapping(<span class="meta-string">"/status"</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getStatus</span><span class="params">()</span></span>: ResponseEntity&lt;UserStatus&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok(userStatusService.getUserStatus(<span class="number">1</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">UserStatus</span></span>(<span class="keyword">val</span> id: <span class="built_in">Int</span>, <span class="keyword">val</span> status: String)</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserStatusService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getUserStatus</span><span class="params">(userId:<span class="type">Int</span>)</span></span>:UserStatus&#123;</span><br><span class="line">        <span class="keyword">return</span> UserStatus(<span class="number">1</span>,<span class="string">"ACTIVATED"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -281,7 +281,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="ckle5cwhr000bc66b4at1zppk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="cklg8utdh000b03uskhktzegk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -440,7 +440,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="ckle5cwi2000yc66buqbbd1qh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="cklg8utds000y03usszpx5vxq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -592,7 +592,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="ckle5cwid001nc66bpyx9c1s4" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="cklg8ute3001n03us7ga1emb8" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -762,7 +762,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="ckle5cwhu000gc66b7rt4webd" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="cklg8utdj000g03uspq3xopqf" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -902,7 +902,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="ckle5cwi40011c66bqik3xaom" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="cklg8utdu001103us7imbsbpp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1051,7 +1051,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="ckle5cwi30010c66bqgnz1ke4" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="cklg8utdt000z03usk5y61ds8" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1196,7 +1196,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" data-id="ckle5cwi40012c66btvv6adtu" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" data-id="cklg8utdu001303us26bnyoy1" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1344,7 +1344,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" data-id="ckle5cwia001fc66bl7agsxdd" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" data-id="cklg8utdz001f03usup0ngxdh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1499,7 +1499,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="ckle5cwi8001cc66bubul2odr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="cklg8utdy001d03usobcjm6y7" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1643,7 +1643,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" data-id="ckle5cwhs000dc66bm4czfng9" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" data-id="cklg8utdi000d03usw780j9cd" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1743,7 +1743,7 @@ ga('send', 'pageview');
     
 
     
-        <span style="background-image:url(/asset/spring-boot.png)" alt="Consumer Driven Contract Testing Using Spring Cloud Contract" class="thumbnail-image"></span>
+        <span style="background-image:url(/asset/spring-boot.png)" alt="Consumer Driven Contract Test Using Spring Cloud Contract" class="thumbnail-image"></span>
     
 </a>
 
@@ -1751,7 +1751,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" class="title">Consumer Driven Contract Testing Using Spring Cloud Contract</a></p>
+                            <p class="item-title"><a href="/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" class="title">Consumer Driven Contract Test Using Spring Cloud Contract</a></p>
                             <p class="item-date"><time datetime="2021-02-20T20:00:29.000Z" itemprop="datePublished">2021-02-20</time></p>
                         </div>
                     </li>
