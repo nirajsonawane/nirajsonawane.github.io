@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/</loc>
+    
+    <lastmod>2021-04-25T21:26:02.973Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/</loc>
     
     <lastmod>2021-02-22T06:07:02.695Z</lastmod>
