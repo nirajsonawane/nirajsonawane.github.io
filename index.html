@@ -171,11 +171,11 @@ ga('send', 'pageview');
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                57
+                58
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                66
+                67
                 <span>tags</span>
             </div>
         </div>
@@ -206,6 +206,148 @@ ga('send', 'pageview');
 
             
             <section id="main">
+    <article id="post-Spring-Boot-with-AWS-sqs" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2021/05/09/Spring-Boot-with-AWS-sqs/">Spring Boot With AWS SQS</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2021/05/09/Spring-Boot-with-AWS-sqs/">
+            <time datetime="2021-05-09T15:09:52.000Z" itemprop="datePublished">2021-05-09</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/AWS/">AWS</a>, <a class="tag-link" href="/tags/SQS/">SQS</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><strong>Spring Cloud</strong> messaging support provides a convenient way to interact with AWS SQS service, With the help of spring cloud messaging support we can use all well-known Spring Boot features. It also offers multiple useful features compare to SDK provided by AWS.</p>
+<p><strong>The code for this post is available on Github <a href="https://github.com/nirajsonawane/aws-sqs-spring-boot-poc.git" target="_blank" rel="noopener">here</a></strong></p>
+<h4 id="Create-a-standard-AWS-SQS-queue"><a href="#Create-a-standard-AWS-SQS-queue" class="headerlink" title="Create a standard AWS SQS queue"></a>Create a standard AWS SQS queue</h4><p>Navigate to aws consol -&gt; Simple queue service -&gt; create queue. Then select standard queue and provide name to queue.Click on create queue.<br><img src="/2021/05/09/Spring-Boot-with-AWS-sqs/1.png"></p>
+<p><strong>Create IAM Role and IAM Group</strong>, Which will have access to our queue. </p>
+<img src="/2021/05/09/Spring-Boot-with-AWS-sqs/3.png">
+<img src="/2021/05/09/Spring-Boot-with-AWS-sqs/2.png">
+<h4 id="Using-Spring-cloud-messaging"><a href="#Using-Spring-cloud-messaging" class="headerlink" title="Using Spring cloud messaging"></a>Using Spring cloud messaging</h4><figure class="highlight yaml"><figcaption><span>The Spring Cloud AWS messaging module comes as a standalone module and can be imported with the following dependency</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">    <span class="string">&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span></span><br><span class="line">    <span class="string">&lt;artifactId&gt;spring-cloud-starter-aws-messaging&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Providing AWS credential and SDK configurations</strong><br><figure class="highlight yaml"><figcaption><span>In order to make calls to the AWS Services the credentials must be configured for the the Amazon SDK. In order to access SQS service we can configure access key and secret key using yaml or properties files</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cloud:</span></span><br><span class="line"><span class="attr">  aws:</span></span><br><span class="line"><span class="attr">    region:</span></span><br><span class="line"><span class="attr">      static:</span> <span class="string">us-east-1</span></span><br><span class="line"><span class="attr">      auto:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    credentials:</span></span><br><span class="line"><span class="attr">      access-key:</span> <span class="string">XXXX</span></span><br><span class="line"><span class="attr">      secret-key:</span> <span class="string">XXXX</span></span><br><span class="line"><span class="attr">    end-point:</span></span><br><span class="line"><span class="attr">      uri:</span> <span class="attr">https://sqs.us-east-1.amazonaws.com/549485575026/spring-boot-poc</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>Sending message to SQS.</strong></p>
+<p>In order to send messages to SQS queue, Spring boot provides <code>QueueMessagingTemplate</code> which uses <code>AmazonSQSAsync</code><br><figure class="highlight java"><figcaption><span>Configuration for QueueMessagingTemplate</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SQSConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;cloud.aws.region.static&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String region;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;cloud.aws.credentials.access-key&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String accessKey;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;cloud.aws.credentials.secret-key&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String secretKey;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> QueueMessagingTemplate <span class="title">queueMessagingTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> QueueMessagingTemplate(amazonSQSAsync());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@Primary</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AmazonSQSAsync <span class="title">amazonSQSAsync</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> AmazonSQSAsyncClientBuilder.standard().withRegion(Regions.US_EAST_1)</span><br><span class="line">                .withCredentials(<span class="keyword">new</span> AWSStaticCredentialsProvider(<span class="keyword">new</span> BasicAWSCredentials(accessKey, secretKey)))</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>QueueMessagingTemplate</code> Provides a convenient method <code>convertAndSend</code> which can be used to send domain objects as message. <code>QueueMessagingTemplate</code> delegate the conversion process to an instance of the MessageConverter interface. This interface defines a simple contract to convert between Java objects and SQS messages.<br><figure class="highlight java"><figcaption><span>Message Publisher</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Publisher</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> QueueMessagingTemplate queueMessagingTemplate;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;cloud.aws.end-point.uri&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String endpoint;</span><br><span class="line">    <span class="meta">@Scheduled</span>(fixedRate = <span class="number">1000</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduleFixedRateTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">"Sending Message to SQS "</span>);</span><br><span class="line">        <span class="comment">//queueMessagingTemplate.send(endpoint, MessageBuilder.withPayload("Niraj").build());</span></span><br><span class="line">        queueMessagingTemplate.convertAndSend(endpoint, <span class="keyword">new</span> Pojo(<span class="string">"SomeRandomValue"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>   </p>
+<p><strong>Consuming Messages from SQS</strong></p>
+<p>Spring boot provides a convenient Annotation <code>@SqsListener</code>. In below example a queue listener container is started that polls the spring-boot-poc queue. The incoming messages is converted to the type of method argument, in this case <code>Pojo</code>.</p>
+<p>As the <code>deletionPolicy</code> is provided as <code>ON_SUCCESS</code> it means, Message will be Deleted from Queue only when successfully executed by listener method (no exception thrown). We can set the <strong>Global deletion policy</strong>  for all the  queues which are consumed by<br>SqsListener by using property  <code>cloud.aws.sqs.handler.default-deletion-policy=ON_SUCCESS</code><br><figure class="highlight java"><figcaption><span>Message Consumer</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@SqsListener</span>(value = <span class="string">"spring-boot-poc"</span>,deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processMessage</span><span class="params">(Pojo message)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">"Message from SQS &#123;&#125;"</span>, message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>   </p>
+<p>Note:<br>On application startup, you might see exception related to Metadata or RegistryFactoryBean. You need to exclude some auto configuration. You can find more details<br><a href="https://stackoverflow.com/a/67409356/320087" target="_blank" rel="noopener">https://stackoverflow.com/a/67409356/320087</a><br><figure class="highlight yaml"><figcaption><span>exclude autoconfigure</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  autoconfigure:</span></span><br><span class="line"><span class="attr">    exclude:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>The code for this post is available on Github <a href="https://github.com/nirajsonawane/aws-sqs-spring-boot-poc.git" target="_blank" rel="noopener">here</a></strong></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/" data-id="ckohbbskf001dtok0wnir2juq" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-spring-boot-with-hibernate-envers" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -265,7 +407,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/" data-id="cknz0rlvu001oyjk08v9q7s39" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/" data-id="ckohbbskl001ptok01spoh7qh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -414,7 +556,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="cknz0rlv8000byjk0gll606ts" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="ckohbbsjy000btok0j54pi5qb" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -573,7 +715,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="cknz0rlvk000zyjk0b9iamu99" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="ckohbbsk9000ytok0ecmcneyk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -725,7 +867,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="cknz0rlvu001nyjk0xi96s68r" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="ckohbbskk001otok0b0tm4s45" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -895,7 +1037,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="cknz0rlvb000gyjk0f7dmwi2e" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="ckohbbsk1000gtok09cnt8s7z" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1035,7 +1177,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="cknz0rlvl0011yjk098tzmz5k" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="ckohbbska0011tok0gbs0ms82" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1184,7 +1326,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="cknz0rlvj000yyjk088f2gr0z" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="ckohbbska0010tok0qozimrqd" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1329,7 +1471,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" data-id="cknz0rlvl0012yjk02vq80w56" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" data-id="ckohbbska0012tok0lpdnoexl" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1477,7 +1619,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" data-id="cknz0rlvr001fyjk0n2xjpyxc" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" data-id="ckohbbskh001gtok0jhpqn3dj" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1555,161 +1697,6 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-Spring-Boot-Mongodb-Docker-Compose" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/">Spring Boot + Mongodb + Docker Compose</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/">
-            <time datetime="2019-12-16T04:40:00.000Z" itemprop="datePublished">2019-12-16</time>
-        </a>
-    </div>
-
-
-                        
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Docker/">Docker</a>, <a class="tag-link" href="/tags/Mongodb/">Mongodb</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <img src="/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/gabriel.jpg">
-<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@gabebarletta?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Gabriel Barletta"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Gabriel Barletta</span></a><br>In this post we will discuss how to use <em>Docker Compose</em> to define and run multi-container Docker applications.<br><strong>The code for this post is available on my Github account <a href="https://github.com/nirajsonawane/spring-boot-mongodb-docker-compose-.git" target="_blank" rel="noopener">here</a></strong></p>
-<p><strong>Prerequisites</strong><br>To Follow along this post basic knowledge of Docker, Container &amp; Spring Boot is Needed. docker and docker-compose should be install on your system. </p>
-<p><strong>Docker Compose</strong><br>Docker Compose is a tool for defining and running multi-container Docker applications. We define and configure all the services used in application in single file called as “docker-compose.yml” More details about docker compose can be found in <a href="https://docs.docker.com/compose/" target="_blank" rel="noopener">documentation</a>. Docker compose helps and reduces lot of overhead of managing apps that has dependancy on multiple containers.<br>Docker compose significantly improves productivity as we can run complete application stack using single command. Docker compose runs all the containers on a single host by default. </p>
-<p><strong>Docker Compose in Action</strong><br>I will create simple hypothetical application that will expose rest endpoint to manage fruit information. Application is build using two containers. I will use docker compose to run this multi-container application.<br><img src="/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/docker.png"></p>
-<p><strong>Spring Boot APP</strong><br>Create very Spring Spring boot application using <a href="https://start.spring.io/" target="_blank" rel="noopener">Spring initializr</a> use below dependency. <code>spring-boot-starter-web</code>,<code>spring-boot-starter-actuator</code>,<code>lombok</code> and you should be able to run the application.Check <a href="http://localhost:8080/actuator/health" target="_blank" rel="noopener">http://localhost:8080/actuator/health</a> point is returning status as “UP”</p>
-<p><strong>Dokcrizeing spring boot app</strong><br>Dockerizing Spring Boot app is very straightforward,below is sample <code>Dockerfile</code> file.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM openjdk:8-jdk-alpine</span><br><span class="line">VOLUME /tmp</span><br><span class="line">ARG JAR_FILE=target/*.jar</span><br><span class="line">COPY $&#123;JAR_FILE&#125; app.jar</span><br><span class="line">ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/app.jar&quot;]               </span><br></pre></td></tr></table></figure></p>
-<p><strong>Creating Docker Image</strong><br><code>docker build -t api-docker-image .</code><br>Run above command to create docker image. There are maven plugins available for creating docker image during maven build. for simplicity i am using simple docker command to create image.   </p>
-<p><strong>Running Docker Image</strong><br><code>docker run -d -p 9090:8080 api-docker-image</code><br>we are mapping 8080 container port to 9090 host machine port means the application will be available on host machine on port 9090. Now Spring boot application  is running on docker and will be available on<br><a href="http://localhost:9090/actuator/health" target="_blank" rel="noopener">http://localhost:9090/actuator/health</a></p>
-<p><strong>Now let’s add mongodb</strong><br>Add below dependancy in pom file  </p>
-<figure class="highlight xml"><figcaption><span>Pom File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-mongodb<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span>                 </span><br></pre></td></tr></table></figure>
-<p>Rest endpoints to save and get Fruit information.<br><figure class="highlight java"><figcaption><span>Rest Controller</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FruitController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> FruitService fruitService;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FruitController</span><span class="params">(FruitService fruitService)</span> </span>&#123;<span class="keyword">this</span>.fruitService = fruitService;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/fruits"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">addFruit</span><span class="params">(@RequestBody FruitRequest fruitRequest)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">"Request : &#123;&#125;"</span>, fruitRequest);</span><br><span class="line">        fruitService.saveFruit(fruitRequest.toFruitModel());</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.status(HttpStatus.CREATED).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/fruits"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;FruitModel&gt; <span class="title">getAllFruit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> fruitService.findAll();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Simple JPA MongoRepository for saving and getting data to/from mongodb<br><figure class="highlight java"><figcaption><span>JPA Repository & Fruit JPA Model</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FruitRepository</span> <span class="keyword">extends</span> <span class="title">MongoRepository</span>&lt;<span class="title">FruitModel</span> ,<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Document</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Builder</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FruitModel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String color;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Now we want to run mongodb database as <strong>separate container</strong> and spring boot app as separate container application. We can do this manually by running docker commands, But that’s very tedious task and lot of configurations needed for containers to talk to each other. docker compose simplifies these things for us  </p>
-<p><strong>Define services in a Compose file</strong><br>We Create a file called docker-compose.yml and starts defining all the containers needed for application as services.<br>in below docker compose file we are defining two services one is for database and one for rest-api and we do all the needed configuration at single place. As our spring boot app (api) is dependent on database we are specifying that as link. There are lof configuration we can do in docker compose file.    </p>
-<figure class="highlight yml"><figcaption><span>docker-compose</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  api-database:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">mongo:3.2.4</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">"api-database"</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="number">27017</span><span class="string">:27017</span></span><br><span class="line"><span class="attr">    command:</span> <span class="bullet">--smallfiles</span></span><br><span class="line"><span class="attr">  api:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">api-docker-image</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="number">9091</span><span class="string">:8080</span></span><br><span class="line"><span class="attr">    links:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">api-database</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>Configure mongodb host name using spring config property using service name defined in docker-compose.<br><figure class="highlight yml"><figcaption><span>docker-compose</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">spring.data.mongodb.host=api-database</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>Running Docker Compose</strong><br><code>docker-compose up</code> single command is needed to start the application. command will create one container for database and one for spring-boot app as defined in docker-compose file.  </p>
-<p><strong>Summary</strong> </p>
-<p>Using Compose is basically a three-step process:</p>
-<ol>
-<li><p>Define your app’s environment with a Dockerfile so it can be reproduced anywhere.</p>
-</li>
-<li><p>Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment.</p>
-</li>
-<li><p>Run docker-compose up and Compose starts and runs your entire app.</p>
-</li>
-</ol>
-<p><strong>The code for this post is available on my Github account <a href="https://github.com/nirajsonawane/spring-boot-mongodb-docker-compose-.git" target="_blank" rel="noopener">here</a></strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="cknz0rlvp001cyjk0ptf53nli" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1723,6 +1710,27 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/05/09/Spring-Boot-with-AWS-sqs/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/spring-boot.png)" alt="Spring Boot With AWS SQS" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/05/09/Spring-Boot-with-AWS-sqs/" class="title">Spring Boot With AWS SQS</a></p>
+                            <p class="item-date"><time datetime="2021-05-09T15:09:52.000Z" itemprop="datePublished">2021-05-09</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1808,27 +1816,6 @@ ga('send', 'pageview');
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" class="thumbnail">
-    
-    
-
-    
-        <span style="background-image:url(/asset/Kubernetes_logo_without_workmark.svg)" alt="Deploy React, Spring Boot &amp; MongoDB Fullstack application on Kubernetes" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" class="title">Deploy React, Spring Boot &amp; MongoDB Fullstack application on Kubernetes</a></p>
-                            <p class="item-date"><time datetime="2020-04-25T20:21:19.000Z" itemprop="datePublished">2020-04-25</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1838,7 +1825,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.25px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.25px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 17.5px;">Concurrency</a> <a href="/tags/Contract-Testing/" style="font-size: 10px;">Contract Testing</a> <a href="/tags/Docker/" style="font-size: 11.25px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Helm/" style="font-size: 10px;">Helm</a> <a href="/tags/Hibernate-Envers/" style="font-size: 10px;">Hibernate Envers</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.75px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Map/" style="font-size: 13.75px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 16.25px;">Microservice</a> <a href="/tags/Minikube/" style="font-size: 10px;">Minikube</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mongodb/" style="font-size: 11.25px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 17.5px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/Project-Reactor/" style="font-size: 12.5px;">Project Reactor</a> <a href="/tags/Prometheus/" style="font-size: 11.25px;">Prometheus</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Reactive-Programming/" style="font-size: 13.75px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 13.75px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 18.75px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring-Cloud-Contract/" style="font-size: 10px;">Spring Cloud Contract</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 13.75px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/WebFlux/" style="font-size: 12.5px;">WebFlux</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/pact/" style="font-size: 10px;">pact</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 11.25px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.25px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.25px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 17.5px;">Concurrency</a> <a href="/tags/Contract-Testing/" style="font-size: 10px;">Contract Testing</a> <a href="/tags/Docker/" style="font-size: 11.25px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Helm/" style="font-size: 10px;">Helm</a> <a href="/tags/Hibernate-Envers/" style="font-size: 10px;">Hibernate Envers</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.75px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Map/" style="font-size: 13.75px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 16.25px;">Microservice</a> <a href="/tags/Minikube/" style="font-size: 10px;">Minikube</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mongodb/" style="font-size: 11.25px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 17.5px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/Project-Reactor/" style="font-size: 12.5px;">Project Reactor</a> <a href="/tags/Prometheus/" style="font-size: 11.25px;">Prometheus</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Reactive-Programming/" style="font-size: 13.75px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 13.75px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 18.75px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring-Cloud-Contract/" style="font-size: 10px;">Spring Cloud Contract</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 13.75px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/WebFlux/" style="font-size: 12.5px;">WebFlux</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/pact/" style="font-size: 10px;">pact</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
         </div>
     </div>
 
@@ -1847,7 +1834,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
