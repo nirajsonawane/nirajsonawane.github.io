@@ -171,11 +171,11 @@ ga('send', 'pageview');
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                59
+                60
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                68
+                70
                 <span>tags</span>
             </div>
         </div>
@@ -206,6 +206,155 @@ ga('send', 'pageview');
 
             
             <section id="main">
+    <article id="post-Spring-Boot-AWS-RDS" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2022/04/18/Spring-Boot-AWS-RDS/">Spring Boot With AWS RDS - Part 1</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2022/04/18/Spring-Boot-AWS-RDS/">
+            <time datetime="2022-04-18T09:56:34.000Z" itemprop="datePublished">2022-04-18</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/AWS/">AWS</a>, <a class="tag-link" href="/tags/PostgreSQL/">PostgreSQL</a>, <a class="tag-link" href="/tags/RDS/">RDS</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="What-is-AWS-RDS"><a href="#What-is-AWS-RDS" class="headerlink" title="What is AWS RDS?"></a>What is AWS RDS?</h3><p>AWS RDS is a collection of managed services that makes it simple to set up, operate, and scale databases in the cloud. AWS RDS provides multiple DB Engines options like MySQL, PostgreSQL,MariaDB, Oracle SQL Server.</p>
+<p>As Amazon RDS handles routine database tasks such as provisioning, patching, backup, recovery, failure detection, and repair. This brings a lot of convenience to RDS users and provides. RDS also provides other features like replication, enhance availability and reliability.</p>
+<p>In this article we will examine how to use Spring boot to access AWS RDS PostgreSQL. Amazon RDS for PostgreSQL provides access to the capabilities of the familiar PostgreSQL database engine.</p>
+<h3 id="Creating-PostgreSQL-DB-Instance-on-AWS"><a href="#Creating-PostgreSQL-DB-Instance-on-AWS" class="headerlink" title="Creating PostgreSQL DB Instance on AWS"></a>Creating PostgreSQL DB Instance on AWS</h3><p>Go to RDS-&gt;Databases-&gt;Create Database  for creating new database instance. Select PostgreSQL as engine type.<br>For this demo i am using below setting. (These configurations are not recommended for production usage) </p>
+<ol>
+<li>Free tier, </li>
+<li>DB instance identifier : employee-db</li>
+<li>Credential: Master username</li>
+<li>VPC : Default </li>
+<li>Public Access:True</li>
+<li>Security Group:Default</li>
+<li>Initial database name:employee</li>
+</ol>
+<img src="/2022/04/18/Spring-Boot-AWS-RDS/1.png">
+<img src="/2022/04/18/Spring-Boot-AWS-RDS/2.png">
+<img src="/2022/04/18/Spring-Boot-AWS-RDS/3.png">
+<p>Onces the database is ready, Note the <strong>Endpoint url</strong>   which we will use as <code>spring.datasource.url</code><br><img src="/2022/04/18/Spring-Boot-AWS-RDS/5.png"></p>
+<h3 id="Setting-up-Spring-Boot-Project"><a href="#Setting-up-Spring-Boot-Project" class="headerlink" title="Setting up Spring Boot Project"></a>Setting up Spring Boot Project</h3><p>We do not need any AWS specific dependancy, Only JPA,spring-web &amp; postgresql dependancy are needed.<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.postgresql&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;postgresql&lt;/artifactId&gt;</span></span><br><span class="line">	<span class="string">&lt;scope&gt;runtime&lt;/scope&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight yaml"><figcaption><span>Data source configurations</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">spring.datasource.url=jdbc:postgresql://&lt;database-endpoint-url&gt;:&lt;port&gt;/&lt;database&gt;</span> </span><br><span class="line"><span class="string">spring.datasource.username=admin1</span></span><br><span class="line"><span class="string">spring.datasource.password=Admin123</span></span><br><span class="line"><span class="string">spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect</span></span><br><span class="line"><span class="string">spring.jpa.hibernate.ddl-auto=update</span></span><br><span class="line"><span class="string">spring.jpa.hibernate.show-sql=true</span></span><br></pre></td></tr></table></figure>
+<p>Onces the database connection is done, We can simply use the JAP Repository to interact with database.</p>
+<figure class="highlight java"><figcaption><span>Controller</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/employee"</span>)</span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EmployeeController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> EmployeeRepository repository;</span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">createEmployee</span><span class="params">(@RequestBody CreateEmployeeRequest request)</span> </span>&#123;</span><br><span class="line">        repository.save(<span class="keyword">new</span> Employee(request.getId(), request.getFirstName(), request.getLastName()));</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity</span><br><span class="line">                .status(HttpStatus.CREATED)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Employee&gt; <span class="title">getAllEmployee</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> repository.findAll();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Entity And Repository</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> UUID id;</span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Employee</span>, <span class="title">UUID</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>The code for this post is available on Github <a href="https://github.com/nirajsonawane/spring-boot-aws-postgresql" target="_blank" rel="noopener">here</a></strong></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/" data-id="cl250z73d001ex36b39o33rnt" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Spring-Boot-with-AWS-S3" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -268,7 +417,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/05/16/Spring-Boot-with-AWS-S3/" data-id="ckormdmnr001dlwk0gn7p6zk9" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/05/16/Spring-Boot-with-AWS-S3/" data-id="cl250z73f001lx36b2nvcpmzj" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -410,7 +559,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/" data-id="ckormdmnq001clwk01zpkwiyo" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/" data-id="cl250z73e001gx36bvpmjm5nd" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -547,7 +696,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/" data-id="ckormdmnw001qlwk0vyedggnk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/" data-id="cl250z73j001rx36bva1d9d28" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -696,7 +845,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="ckormdmna000dlwk08rg9mear" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="cl250z72y000ix36btp5yve5d" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -855,7 +1004,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="ckormdmnk000xlwk0d38f492z" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="cl250z736000zx36bydshz4ty" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1007,7 +1156,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="ckormdmnv001plwk0137u1004" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="cl250z73h001qx36b6y3mrdx8" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1177,7 +1326,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="ckormdmnc000glwk09a9twko1" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="cl250z72w000fx36b0puif9f2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1317,7 +1466,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="ckormdmnm0011lwk0ekaowz6q" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="cl250z7370011x36bm0xds6nb" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1466,7 +1615,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="ckormdmnl0010lwk0k1q2yomy" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="cl250z7370010x36btrpftnjd" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1544,151 +1693,6 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-Project-Reactor-Playing-With-Flux-Mono" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/">Project Reactor [Part 1] - Playing With Flux &amp; Mono</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/">
-            <time datetime="2019-12-28T16:11:27.000Z" itemprop="datePublished">2019-12-28</time>
-        </a>
-    </div>
-
-
-                        
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Project-Reactor/">Project Reactor</a>, <a class="tag-link" href="/tags/Reactive-Programming/">Reactive Programming</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/WebFlux/">WebFlux</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <img src="/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/daniil.jpg">
-<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@betagamma?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Daniil Silantev"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Daniil Silantev</span></a></p>
-<h3 id="What-is-Reactor"><a href="#What-is-Reactor" class="headerlink" title="What is Reactor"></a>What is Reactor</h3><p><a href="https://projectreactor.io/" target="_blank" rel="noopener">Project Reactor</a> implements the reactive programming model.It implements the Reactive Streams Specification  a standard for building reactive applications.<br>reactor integrates directly with the Java 8 functional APIs, notably CompletableFuture, Stream, and Duration. It offers composable asynchronous sequence APIs — <strong>Flux (for [N] elements) and Mono (for [0|1] elements).</strong></p>
-<h3 id="Key-Components-of-Reactive-Manifesto-and-Reactive-Streams-Specification"><a href="#Key-Components-of-Reactive-Manifesto-and-Reactive-Streams-Specification" class="headerlink" title="Key Components of Reactive Manifesto and Reactive Streams Specification"></a>Key Components of Reactive Manifesto and Reactive Streams Specification</h3><p><a href="https://www.reactive-streams.org/" target="_blank" rel="noopener">Reactive Streams</a> is an initiative to provide a standard for asynchronous stream processing with non-blocking back pressure. This encompasses efforts aimed at runtime environments (JVM and JavaScript) as well as network protocols. Reactive Specification are based on <a href="https://www.reactivemanifesto.org/" target="_blank" rel="noopener">Reactive Manifesto</a></p>
-<p>Reactive Specifications defines below key Contracts<br><strong>Publisher</strong>: Representing sources of data also called as Observables.<br><strong>Subscriber</strong>: Listening to the Publisher. Subscriber subscribes to publisher<br><strong>Subscription</strong>: Publisher will create a subscription for every Subscriber which will try to subscribe to it.<br><strong>Processor</strong>: A processor can be used as a publisher as well as subscriber. Processors are used for data transformation. these are set of methods for modifying and composing the data.</p>
-<h4 id="Objective-Of-this-post"><a href="#Objective-Of-this-post" class="headerlink" title="Objective Of this post"></a>Objective Of this post</h4><p>Objective of these series of post is to show, How to use <code>Flux</code> &amp; <code>Mono</code>. How to subscribe to them for consuming data. Different operation that we can perform on data while consuming data. I will be using <strong>Spring Webflux</strong> which internally used <strong>Project Reactor</strong>  </p>
-<p>Let get started, We need <code>spring-boot-starter-webflux</code> to get started.Project rector also provides very handy library <code>reactor-test</code> for unit testing.   </p>
-<p><em>The code for this post is available on my Github account <a href="https://github.com/nirajsonawane/projectreactor-reactive-streams" target="_blank" rel="noopener">here</a></em></p>
-<figure class="highlight xml"><figcaption><span>Pom File</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-webflux<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.projectreactor<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>reactor-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scop</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h5 id="Creating-Flux-and-Mono"><a href="#Creating-Flux-and-Mono" class="headerlink" title="Creating Flux and Mono"></a>Creating Flux and Mono</h5><p><strong>Flux</strong> A Reactive Streams Publisher with rx operators that emits 0 to N elements, and then completes(successfully or with an error).</p>
-<figure class="highlight java"><figcaption><span>Few Example of creating Flux</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);<span class="comment">//Create a Flux that emits the provided elements and then completes.</span></span><br><span class="line">Flux&lt;Integer&gt; integerFlux = Flux.fromIterable(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>));<span class="comment">//Create a Flux that emits the items contained in the provided Iterable.</span></span><br><span class="line">Flux.fromStream(Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>).stream());<span class="comment">//Create a Flux that emits the items contained in the provided Stream.</span></span><br><span class="line">Integer[] num2 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">Flux&lt;Integer&gt; integerFluxFromArray = Flux.fromArray(num2);<span class="comment">//Create a Flux that emits the items contained in the provided array.</span></span><br><span class="line">Flux.generate(&lt;Consumer&gt;) ;<span class="comment">//Programmatically create a Flux by generating signals one-by-one via a consumer callback. </span></span><br><span class="line">Flux.Creare(&lt;Consumer&gt;); <span class="comment">//Programmatically create a Flux with the capability of emitting multiple elements in a synchronous or asynchronous manner through the FluxSink API.</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>Mono</strong> A Reactive Streams Publisher with basic rx operators that completes successfully by emitting an element, or with an error.</p>
-<figure class="highlight java"><figcaption><span>Few Examples of creating Mono</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Mono&lt;Integer&gt; just = Mono.just(<span class="number">1</span>);<span class="comment">//</span></span><br><span class="line">Mono&lt;Object&gt; empty = Mono.empty();<span class="comment">//</span></span><br><span class="line">Mono.create(); <span class="comment">//Create a Mono that completes without emitting any item.</span></span><br><span class="line">Mono.from(&lt;Publisher&gt;)<span class="comment">//Expose the specified Publisher with the Mono API, and ensure it will emit 0 or 1 item.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//there are multiple options available for creating mono from Callable,CompletionStage,CompletableFuture etc </span></span><br><span class="line">Mono.fromCallable() </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Flux-amp-Mono-are-lazy"><a href="#Flux-amp-Mono-are-lazy" class="headerlink" title="Flux &amp; Mono are lazy"></a>Flux &amp; Mono are lazy</h4><p>Lazy in context of reactive programming  means, No Matter how many operation you do on the stream, They won’t be executed until you consume it. Flux &amp; Mono start emitting values only when subscriber is attached.</p>
-<h5 id="Creating-Subscriber-and-consuming-values"><a href="#Creating-Subscriber-and-consuming-values" class="headerlink" title="Creating Subscriber and consuming values"></a>Creating Subscriber and consuming values</h5><p>Subscriber has multiple overloaded methods, let’s check few of them.</p>
-<p>Subscriber with <code>onNext</code><br><figure class="highlight java"><figcaption><span>Subscriber with consumer (onNext)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">fluxFromJust.subscribe(i-&gt;System.out.println(i));<span class="comment">//It will print number 1,2,3</span></span><br></pre></td></tr></table></figure></p>
-<p>Subscriber with <code>onNext</code> &amp; <code>onError</code>. OnError will be get call in case of error.<br>Flux has one handy <code>concatWith</code> which we can use to concat error<br><figure class="highlight java"><figcaption><span>Subscriber with consumer and error handler (onError)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Flux&lt;Integer&gt; fluxFromJust = </span><br><span class="line">        Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">             .concatWith(Flux.error( <span class="keyword">new</span> RuntimeException(<span class="string">"Test Exception"</span>));</span><br><span class="line">        fluxFromJust.subscribe(</span><br><span class="line">                i-&gt;System.out.println(i),<span class="comment">// onNext</span></span><br><span class="line">                e-&gt;System.out.println(<span class="string">"In Error Block "</span> + e.getMessage()) <span class="comment">//onError</span></span><br><span class="line">        );</span><br></pre></td></tr></table></figure><br>Subscriber with <code>onNext</code>, <code>onError</code> and <code>onComplete</code>. On Successful completion onComplete method get’s called<br><figure class="highlight java"><figcaption><span>Subscriber with consumer, error handler and onComplete</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Flux&lt;Integer&gt; fluxFromJust = </span><br><span class="line">        Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">             .concatWith(Flux.error( <span class="keyword">new</span> RuntimeException(<span class="string">"Test Exception"</span>));</span><br><span class="line">        fluxFromJust.subscribe(</span><br><span class="line">                i-&gt;System.out.println(i),<span class="comment">//Will Print 1,2,3 //onNext</span></span><br><span class="line">                e-&gt;System.out.println(<span class="string">"In Error Block "</span> + e.getMessage())<span class="comment">//OnError</span></span><br><span class="line">                ()-&gt; System.out.println(<span class="string">"Process Completed"</span>) <span class="comment">//OnComplete</span></span><br><span class="line">        );</span><br></pre></td></tr></table></figure></p>
-<p>To Log the activities on Flux / Mono. We can use log method and it will start logging all events.<br><figure class="highlight java"><figcaption><span>Log Events</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Flux&lt;Integer&gt; fluxFromJust = </span><br><span class="line">        Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">            .log()             </span><br></pre></td></tr></table></figure></p>
-<h3 id="Lets-write-some-Unit-test-using-reactor-test"><a href="#Lets-write-some-Unit-test-using-reactor-test" class="headerlink" title="Lets write some Unit test using reactor-test"></a>Lets write some Unit test using reactor-test</h3><p><code>StepVerifier</code> can be use like below to validate the expectations<br><figure class="highlight java"><figcaption><span>StepVerifier</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCreateFluxAndSubscribe</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).log();</span><br><span class="line">        StepVerifier</span><br><span class="line">                .create(fluxFromJust)</span><br><span class="line">                .expectNext(<span class="number">1</span>)</span><br><span class="line">                .expectNext(<span class="number">2</span>)</span><br><span class="line">                .expectNext(<span class="number">3</span>)</span><br><span class="line">                .verifyComplete();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>IF You want to verify only count then we can use <code>expectNextCount</code><br><figure class="highlight java"><figcaption><span>StepVerifier</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCreateFluxAndSubscribeVerifyCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).log();</span><br><span class="line">        StepVerifier</span><br><span class="line">                .create(fluxFromJust)</span><br><span class="line">                .expectNextCount(<span class="number">3</span>)</span><br><span class="line">                .verifyComplete();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><br>To Assert on Error<br><figure class="highlight java"><figcaption><span>StepVerifier</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCreateFluxAndSubscribeVerifyError</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">       Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>).concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)));</span><br><span class="line">       StepVerifier</span><br><span class="line">               .create(fluxFromJust)</span><br><span class="line">               .expectNextCount(<span class="number">1</span>)</span><br><span class="line">               .verifyError(RuntimeException.class);</span><br><span class="line">   &#125; </span><br></pre></td></tr></table></figure><br>It the next article, I’ll show you how to process and transform data in Mono and Flux.<br><em>The code for this post is available on my Github account <a href="https://github.com/nirajsonawane/projectreactor-reactive-streams" target="_blank" rel="noopener">here</a></em></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" data-id="ckormdmnm0012lwk0h28hqq0n" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1702,6 +1706,27 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2022/04/18/Spring-Boot-AWS-RDS/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/aws-rds-logo-png-transparent.png)" alt="Spring Boot With AWS RDS - Part 1" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2022/04/18/Spring-Boot-AWS-RDS/" class="title">Spring Boot With AWS RDS - Part 1</a></p>
+                            <p class="item-date"><time datetime="2022-04-18T09:56:34.000Z" itemprop="datePublished">2022-04-18</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1787,27 +1812,6 @@ ga('send', 'pageview');
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" class="thumbnail">
-    
-    
-
-    
-        <span style="background-image:url(/asset/Prometheus_software_logo.svg)" alt="Monitoring Spring Boot Application with Prometheus and Grafana on Kubernetes" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" class="title">Monitoring Spring Boot Application with Prometheus and Grafana on Kubernetes</a></p>
-                            <p class="item-date"><time datetime="2020-05-17T17:37:36.000Z" itemprop="datePublished">2020-05-17</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1817,7 +1821,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 12.5px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.25px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.25px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 17.5px;">Concurrency</a> <a href="/tags/Contract-Testing/" style="font-size: 10px;">Contract Testing</a> <a href="/tags/Docker/" style="font-size: 11.25px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Helm/" style="font-size: 10px;">Helm</a> <a href="/tags/Hibernate-Envers/" style="font-size: 10px;">Hibernate Envers</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.75px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Map/" style="font-size: 13.75px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 16.25px;">Microservice</a> <a href="/tags/Minikube/" style="font-size: 10px;">Minikube</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mongodb/" style="font-size: 11.25px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 17.5px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/Project-Reactor/" style="font-size: 12.5px;">Project Reactor</a> <a href="/tags/Prometheus/" style="font-size: 11.25px;">Prometheus</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Reactive-Programming/" style="font-size: 13.75px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 13.75px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 18.75px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring-Cloud-Contract/" style="font-size: 10px;">Spring Cloud Contract</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 13.75px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/WebFlux/" style="font-size: 12.5px;">WebFlux</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/pact/" style="font-size: 10px;">pact</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 13.75px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.25px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.25px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 17.5px;">Concurrency</a> <a href="/tags/Contract-Testing/" style="font-size: 10px;">Contract Testing</a> <a href="/tags/Docker/" style="font-size: 11.25px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Helm/" style="font-size: 10px;">Helm</a> <a href="/tags/Hibernate-Envers/" style="font-size: 10px;">Hibernate Envers</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.75px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Map/" style="font-size: 13.75px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 16.25px;">Microservice</a> <a href="/tags/Minikube/" style="font-size: 10px;">Minikube</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mongodb/" style="font-size: 11.25px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 17.5px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/PostgreSQL/" style="font-size: 10px;">PostgreSQL</a> <a href="/tags/Project-Reactor/" style="font-size: 12.5px;">Project Reactor</a> <a href="/tags/Prometheus/" style="font-size: 11.25px;">Prometheus</a> <a href="/tags/RDS/" style="font-size: 10px;">RDS</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Reactive-Programming/" style="font-size: 13.75px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 13.75px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 18.75px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring-Cloud-Contract/" style="font-size: 10px;">Spring Cloud Contract</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 13.75px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/WebFlux/" style="font-size: 12.5px;">WebFlux</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/pact/" style="font-size: 10px;">pact</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
         </div>
     </div>
 
@@ -1826,7 +1830,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
@@ -1859,7 +1863,7 @@ ga('send', 'pageview');
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2021 Niraj Sonawane<br>
+            &copy; 2022 Niraj Sonawane<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

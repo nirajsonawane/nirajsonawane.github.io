@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/</loc>
+    
+    <lastmod>2022-04-18T18:01:54.453Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2021/05/16/Spring-Boot-with-AWS-S3/</loc>
     
-    <lastmod>2021-05-16T21:26:55.748Z</lastmod>
+    <lastmod>2021-05-16T21:33:39.049Z</lastmod>
     
   </url>
   

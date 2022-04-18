@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+<!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5B6V6ZJ');</script>
+    <!-- End Google Tag Manager -->    
+        
+    <meta charset="utf-8">
+    
+    <title>Spring Boot With AWS RDS - Part 1 | Niraj Sonawane</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="What is AWS RDS?AWS RDS is a collection of managed services that makes it simple to set up, operate, and scale databases in the cloud. AWS RDS provides multiple DB Engines options like MySQL, PostgreS">
+<meta name="keywords" content="Spring Boot,AWS,RDS,PostgreSQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot With AWS RDS - Part 1">
+<meta property="og:url" content="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/index.html">
+<meta property="og:site_name" content="Niraj Sonawane">
+<meta property="og:description" content="What is AWS RDS?AWS RDS is a collection of managed services that makes it simple to set up, operate, and scale databases in the cloud. AWS RDS provides multiple DB Engines options like MySQL, PostgreS">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://nirajsonawane.github.io/asset/aws-rds-logo-png-transparent.png">
+<meta property="og:updated_time" content="2022-04-18T18:01:54.453Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot With AWS RDS - Part 1">
+<meta name="twitter:description" content="What is AWS RDS?AWS RDS is a collection of managed services that makes it simple to set up, operate, and scale databases in the cloud. AWS RDS provides multiple DB Engines options like MySQL, PostgreS">
+<meta name="twitter:image" content="https://nirajsonawane.github.io/asset/aws-rds-logo-png-transparent.png">
+    
+
+    
+
+    
+        <link rel="icon" href="https://raw.githubusercontent.com/nirajsonawane/portfolio/master/images/icon.png">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-brands.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome5/css/fa-solid.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-125455524-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Niraj Sonawane</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About Me</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://www.gravatar.com/avatar/8328f9fc834752ead8a75bf4950fa304" />
+                            <i class="fas fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fas fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About Me</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile" class="profile-fixed">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://www.gravatar.com/avatar/8328f9fc834752ead8a75bf4950fa304?s=128" />
+            <h2 id="name">Niraj Sonawane</h2>
+            <h3 id="title">I am a Java developer, open-source contributor, student and lifelong learner.</h3>
+            <span id="location"><i class="fas fa-map-marker-alt" style="padding-right: 5px"></i>Pune, India</span>
+            <a id="follow" target="_blank" href="https://github.com/nirajsonawane">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                60
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                70
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/nirajsonawane/" target="_blank" title="github" class=tooltip>
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile" target="_blank" title="stack-overflow" class=tooltip>
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Spring-Boot-AWS-RDS" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Spring Boot With AWS RDS - Part 1
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2022/04/18/Spring-Boot-AWS-RDS/">
+            <time datetime="2022-04-18T09:56:34.000Z" itemprop="datePublished">2022-04-18</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/AWS/">AWS</a>, <a class="tag-link" href="/tags/PostgreSQL/">PostgreSQL</a>, <a class="tag-link" href="/tags/RDS/">RDS</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="What-is-AWS-RDS"><a href="#What-is-AWS-RDS" class="headerlink" title="What is AWS RDS?"></a>What is AWS RDS?</h3><p>AWS RDS is a collection of managed services that makes it simple to set up, operate, and scale databases in the cloud. AWS RDS provides multiple DB Engines options like MySQL, PostgreSQL,MariaDB, Oracle SQL Server.</p>
+<p>As Amazon RDS handles routine database tasks such as provisioning, patching, backup, recovery, failure detection, and repair. This brings a lot of convenience to RDS users and provides. RDS also provides other features like replication, enhance availability and reliability.</p>
+<p>In this article we will examine how to use Spring boot to access AWS RDS PostgreSQL. Amazon RDS for PostgreSQL provides access to the capabilities of the familiar PostgreSQL database engine.</p>
+<h3 id="Creating-PostgreSQL-DB-Instance-on-AWS"><a href="#Creating-PostgreSQL-DB-Instance-on-AWS" class="headerlink" title="Creating PostgreSQL DB Instance on AWS"></a>Creating PostgreSQL DB Instance on AWS</h3><p>Go to RDS-&gt;Databases-&gt;Create Database  for creating new database instance. Select PostgreSQL as engine type.<br>For this demo i am using below setting. (These configurations are not recommended for production usage) </p>
+<ol>
+<li>Free tier, </li>
+<li>DB instance identifier : employee-db</li>
+<li>Credential: Master username</li>
+<li>VPC : Default </li>
+<li>Public Access:True</li>
+<li>Security Group:Default</li>
+<li>Initial database name:employee</li>
+</ol>
+<img src="/2022/04/18/Spring-Boot-AWS-RDS/1.png">
+<img src="/2022/04/18/Spring-Boot-AWS-RDS/2.png">
+<img src="/2022/04/18/Spring-Boot-AWS-RDS/3.png">
+<p>Onces the database is ready, Note the <strong>Endpoint url</strong>   which we will use as <code>spring.datasource.url</code><br><img src="/2022/04/18/Spring-Boot-AWS-RDS/5.png"></p>
+<h3 id="Setting-up-Spring-Boot-Project"><a href="#Setting-up-Spring-Boot-Project" class="headerlink" title="Setting up Spring Boot Project"></a>Setting up Spring Boot Project</h3><p>We do not need any AWS specific dependancy, Only JPA,spring-web &amp; postgresql dependancy are needed.<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.postgresql&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;postgresql&lt;/artifactId&gt;</span></span><br><span class="line">	<span class="string">&lt;scope&gt;runtime&lt;/scope&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight yaml"><figcaption><span>Data source configurations</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">spring.datasource.url=jdbc:postgresql://&lt;database-endpoint-url&gt;:&lt;port&gt;/&lt;database&gt;</span> </span><br><span class="line"><span class="string">spring.datasource.username=admin1</span></span><br><span class="line"><span class="string">spring.datasource.password=Admin123</span></span><br><span class="line"><span class="string">spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect</span></span><br><span class="line"><span class="string">spring.jpa.hibernate.ddl-auto=update</span></span><br><span class="line"><span class="string">spring.jpa.hibernate.show-sql=true</span></span><br></pre></td></tr></table></figure>
+<p>Onces the database connection is done, We can simply use the JAP Repository to interact with database.</p>
+<figure class="highlight java"><figcaption><span>Controller</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/employee"</span>)</span><br><span class="line"><span class="meta">@RequiredArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EmployeeController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> EmployeeRepository repository;</span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity <span class="title">createEmployee</span><span class="params">(@RequestBody CreateEmployeeRequest request)</span> </span>&#123;</span><br><span class="line">        repository.save(<span class="keyword">new</span> Employee(request.getId(), request.getFirstName(), request.getLastName()));</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity</span><br><span class="line">                .status(HttpStatus.CREATED)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Employee&gt; <span class="title">getAllEmployee</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> repository.findAll();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><figcaption><span>Entity And Repository</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> UUID id;</span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">EmployeeRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Employee</span>, <span class="title">UUID</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>The code for this post is available on Github <a href="https://github.com/nirajsonawane/spring-boot-aws-postgresql" target="_blank" rel="noopener">here</a></strong></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/" data-id="cl250z73d001ex36b39o33rnt" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2021/05/16/Spring-Boot-with-AWS-S3/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Spring Boot With AWS S3</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2022/04/18/Spring-Boot-AWS-RDS/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/aws-rds-logo-png-transparent.png)" alt="Spring Boot With AWS RDS - Part 1" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2022/04/18/Spring-Boot-AWS-RDS/" class="title">Spring Boot With AWS RDS - Part 1</a></p>
+                            <p class="item-date"><time datetime="2022-04-18T09:56:34.000Z" itemprop="datePublished">2022-04-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/05/16/Spring-Boot-with-AWS-S3/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/spring-boot.png)" alt="Spring Boot With AWS S3" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/05/16/Spring-Boot-with-AWS-S3/" class="title">Spring Boot With AWS S3</a></p>
+                            <p class="item-date"><time datetime="2021-05-16T20:17:01.000Z" itemprop="datePublished">2021-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/05/09/Spring-Boot-with-AWS-sqs/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/spring-boot.png)" alt="Spring Boot With AWS SQS" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/05/09/Spring-Boot-with-AWS-sqs/" class="title">Spring Boot With AWS SQS</a></p>
+                            <p class="item-date"><time datetime="2021-05-09T15:09:52.000Z" itemprop="datePublished">2021-05-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/04/25/spring-boot-with-hibernate-envers/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/spring-boot.png)" alt="Spring Boot With Hibernate Envers" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/04/25/spring-boot-with-hibernate-envers/" class="title">Spring Boot With Hibernate Envers</a></p>
+                            <p class="item-date"><time datetime="2021-04-25T19:30:36.000Z" itemprop="datePublished">2021-04-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/spring-boot.png)" alt="Consumer Driven Contract Test Using Spring Cloud Contract" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" class="title">Consumer Driven Contract Test Using Spring Cloud Contract</a></p>
+                            <p class="item-date"><time datetime="2021-02-20T20:00:29.000Z" itemprop="datePublished">2021-02-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 13.75px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.25px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.25px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 17.5px;">Concurrency</a> <a href="/tags/Contract-Testing/" style="font-size: 10px;">Contract Testing</a> <a href="/tags/Docker/" style="font-size: 11.25px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Helm/" style="font-size: 10px;">Helm</a> <a href="/tags/Hibernate-Envers/" style="font-size: 10px;">Hibernate Envers</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.75px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Map/" style="font-size: 13.75px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 16.25px;">Microservice</a> <a href="/tags/Minikube/" style="font-size: 10px;">Minikube</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mongodb/" style="font-size: 11.25px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 17.5px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/PostgreSQL/" style="font-size: 10px;">PostgreSQL</a> <a href="/tags/Project-Reactor/" style="font-size: 12.5px;">Project Reactor</a> <a href="/tags/Prometheus/" style="font-size: 11.25px;">Prometheus</a> <a href="/tags/RDS/" style="font-size: 10px;">RDS</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Reactive-Programming/" style="font-size: 13.75px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 13.75px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 18.75px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring-Cloud-Contract/" style="font-size: 10px;">Spring Cloud Contract</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 13.75px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/WebFlux/" style="font-size: 12.5px;">WebFlux</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/pact/" style="font-size: 10px;">pact</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://stackoverflow.com/users/320087/niraj-sonawane?tab=profile">StackOverflow</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://nirajsonawane.github.io/portfolio/">Portfolio</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fas fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2022 Niraj Sonawane<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/';
+        
+        this.page.identifier = 'Spring-Boot-AWS-RDS';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-nirajsonawane-github-io-1' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
