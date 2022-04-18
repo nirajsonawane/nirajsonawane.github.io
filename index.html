@@ -260,7 +260,7 @@ ga('send', 'pageview');
 <img src="/2022/04/18/Spring-Boot-AWS-RDS/1.png">
 <img src="/2022/04/18/Spring-Boot-AWS-RDS/2.png">
 <img src="/2022/04/18/Spring-Boot-AWS-RDS/3.png">
-<p><strong>Note</strong><br>Only specifying Public Access:True for your Databases might not work. The Security group should allow Inbound traffic from your IP address or All IP address.<br><img src="/2022/04/18/Spring-Boot-AWS-RDS/6.png"> </p>
+<p><strong>Note</strong><br>Only specifying Public Access:True for your Databases might not work. The Security group should allow Inbound traffic from your IP address or All IP address.<br><img src="/2022/04/18/Spring-Boot-AWS-RDS/7.png"> </p>
 <p>Onces the database is ready, Note the <strong>Endpoint url</strong>   which we will use as <code>spring.datasource.url</code><br><img src="/2022/04/18/Spring-Boot-AWS-RDS/5.png"></p>
 <h3 id="Setting-up-Spring-Boot-Project"><a href="#Setting-up-Spring-Boot-Project" class="headerlink" title="Setting up Spring Boot Project"></a>Setting up Spring Boot Project</h3><p>We do not need any AWS specific dependancy, Only JPA,spring-web &amp; postgresql dependancy are needed.<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br><span class="line"><span class="string">&lt;dependency&gt;</span></span><br><span class="line">	<span class="string">&lt;groupId&gt;org.postgresql&lt;/groupId&gt;</span></span><br><span class="line">	<span class="string">&lt;artifactId&gt;postgresql&lt;/artifactId&gt;</span></span><br><span class="line">	<span class="string">&lt;scope&gt;runtime&lt;/scope&gt;</span></span><br><span class="line"><span class="string">&lt;/dependency&gt;</span></span><br></pre></td></tr></table></figure></p>
 <figure class="highlight yaml"><figcaption><span>Data source configurations</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">spring.datasource.url=jdbc:postgresql://&lt;database-endpoint-url&gt;:&lt;port&gt;/&lt;database&gt;</span> </span><br><span class="line"><span class="string">spring.datasource.username=admin1</span></span><br><span class="line"><span class="string">spring.datasource.password=Admin123</span></span><br><span class="line"><span class="string">spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect</span></span><br><span class="line"><span class="string">spring.jpa.hibernate.ddl-auto=update</span></span><br><span class="line"><span class="string">spring.jpa.hibernate.show-sql=true</span></span><br></pre></td></tr></table></figure>
@@ -278,7 +278,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/" data-id="cl251dlvm001a3h6bfhvvlzbw" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/" data-id="cl251gymb001d6u6b5nhedxng" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -418,7 +418,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/05/16/Spring-Boot-with-AWS-S3/" data-id="cl251dlvn001c3h6b0ltctble" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/05/16/Spring-Boot-with-AWS-S3/" data-id="cl251gymb001e6u6b4eedzkg2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -560,7 +560,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/" data-id="cl251dlvp001g3h6b9bxc7bth" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/" data-id="cl251gymd001j6u6bf4hms73t" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -697,7 +697,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/" data-id="cl251dlvs001o3h6b1gu0pzia" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/" data-id="cl251gymi001r6u6bx99k1i55" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -846,7 +846,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="cl251dlv8000d3h6b1u9uv866" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="cl251gylt000c6u6b48tynlha" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1005,7 +1005,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="cl251dlvh000w3h6bblw6ilz6" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="cl251gym4000y6u6b0bb15mca" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1157,7 +1157,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="cl251dlvt001p3h6btwiefrz9" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="cl251gymg001q6u6bq3tuyeml" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1327,7 +1327,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="cl251dlv8000e3h6bvtsevbmh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="cl251gylv000h6u6bb3eog68l" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1467,7 +1467,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="cl251dlvi000y3h6br3nyc32o" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="cl251gym500116u6bkxfaei4x" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1616,7 +1616,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="cl251dlvh000x3h6b99gtgto1" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="cl251gym500106u6bmz9p2arx" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
