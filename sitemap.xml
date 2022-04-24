@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/</loc>
+    
+    <lastmod>2022-04-24T17:15:37.529Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/</loc>
     
-    <lastmod>2022-04-18T18:16:47.538Z</lastmod>
+    <lastmod>2022-04-24T16:13:55.615Z</lastmod>
     
   </url>
   
