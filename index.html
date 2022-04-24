@@ -244,22 +244,21 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>In <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Previous post</a> we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp; use ReadReplica.</p>
+            <p>In <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Previous post</a> we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp; use ReadReplicas.</p>
 <h4 id="What-is-Database-Read-Replicas"><a href="#What-is-Database-Read-Replicas" class="headerlink" title="What is Database Read Replicas?"></a>What is Database Read Replicas?</h4><p>In General read replica is a copy of the primary database instance and it automatically reflects changes made in primary database in almost real time. Read Replicas can improve the performance of read-heavy database workloads by offloading read workload from primary instance.</p>
 <h4 id="How-AWS-RDS-read-replica-works"><a href="#How-AWS-RDS-read-replica-works" class="headerlink" title="How AWS RDS read replica works?"></a>How AWS RDS read replica works?</h4><p>Amazon RDS uses the MariaDB, Microsoft SQL Server, MySQL, Oracle, and PostgreSQL DB engines’ built-in replication functionality to create a read replica. Any Updates made to the primary DB instance are asynchronously copied to the read replica. </p>
 <img src="/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/read-and-standby-replica.png">
-<p>AWS allows to create read replicas in same availability zone or in different availability zone. It Also allows to create ead replicas in different regions. <strong>Creating up to 5 read replicas are allowed.</strong> </p>
+<p>AWS allows to create read replicas in same availability zone or in different availability zone. It Also allows to create read replicas in different regions. <strong>Creating up to 5 read replicas are allowed.</strong> </p>
 <h4 id="Why-to-use-read-replica"><a href="#Why-to-use-read-replica" class="headerlink" title="Why to use read replica?"></a>Why to use read replica?</h4><ol>
 <li>Read replicas can significantly improve the performance by redirecting read traffic to one or more read replicas.</li>
 <li>Read replicas are Ideal for implementing Business reporting or data warehousing work loads, Without impacting normal business flows.</li>
 <li><p>In some cases read replica can be used for implementing disaster recovery. Read replicas can be promoted as primary database instance. </p>
-<h4 id="How-to-create-read-replicas-in-AWS-Console"><a href="#How-to-create-read-replicas-in-AWS-Console" class="headerlink" title="How to create read replicas in AWS Console?"></a>How to create read replicas in AWS Console?</h4><p>While creating a read replicas we need to specify an existing DB instance as the source. Then Amazon RDS takes a snapshot of the source instance and creates a read-only instance from the snapshot. The read replica operates as a DB instance that allows only read-only connections. Applications connect to a read replica the same way they do to any DB instance. </p>
+<h4 id="How-to-create-read-replicas-in-AWS-Console"><a href="#How-to-create-read-replicas-in-AWS-Console" class="headerlink" title="How to create read replicas in AWS Console?"></a>How to create read replicas in AWS Console?</h4><p>While creating a read replicas we need to specify an existing DB instance as the source. Then Amazon RDS takes a snapshot of the source instance and creates a read-only instance from the snapshot. The read replica operates as a DB instance that allows only read-only connections.<br>Applications connect to a read replica the same way they do to any DB instance. </p>
 </li>
 </ol>
-<p>On AWS Console choose the DB instance that you want to use as the source for a read replica.Thens Go to action, choose Create read replica.Then steps are same as as explain In <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Previous post</a> </p>
-<p>All the data from the main table will also be available in replicated instance. We can verify the data by connecting to replicated instance using PGAdmin or any other similar tool.<br><img src="/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/rds.png"></p>
-<img src="/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/admin.png">
-<h4 id="How-to-use-read-replicas-with-Spring-Boot-App"><a href="#How-to-use-read-replicas-with-Spring-Boot-App" class="headerlink" title="How to use read replicas with Spring Boot App"></a>How to use read replicas with Spring Boot App</h4><p>In <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Previous post</a> we used  <code>spring-boot-starter-data-jpa</code>, To use the full power for read replicas , In this example we will use <strong>Spring Cloud AWS JDBC</strong><br>Useful features provided by  <strong>Spring Cloud AWS JDBC</strong></p>
+<p>On AWS Console choose the DB instance that you want to use as the source for a read replica.<br>Then Go to action, choose Create read replica. Then Follow the same steps explained In <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Previous post</a> </p>
+<p>All the data from the main table will also be available in replicated instance. We can verify the data by connecting to replicated instance using PGAdmin or any other similar tool.<br><img src="/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/rds.png"><br><img src="/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/admin.png"></p>
+<h4 id="How-to-use-read-replicas-with-Spring-Boot-App"><a href="#How-to-use-read-replicas-with-Spring-Boot-App" class="headerlink" title="How to use read replicas with Spring Boot App"></a>How to use read replicas with Spring Boot App</h4><p>In <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Previous post</a> we used  <code>spring-boot-starter-data-jpa</code>, To use the full power for read replicas , In this example we will use <strong>Spring Cloud AWS JDBC</strong> as it provides some useful features.</p>
 <ol>
 <li>Spring cloud aws automatically detects the read-replica instance and If the read replica support is enabled, It will automatically send the requests to e replica instance. As an application developer we do not have to configure multiple data sources.    </li>
 <li>Spring cloud aws does the Automatic retry incase of database failure. It attempts to send the same request to different availability zone.</li>
@@ -287,7 +286,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/" data-id="cl2d4vpwu001dgv6bru9akdq4" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/" data-id="cl2dm0vlk001cxp6bje088ene" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -373,7 +372,7 @@ ga('send', 'pageview');
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2022/04/18/Spring-Boot-AWS-RDS/">Spring Boot With AWS RDS - Part 1</a>
+            <a class="article-title" href="/2022/04/18/Spring-Boot-AWS-RDS/">Spring Boot &amp; AWS RDS - Part 1</a>
         </h1>
     
 
@@ -438,7 +437,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/" data-id="cl2d4vpwv001fgv6b7iwz7pbe" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/" data-id="cl2dm0vll001exp6blkod7rpe" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -578,7 +577,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/05/16/Spring-Boot-with-AWS-S3/" data-id="cl2d4vpwv001ggv6b2im4pgks" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/05/16/Spring-Boot-with-AWS-S3/" data-id="cl2dm0vlm001gxp6b2wby2r9u" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -720,7 +719,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/" data-id="cl2d4vpww001jgv6b26cfmv8w" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/05/09/Spring-Boot-with-AWS-sqs/" data-id="cl2dm0vln001ixp6bk1h4q09l" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -857,7 +856,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/" data-id="cl2d4vpx0001qgv6brhrxdl0u" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/04/25/spring-boot-with-hibernate-envers/" data-id="cl2dm0vlt001sxp6b2pwxb858" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1006,7 +1005,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="cl2d4vpwb000bgv6b7pvq3h6k" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2021/02/20/Contract-Testing-Using-Spring-Cloud-Contract/" data-id="cl2dm0vl4000exp6bx8mgltke" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1165,7 +1164,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="cl2d4vpwn000ygv6bgpztey7s" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/17/Monitoring-Spring-Boot-Application-with-Prometheus-and-Grafana-on-Kubernetes/" data-id="cl2dm0vle000yxp6bw9vt9f76" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1317,7 +1316,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="cl2d4vpx1001rgv6bcl0wnl3v" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/05/03/monitoring-spring-boot-application-with-prometheus-and-grafana/" data-id="cl2dm0vls001rxp6bwx2fjs4h" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1487,7 +1486,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="cl2d4vpwe000ggv6by95fatcn" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/04/25/Deploy-React-Spring-Boot-MongoDB-Fullstack-application-on-Kubernetes/" data-id="cl2dm0vl5000gxp6bpudac0y0" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1627,7 +1626,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="cl2d4vpwo0011gv6byztuat2n" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="cl2dm0vlf0011xp6bkcggkrdd" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1748,7 +1747,7 @@ ga('send', 'pageview');
     
 
     
-        <span style="background-image:url(/asset/aws-rds-logo-png-transparent.png)" alt="Spring Boot With AWS RDS - Part 1" class="thumbnail-image"></span>
+        <span style="background-image:url(/asset/aws-rds-logo-png-transparent.png)" alt="Spring Boot &amp; AWS RDS - Part 1" class="thumbnail-image"></span>
     
 </a>
 
@@ -1756,7 +1755,7 @@ ga('send', 'pageview');
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/2022/04/18/Spring-Boot-AWS-RDS/" class="title">Spring Boot With AWS RDS - Part 1</a></p>
+                            <p class="item-title"><a href="/2022/04/18/Spring-Boot-AWS-RDS/" class="title">Spring Boot &amp; AWS RDS - Part 1</a></p>
                             <p class="item-date"><time datetime="2022-04-18T09:56:34.000Z" itemprop="datePublished">2022-04-18</time></p>
                         </div>
                     </li>
