@@ -171,11 +171,11 @@ ga('send', 'pageview');
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                61
+                62
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                71
+                72
                 <span>tags</span>
             </div>
         </div>
@@ -206,6 +206,146 @@ ga('send', 'pageview');
 
             
             <section id="main">
+    <article id="post-Project-Reactor-Part-3-Error-Handling" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/01/04/Project-Reactor-Part-3-Error-Handling/">Project Reactor [Part 3]  Error Handling</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fas fa-calendar-alt"></i>
+        <a href="/2020/01/04/Project-Reactor-Part-3-Error-Handling/">
+            <time datetime="2020-01-04T16:18:19.000Z" itemprop="datePublished">2020-01-04</time>
+        </a>
+    </div>
+
+
+                        
+                        
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Project-Reactor/">Project Reactor</a>, <a class="tag-link" href="/tags/Reactive-Programming/">Reactive Programming</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/WebFlux/">WebFlux</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <img src="/2020/01/04/Project-Reactor-Part-3-Error-Handling/daniil.jpg">
+<p><a style="background-color:black;color:white;text-decoration:none;padding:4px 6px;font-family:-apple-system, BlinkMacSystemFont, &quot;San Francisco&quot;, &quot;Helvetica Neue&quot;, Helvetica, Ubuntu, Roboto, Noto, &quot;Segoe UI&quot;, Arial, sans-serif;font-size:12px;font-weight:bold;line-height:1.2;display:inline-block;border-radius:3px" href="https://unsplash.com/@betagamma?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge" target="_blank" rel="noopener noreferrer" title="Download free do whatever you want high-resolution photos from Daniil Silantev"><span style="display:inline-block;padding:2px 3px"><svg xmlns="http://www.w3.org/2000/svg" style="height:12px;width:auto;position:relative;vertical-align:middle;top:-2px;fill:white" viewbox="0 0 32 32"><title>unsplash-logo</title><path d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"/></svg></span><span style="display:inline-block;padding:2px 3px">Daniil Silantev</span></a><br>This  is the third article on a series of  articles on <code>Project Reactor</code>. In previous <a href="http://localhost:4000/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" target="_blank" rel="noopener">article</a> we discussed different operators  in Project Reactor. In this article, I’ll show you how to do error handling in reactor. We’ll do this through examples.</p>
+<p>In Reactive programming errors are also consider as terminal events. When an error occurs, event is sent to <code>onError</code> method of Subscriber.Before we start looking at how we handle errors, you must keep in mind that any error in a reactive sequence is a terminal event. Even if an error-handling operator is used, it <em>does not let the original sequence continue</em>. Rather, it converts the onError signal into the start of a new sequence (the fallback one). In other words, it replaces the terminated sequence upstream of it.</p>
+<p><em>The code for this post is available on my Github account <a href="https://github.com/nirajsonawane/projectreactor-reactive-streams" target="_blank" rel="noopener">here</a></em></p>
+<h3 id="OnError"><a href="#OnError" class="headerlink" title="OnError"></a>OnError</h3><p>In below code blok, subscriber will print values from 1,2,3,4,5 and after that onError code block will get executed. Note that number 6 will never be printed as Error is terminal event. <code>subscriber Completed</code> line will also not be printed on console as in case of error we do not get <code>onComplete</code> event.<br><figure class="highlight java"><figcaption><span>OnError</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testErrorFlowFlux</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">                                    .concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)))</span><br><span class="line">                                    .concatWith(Flux.just(<span class="number">6</span>));</span><br><span class="line">   fluxFromJust.subscribe(</span><br><span class="line">           (it)-&gt; System.out.println(<span class="string">"Number is "</span> + it),  <span class="comment">// OnNext</span></span><br><span class="line">           (e) -&gt; e.printStackTrace(),                    <span class="comment">//OnError</span></span><br><span class="line">           () -&gt; System.out.println(<span class="string">"subscriber Completed"</span>) <span class="comment">//onComplete</span></span><br><span class="line">   );</span><br><span class="line">   <span class="comment">//To Unit test this code </span></span><br><span class="line">    StepVerifier</span><br><span class="line">           .create(fluxFromJust)</span><br><span class="line">           .expectNext(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">           .expectError(RuntimeException.class);</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h3 id="onErrorResume"><a href="#onErrorResume" class="headerlink" title="onErrorResume"></a>onErrorResume</h3><p>If you want to report exception and then want to return some fallback value you can use ‘onErrorResume’  </p>
+<figure class="highlight java"><figcaption><span>onErrorResume</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOnErrorResume</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)))</span><br><span class="line">            .concatWith(Flux.just(<span class="number">6</span>))</span><br><span class="line">            .onErrorResume(e-&gt;&#123;</span><br><span class="line">                log.info(<span class="string">"**************"</span>);</span><br><span class="line">                System.out.println(<span class="string">"Exception occured "</span> + e.getMessage());</span><br><span class="line">                <span class="comment">//Return Some Fallback Values</span></span><br><span class="line">                <span class="keyword">return</span> Flux.just(<span class="number">7</span>,<span class="number">8</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">    </span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(fluxFromJust)</span><br><span class="line">            .expectNext(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .expectNext(<span class="number">7</span>,<span class="number">8</span>)</span><br><span class="line">           .verifyComplete();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure> 
+<h3 id="onErrorReturn"><a href="#onErrorReturn" class="headerlink" title="onErrorReturn"></a>onErrorReturn</h3><p><code>onErrorReturn</code> can be used if you just want to return some fallback value for error item<br><figure class="highlight java"><figcaption><span>onErrorResume</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">   </span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOnErrorReturn</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)))</span><br><span class="line">            .concatWith(Flux.just(<span class="number">6</span>))</span><br><span class="line">            .onErrorReturn(<span class="number">99</span>)</span><br><span class="line">           ;</span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(fluxFromJust)</span><br><span class="line">            .expectNext(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .expectNext(<span class="number">99</span>)</span><br><span class="line">            .verifyComplete();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="OnErrorContinue"><a href="#OnErrorContinue" class="headerlink" title="OnErrorContinue"></a>OnErrorContinue</h3><p>If you want to ignore error produce by any <strong>operator</strong> <code>onErrorContinue</code> can be use.<br><code>onErrorContinue</code>   will ignore the error element and continue the sequence.<br>in below example for number 3 we are getting some exception, onErrorContinue will simply ignore that exception.<br><figure class="highlight java"><figcaption><span>onErrorContinue</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">   </span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOnErrorContinue</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .map(i-&gt;mapSomeValue(i))</span><br><span class="line">            .onErrorContinue((e,i)-&gt;&#123;</span><br><span class="line">                System.out.println(<span class="string">"Error For Item +"</span> + i );</span><br><span class="line">            &#125;)</span><br><span class="line">            ;</span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(fluxFromJust)</span><br><span class="line">            .expectNext(<span class="number">1</span>, <span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .verifyComplete();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">mapSomeValue</span><span class="params">(Integer i)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>( i==<span class="number">3</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Exception From Map"</span>);</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="OnErrorMap"><a href="#OnErrorMap" class="headerlink" title="OnErrorMap"></a>OnErrorMap</h3><p>To Map Exception to any custom exception<br><figure class="highlight java"><figcaption><span>OnErrorMap</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOnErrorMap</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)))</span><br><span class="line">            .concatWith(Flux.just(<span class="number">6</span>))</span><br><span class="line">            .map(i-&gt;i*<span class="number">2</span>)</span><br><span class="line">            .onErrorMap(e -&gt; <span class="keyword">new</span> CustomeException(e) )</span><br><span class="line">            ;</span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(fluxFromJust)</span><br><span class="line">            .expectNext(<span class="number">2</span>, <span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>)</span><br><span class="line">            .expectError(CustomeException.class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> </p>
+<h3 id="retry"><a href="#retry" class="headerlink" title="retry"></a>retry</h3><p>You can add retry on error. But keep in mind the retry will be started from first element.<br><figure class="highlight java"><figcaption><span>retry</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOnRetry</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">            .map(i-&gt;i*<span class="number">2</span>)</span><br><span class="line">            .onErrorMap(e -&gt; <span class="keyword">new</span> CustomeException(e) )</span><br><span class="line">            .retry(<span class="number">2</span>);</span><br><span class="line">    </span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(fluxFromJust)</span><br><span class="line">            .expectNext(<span class="number">2</span>, <span class="number">4</span>,<span class="number">6</span>)</span><br><span class="line">            .expectNext(<span class="number">2</span>, <span class="number">4</span>,<span class="number">6</span>)</span><br><span class="line">            .expectNext(<span class="number">2</span>, <span class="number">4</span>,<span class="number">6</span>)</span><br><span class="line">            .expectError(CustomeException.class)</span><br><span class="line">            .verify();</span><br><span class="line">&#125;</span><br><span class="line">   </span><br></pre></td></tr></table></figure> </p>
+<h3 id="onErrorStop"><a href="#onErrorStop" class="headerlink" title="onErrorStop"></a>onErrorStop</h3><p>   onErrorStop will stop the execution<br>   <figure class="highlight java"><figcaption><span>onErrorStop</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOnErrorStop</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">            .concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)))</span><br><span class="line">            .concatWith(Flux.just(<span class="number">6</span>))</span><br><span class="line">            .map(i-&gt;doubleValue(i))</span><br><span class="line">            .onErrorStop();</span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(fluxFromJust)</span><br><span class="line">            .expectNext(<span class="number">2</span>, <span class="number">4</span>,<span class="number">6</span>)</span><br><span class="line">            .verifyError();</span><br><span class="line">&#125;  </span><br><span class="line"><span class="function"><span class="keyword">private</span> Integer <span class="title">doubleValue</span><span class="params">(Integer i)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"Doing Multiple"</span>);</span><br><span class="line">    <span class="keyword">return</span> i*<span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="doOnError"><a href="#doOnError" class="headerlink" title="doOnError"></a>doOnError</h3><p>It you want to execute side effect on error<br><figure class="highlight java"><figcaption><span>doOnError</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDoOnError</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)))</span><br><span class="line">            .doOnError(e -&gt; System.out.println(<span class="string">"Rum some Side effect!!"</span>));</span><br><span class="line"></span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(fluxFromJust)</span><br><span class="line">            .expectNext(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .expectError()</span><br><span class="line">            .verify();</span><br><span class="line">    TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="doFinally"><a href="#doFinally" class="headerlink" title="doFinally"></a>doFinally</h3><p><code>doFinally</code> is similar to <strong>finally block</strong> of try catch.<br><figure class="highlight java"><figcaption><span>doOnError</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDoFinally</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    Flux&lt;Integer&gt; fluxFromJust = Flux.just(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .concatWith(Flux.error(<span class="keyword">new</span> RuntimeException(<span class="string">"Test"</span>)))</span><br><span class="line">            .doFinally( i-&gt;&#123;</span><br><span class="line">                <span class="keyword">if</span> (SignalType.ON_ERROR.equals(i)) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"Completed with Error "</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (SignalType.ON_COMPLETE.equals(i)) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"Completed without Error "</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">    StepVerifier</span><br><span class="line">            .create(fluxFromJust)</span><br><span class="line">            .expectNext(<span class="number">1</span>, <span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">            .expectError()</span><br><span class="line">            .verify();</span><br><span class="line">    TimeUnit.SECONDS.sleep(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><br><em>The code for this post is available on my Github account <a href="https://github.com/nirajsonawane/projectreactor-reactive-streams" target="_blank" rel="noopener">here</a></em></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/" data-id="cl2hzp79i000zin6bxlvjwl2i" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2020/01/04/Project-Reactor-Part-3-Error-Handling/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Part-2-Process-and-Transform-Flux-Mono" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -277,7 +417,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="cl2dn0rmq00107f6bysmqvmm4" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2020/01/01/Part-2-Process-and-Transform-Flux-Mono/" data-id="cl2hzp79h000yin6bcvc4iukr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -422,7 +562,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" data-id="cl2dn0rmr00137f6bs0wmm83e" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/28/Project-Reactor-Playing-With-Flux-Mono/" data-id="cl2hzp79i0010in6bk7lh31ez" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -570,7 +710,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" data-id="cl2dn0rn0001k7f6bluk7f3lr" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/25/Testcontainers-With-Spring-Boot-For-Integration-Testing/" data-id="cl2hzp79p001iin6bo9mfr9kg" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -725,7 +865,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="cl2dn0rmw001c7f6bkz8lsvt2" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/12/16/Spring-Boot-Mongodb-Docker-Compose/" data-id="cl2hzp79n001cin6bnlssehrn" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -869,7 +1009,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" data-id="cl2dn0rmf000d7f6bayddoiwy" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/10/21/Creating-Custom-Spring-Boot-Starter-To-implement-cross-cutting-concerns/" data-id="cl2hzp797000bin6bds08jqrw" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1020,7 +1160,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" data-id="cl2dn0rmp000y7f6b72myrgnl" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/09/13/My-AWS-Certified-Solutions-Architect-Associate-Certification-Preparation-Guide/" data-id="cl2hzp79h000xin6bm1h3hdqz" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1189,7 +1329,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" data-id="cl2dn0rms00157f6b6i1rr75c" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/07/14/Securing-Spring-Boot-Microservices-Using-JWT-Token/" data-id="cl2hzp79j0013in6bob26rthb" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1338,7 +1478,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" data-id="cl2dn0rmt00177f6bx94ph6av" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/06/08/Setup-Monitoring-System-for-your-Spring-Boot-applications-Using-Spring-Boot-Admin/" data-id="cl2hzp79l0017in6b0f5nvfy3" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1487,7 +1627,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/" data-id="cl2dn0rmt00167f6bo40evqlh" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2019/04/20/Service-Discovery-and-Registration-Using-Spring-Cloud-Eureka/" data-id="cl2hzp79k0014in6b497s4cto" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1565,151 +1705,6 @@ ga('send', 'pageview');
 
 
 
-    <article id="post-Spring-Cloud-Netflix-Ribbon" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/03/22/Spring-Cloud-Netflix-Ribbon/">Spring Cloud Netflix Ribbon</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fas fa-calendar-alt"></i>
-        <a href="/2019/03/22/Spring-Cloud-Netflix-Ribbon/">
-            <time datetime="2019-03-22T20:45:52.000Z" itemprop="datePublished">2019-03-22</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fas fa-folder"></i>
-        <a class="article-category-link" href="/categories/Spring-Cloud/">Spring Cloud</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fas fa-tag"></i>
-        <a class="tag-link" href="/tags/Microservice/">Microservice</a>, <a class="tag-link" href="/tags/Ribbon/">Ribbon</a>, <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a>, <a class="tag-link" href="/tags/Spring-Cloud/">Spring Cloud</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <img src="/2019/03/22/Spring-Cloud-Netflix-Ribbon/jeremy-thomas-75753-unsplash.jpg">
-<h3 id="What-is-Ribbon"><a href="#What-is-Ribbon" class="headerlink" title="What is Ribbon?"></a>What is Ribbon?</h3><p>Ribbon is a client-side load balancer that gives you a lot of control over the behavior of HTTP and TCP clients. <strong>Ribbon  is aware of multiple instances of a service and chooses a particular instance of it. One advantage of this is client controls the load balancing algorithm.</strong></p>
-<p>Ribbon Works with <a href="https://nirajsonawane.github.io/2019/03/21/Simplifying-Microservices-Communication-Using-Spring-Cloud-OpenFeign/">Feign</a> That we discussed in last post.</p>
-<p><strong>The Code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Ribbon-Demo" target="_blank" rel="noopener">here</a>.</strong></p>
-<h3 id="Demo-Application"><a href="#Demo-Application" class="headerlink" title="Demo Application"></a>Demo Application</h3><p>Our Simple <code>HelloService</code> Returns String <em>Hello Message From Server: {port_number}</em>. We will launch multiple instance of <code>HelloService</code>. Our Ribbon Client will call <code>HelloService</code> in Round-Robin way.     </p>
-<figure class="highlight java"><figcaption><span>HelloService</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/helloworld"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> Environment environment;</span><br><span class="line">    <span class="meta">@GetMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String port = environment.getProperty(<span class="string">"local.server.port"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello Message From Server "</span> + port;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 
-<h3 id="Getting-Started-With-Spring-Cloud-Netflix-Ribbon"><a href="#Getting-Started-With-Spring-Cloud-Netflix-Ribbon" class="headerlink" title="Getting Started With Spring Cloud Netflix Ribbon"></a>Getting Started With Spring Cloud Netflix Ribbon</h3><p>To include Ribbon in project We need to use artifact id spring-cloud-starter-netflix-ribbon<br><figure class="highlight"><figcaption><span>netflix-ribbon Maven</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">     &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Update-FeignClient-to-use-Ribbon-Load-Balancing"><a href="#Update-FeignClient-to-use-Ribbon-Load-Balancing" class="headerlink" title="Update FeignClient to use Ribbon Load Balancing"></a>Update FeignClient to use Ribbon Load Balancing</h3><figure class="highlight java"><figcaption><span>FeignClient With Ribbon</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(name = <span class="string">"hello"</span>, configuration = HelloClientConfig.class)</span><br><span class="line"><span class="meta">@RibbonClient</span>(name = <span class="string">"hello"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloClient</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET, value = <span class="string">"/helloworld"</span>)</span><br><span class="line">    <span class="function">String <span class="title">getMessage</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> 
-<p>A central concept in Ribbon is that of the named client. We Provide the application name in<br><code>application.properties</code>.<br><strong>application-name.ribbon.listOfServers</strong> Property is used to provide list of Servers.<br><figure class="highlight java"><figcaption><span>application.properties</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=hello</span><br><span class="line">hello.ribbon.listOfServers: localhost:<span class="number">8080</span>,localhost:<span class="number">8081</span></span><br></pre></td></tr></table></figure> </p>
-<h3 id="Test-Application"><a href="#Test-Application" class="headerlink" title="Test Application"></a>Test Application</h3><ol>
-<li>Start HelloService on port 8080 and 8081. </li>
-<li>Start Client Application on 8083.<br>Then Go to <a href="http://localhost:8083/ribbon-test-client/" target="_blank" rel="noopener">http://localhost:8083/ribbon-test-client/</a><br>first time it should return message as <em>“Hello Message From Server 8080”</em> and next time as <em>“Hello Message From Server 8081”</em></li>
-</ol>
-<p><strong>The Code for this post is available for download <a href="https://github.com/nirajsonawane/Spring-Cloud-Ribbon-Demo" target="_blank" rel="noopener">here</a>.</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/" data-id="cl2dn0rmy001f7f6b5hpljbqk" class="article-share-link"><i class="fas fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fab fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fab fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fab fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fab fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://nirajsonawane.github.io/2019/03/22/Spring-Cloud-Netflix-Ribbon/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
@@ -1723,6 +1718,27 @@ ga('send', 'pageview');
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2022/04/27/Spring-Boot-AWS-RDS-Part-3-Secrets-Manager/" class="thumbnail">
+    
+    
+
+    
+        <span style="background-image:url(/asset/aws-rds-logo-png-transparent.png)" alt="Spring Boot &amp; AWS RDS Part 3- Secrets-Manager" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2022/04/27/Spring-Boot-AWS-RDS-Part-3-Secrets-Manager/" class="title">Spring Boot &amp; AWS RDS Part 3- Secrets-Manager</a></p>
+                            <p class="item-date"><time datetime="2022-04-27T19:40:50.000Z" itemprop="datePublished">2022-04-27</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1808,27 +1824,6 @@ ga('send', 'pageview');
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2021/04/25/spring-boot-with-hibernate-envers/" class="thumbnail">
-    
-    
-
-    
-        <span style="background-image:url(/asset/spring-boot.png)" alt="Spring Boot With Hibernate Envers" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2021/04/25/spring-boot-with-hibernate-envers/" class="title">Spring Boot With Hibernate Envers</a></p>
-                            <p class="item-date"><time datetime="2021-04-25T19:30:36.000Z" itemprop="datePublished">2021-04-25</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1838,7 +1833,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 14.44px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.11px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.11px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 17.78px;">Concurrency</a> <a href="/tags/Contract-Testing/" style="font-size: 10px;">Contract Testing</a> <a href="/tags/Docker/" style="font-size: 11.11px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Grafana/" style="font-size: 11.11px;">Grafana</a> <a href="/tags/Helm/" style="font-size: 10px;">Helm</a> <a href="/tags/Hibernate-Envers/" style="font-size: 10px;">Hibernate Envers</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.33px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Map/" style="font-size: 13.33px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 16.67px;">Microservice</a> <a href="/tags/Minikube/" style="font-size: 10px;">Minikube</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mongodb/" style="font-size: 11.11px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 17.78px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/PostgreSQL/" style="font-size: 11.11px;">PostgreSQL</a> <a href="/tags/Project-Reactor/" style="font-size: 12.22px;">Project Reactor</a> <a href="/tags/Prometheus/" style="font-size: 11.11px;">Prometheus</a> <a href="/tags/RDS/" style="font-size: 11.11px;">RDS</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Reactive-Programming/" style="font-size: 13.33px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/ReadReplica/" style="font-size: 10px;">ReadReplica</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 13.33px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 18.89px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 15.56px;">Spring Cloud</a> <a href="/tags/Spring-Cloud-Contract/" style="font-size: 10px;">Spring Cloud Contract</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 13.33px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/WebFlux/" style="font-size: 12.22px;">WebFlux</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/pact/" style="font-size: 10px;">pact</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
+            <a href="/tags/AOP/" style="font-size: 10px;">AOP</a> <a href="/tags/AWS/" style="font-size: 15px;">AWS</a> <a href="/tags/Angular6/" style="font-size: 11.25px;">Angular6</a> <a href="/tags/Bigdecimal/" style="font-size: 10px;">Bigdecimal</a> <a href="/tags/Cloud-Bus/" style="font-size: 10px;">Cloud Bus</a> <a href="/tags/Cloud-Config/" style="font-size: 10px;">Cloud Config</a> <a href="/tags/Collector/" style="font-size: 10px;">Collector</a> <a href="/tags/Comparator/" style="font-size: 11.25px;">Comparator</a> <a href="/tags/Concurrency/" style="font-size: 17.5px;">Concurrency</a> <a href="/tags/Contract-Testing/" style="font-size: 10px;">Contract Testing</a> <a href="/tags/Docker/" style="font-size: 11.25px;">Docker</a> <a href="/tags/Eureka/" style="font-size: 10px;">Eureka</a> <a href="/tags/Filter/" style="font-size: 10px;">Filter</a> <a href="/tags/Functional-Programming/" style="font-size: 10px;">Functional Programming</a> <a href="/tags/Grafana/" style="font-size: 11.25px;">Grafana</a> <a href="/tags/Helm/" style="font-size: 10px;">Helm</a> <a href="/tags/Hibernate-Envers/" style="font-size: 10px;">Hibernate Envers</a> <a href="/tags/JPA/" style="font-size: 10px;">JPA</a> <a href="/tags/JUnit-5/" style="font-size: 10px;">JUnit-5</a> <a href="/tags/JWT/" style="font-size: 10px;">JWT</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Java-8/" style="font-size: 20px;">Java-8</a> <a href="/tags/Java-9/" style="font-size: 13.75px;">Java-9</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/Kotlin-Types/" style="font-size: 10px;">Kotlin Types</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a> <a href="/tags/Map/" style="font-size: 13.75px;">Map</a> <a href="/tags/Material/" style="font-size: 10px;">Material</a> <a href="/tags/Microservice/" style="font-size: 16.25px;">Microservice</a> <a href="/tags/Minikube/" style="font-size: 10px;">Minikube</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Mongodb/" style="font-size: 11.25px;">Mongodb</a> <a href="/tags/Multithreading/" style="font-size: 17.5px;">Multithreading</a> <a href="/tags/Navigation/" style="font-size: 10px;">Navigation</a> <a href="/tags/OpenFeign/" style="font-size: 10px;">OpenFeign</a> <a href="/tags/Optional/" style="font-size: 10px;">Optional</a> <a href="/tags/Pipes/" style="font-size: 10px;">Pipes</a> <a href="/tags/PostgreSQL/" style="font-size: 12.5px;">PostgreSQL</a> <a href="/tags/Project-Reactor/" style="font-size: 12.5px;">Project Reactor</a> <a href="/tags/Prometheus/" style="font-size: 11.25px;">Prometheus</a> <a href="/tags/RDS/" style="font-size: 12.5px;">RDS</a> <a href="/tags/RXjava/" style="font-size: 10px;">RXjava</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/Reactive-Programming/" style="font-size: 13.75px;">Reactive Programming</a> <a href="/tags/ReactiveX/" style="font-size: 10px;">ReactiveX</a> <a href="/tags/ReadReplica/" style="font-size: 11.25px;">ReadReplica</a> <a href="/tags/Rest/" style="font-size: 10px;">Rest</a> <a href="/tags/Ribbon/" style="font-size: 10px;">Ribbon</a> <a href="/tags/Routing/" style="font-size: 10px;">Routing</a> <a href="/tags/S3/" style="font-size: 10px;">S3</a> <a href="/tags/SQS/" style="font-size: 10px;">SQS</a> <a href="/tags/SecretsManager/" style="font-size: 10px;">SecretsManager</a> <a href="/tags/Smart-Casts/" style="font-size: 10px;">Smart Casts</a> <a href="/tags/Sorting/" style="font-size: 13.75px;">Sorting</a> <a href="/tags/Spring/" style="font-size: 10px;">Spring</a> <a href="/tags/Spring-Boot/" style="font-size: 18.75px;">Spring Boot</a> <a href="/tags/Spring-Boot-Admin/" style="font-size: 10px;">Spring Boot Admin</a> <a href="/tags/Spring-Boot-Starter/" style="font-size: 10px;">Spring Boot Starter</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring-Cloud-Contract/" style="font-size: 10px;">Spring Cloud Contract</a> <a href="/tags/Spring-Security/" style="font-size: 10px;">Spring Security</a> <a href="/tags/Spring-Batch/" style="font-size: 10px;">Spring-Batch</a> <a href="/tags/Stream/" style="font-size: 13.75px;">Stream</a> <a href="/tags/Streams/" style="font-size: 10px;">Streams</a> <a href="/tags/Summary-Statistics/" style="font-size: 10px;">Summary Statistics</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/Unit-Testing/" style="font-size: 10px;">Unit Testing</a> <a href="/tags/WebFlux/" style="font-size: 12.5px;">WebFlux</a> <a href="/tags/containers/" style="font-size: 10px;">containers</a> <a href="/tags/kubernetes/" style="font-size: 10px;">kubernetes</a> <a href="/tags/pact/" style="font-size: 10px;">pact</a> <a href="/tags/testcontainers/" style="font-size: 10px;">testcontainers</a>
         </div>
     </div>
 
@@ -1847,7 +1842,7 @@ ga('send', 'pageview');
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a><span class="archive-list-count">9</span></li></ul>
         </div>
     </div>
 
