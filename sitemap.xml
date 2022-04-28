@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/</loc>
+    
+    <lastmod>2022-04-28T20:10:18.793Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://nirajsonawane.github.io/2022/04/27/Spring-Boot-AWS-RDS-Part-3-Secrets-Manager/</loc>
     
     <lastmod>2022-04-27T22:11:15.957Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>https://nirajsonawane.github.io/about/index.html</loc>
     
     <lastmod>2022-04-24T18:43:29.748Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/</loc>
-    
-    <lastmod>2022-04-24T18:13:40.611Z</lastmod>
     
   </url>
   
@@ -401,14 +401,14 @@
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
+    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://nirajsonawane.github.io/tags/index.html</loc>
+    <loc>https://nirajsonawane.github.io/categories/index.html</loc>
     
     <lastmod>2018-06-10T02:45:44.000Z</lastmod>
     

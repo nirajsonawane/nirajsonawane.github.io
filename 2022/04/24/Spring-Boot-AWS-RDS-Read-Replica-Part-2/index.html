@@ -13,19 +13,19 @@
     
     <title>Spring Boot &amp; AWS RDS Part 2 - Read Replicas | Niraj Sonawane</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="In Previous post we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp;amp; use ReadReplicas. What is Databas">
+    <meta name="description" content="In Previous post we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp;amp; use ReadReplicas. What is Databa">
 <meta name="keywords" content="Spring Boot,AWS,RDS,PostgreSQL,ReadReplica">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot &amp; AWS RDS Part 2 - Read Replicas">
 <meta property="og:url" content="https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/index.html">
 <meta property="og:site_name" content="Niraj Sonawane">
-<meta property="og:description" content="In Previous post we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp;amp; use ReadReplicas. What is Databas">
+<meta property="og:description" content="In Previous post we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp;amp; use ReadReplicas. What is Databa">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://nirajsonawane.github.io/asset/aws-rds-logo-png-transparent.png">
-<meta property="og:updated_time" content="2022-04-24T18:13:40.611Z">
+<meta property="og:updated_time" content="2022-04-28T20:10:18.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot &amp; AWS RDS Part 2 - Read Replicas">
-<meta name="twitter:description" content="In Previous post we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp;amp; use ReadReplicas. What is Databas">
+<meta name="twitter:description" content="In Previous post we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp;amp; use ReadReplicas. What is Databa">
 <meta name="twitter:image" content="https://nirajsonawane.github.io/asset/aws-rds-logo-png-transparent.png">
     
 
@@ -250,7 +250,8 @@ ga('send', 'pageview');
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>In <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Previous post</a> we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp; use ReadReplicas.</p>
+            <img src="/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/iam.jpg">
+<p>In <a href="https://nirajsonawane.github.io/2022/04/18/Spring-Boot-AWS-RDS/">Previous post</a> we discuss, How to use spring boot to access AWS RDS service. This post is continuation of same topic and we will explore, How we can configure &amp; use ReadReplicas.</p>
 <h4 id="What-is-Database-Read-Replicas"><a href="#What-is-Database-Read-Replicas" class="headerlink" title="What is Database Read Replicas?"></a>What is Database Read Replicas?</h4><p>In General read replica is a copy of the primary database instance and it automatically reflects changes made in primary database in almost real time. Read Replicas can improve the performance of read-heavy database workloads by offloading read workload from primary instance.</p>
 <h4 id="How-AWS-RDS-read-replica-works"><a href="#How-AWS-RDS-read-replica-works" class="headerlink" title="How AWS RDS read replica works?"></a>How AWS RDS read replica works?</h4><p>Amazon RDS uses the MariaDB, Microsoft SQL Server, MySQL, Oracle, and PostgreSQL DB engines’ built-in replication functionality to create a read replica. Any Updates made to the primary DB instance are asynchronously copied to the read replica. </p>
 <img src="/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/read-and-standby-replica.png">
@@ -292,7 +293,7 @@ ga('send', 'pageview');
 
 </div>
 
-    <a data-url="https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/" data-id="cl2hzp79m001ain6bpybnbvbp" class="article-share-link"><i class="fas fa-share"></i>Share</a>
+    <a data-url="https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/" data-id="cl2jg1m7s001ff16bjteot74a" class="article-share-link"><i class="fas fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
