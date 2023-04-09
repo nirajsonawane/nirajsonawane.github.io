@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/</loc>
+    <loc>https://nirajsonawane.github.io/2023/04/09/Launching-Spring-Boot-Apps-on-AWS-ECS-Fargate/</loc>
     
-    <lastmod>2022-04-28T20:10:18.793Z</lastmod>
+    <lastmod>2023-04-09T20:32:51.658Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://nirajsonawane.github.io/2022/04/27/Spring-Boot-AWS-RDS-Part-3-Secrets-Manager/</loc>
     
-    <lastmod>2022-04-27T22:11:15.957Z</lastmod>
+    <lastmod>2023-04-09T19:07:46.307Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://nirajsonawane.github.io/2022/04/24/Spring-Boot-AWS-RDS-Read-Replica-Part-2/</loc>
+    
+    <lastmod>2022-04-28T20:10:18.793Z</lastmod>
     
   </url>
   
